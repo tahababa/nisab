@@ -18,10 +18,9 @@ import path from 'path';
 const TROY_OZ_TO_GRAMS = 31.1035;
 
 const CURRENCIES = [
-  'USD', 'GBP', 'EUR', 'SAR', 'AED', 'CAD', 'AUD', 'JPY',
-  'CHF', 'CNY', 'INR', 'PKR', 'BDT', 'MYR', 'IDR', 'TRY',
-  'EGP', 'KWD', 'QAR', 'BHD', 'OMR', 'NGN', 'ZAR', 'SEK',
-  'NOK', 'SGD', 'DKK'
+  'USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY',
+  'CHF', 'CNY', 'INR', 'MYR', 'IDR', 'TRY',
+  'ZAR', 'SEK', 'NOK', 'SGD', 'DKK'
 ];
 
 const SCHOOLS = {
