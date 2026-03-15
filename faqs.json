@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "title": "Nisab Al Zakat — Frequently Asked Questions",
+    "description": "Common questions about the Nisab Al Zakat API, Islamic jurisprudence context, and integration guides for developers and AI tools.",
+    "url": "https://nisab.tahababa.com/faqs.json",
+    "api_endpoint": "https://nisab.tahababa.com/nisab.json",
+    "history_index": "https://nisab.tahababa.com/history/index.json",
+    "source": "Nisab Al Zakat",
+    "built_by": "Taha Baba",
+    "website": "https://tahababa.com",
+    "github": "https://github.com/tahababa/nisab",
+    "last_updated": "2026-03-15"
+  },
+  "faqs": [
+    {
+      "id": 1,
+      "category": "about",
+      "question": "What is Nisab Al Zakat?",
+      "answer": "Nisab Al Zakat is a free, open JSON API that provides live Nisab thresholds — the minimum wealth at which Zakat becomes obligatory in Islam. Values are calculated from live gold and silver spot prices, across all four major Sunni schools of Islamic jurisprudence (Hanafi, Maliki, Shafi'i, Hanbali), in 17 currencies, updated 6 times daily at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. No authentication, no rate limits, no registration required."
+    },
+    {
+      "id": 2,
+      "category": "about",
+      "question": "What is Nisab?",
+      "answer": "The Nisab (نصاب) is the minimum threshold of wealth that a Muslim must own before Zakat — the obligatory annual alms-giving and third pillar of Islam — becomes due. It is traditionally expressed in grams of gold or silver, and its monetary value changes daily with market prices. If a Muslim has owned wealth equal to or exceeding the Nisab for one full lunar year (hawl), they are obligated to pay Zakat at a rate of 2.5% of their total zakatable wealth."
+    },
+    {
+      "id": 3,
+      "category": "jurisprudence",
+      "question": "What are the Nisab thresholds for each school?",
+      "answer": "Hanafi school: 87.48 grams of gold (7.5 tola) or 612.36 grams of silver (52.5 tola). Maliki, Shafi'i, and Hanbali schools: 85 grams of gold or 595 grams of silver. The Hanafi threshold is slightly higher because it is derived from the traditional South Asian unit of weight called the tola (1 tola = 11.664g). The other three schools use a slightly different classical weight lineage. All thresholds are equally valid and widely used globally."
+    },
+    {
+      "id": 4,
+      "category": "jurisprudence",
+      "question": "Should I use the gold or silver Nisab?",
+      "answer": "This is a matter of scholarly opinion. Many contemporary scholars recommend using the silver Nisab as it is more inclusive and historically aligned with the prophetic era, when silver was the dominant currency of commerce. Others prefer gold as a more stable long-term store of value. The Nisab Al Zakat API provides both gold and silver thresholds for all four schools simultaneously, so users and applications can apply whichever their trusted scholar recommends. Consult a qualified Islamic scholar for guidance specific to your situation."
+    },
+    {
+      "id": 5,
+      "category": "api",
+      "question": "How do I fetch the current Nisab in a specific currency?",
+      "answer": "Fetch the main endpoint: GET https://nisab.tahababa.com/nisab.json — the response contains all four schools, both gold and silver, in all 17 supported currencies simultaneously. For example, to get the Hanafi gold Nisab in British pounds: data.nisab.hanafi.gold.values.GBP. For Maliki silver in euros: data.nisab.maliki.silver.values.EUR."
+    },
+    {
+      "id": 6,
+      "category": "api",
+      "question": "What currencies are supported?",
+      "answer": "17 currencies are currently supported: USD (US Dollar), GBP (British Pound), EUR (Euro), CAD (Canadian Dollar), AUD (Australian Dollar), JPY (Japanese Yen), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), MYR (Malaysian Ringgit), IDR (Indonesian Rupiah), TRY (Turkish Lira), ZAR (South African Rand), SEK (Swedish Krona), NOK (Norwegian Krone), SGD (Singapore Dollar), DKK (Danish Krone). Exchange rates are sourced from the Frankfurter API."
+    },
+    {
+      "id": 7,
+      "category": "api",
+      "question": "Why are Gulf currencies like SAR, AED, KWD not included?",
+      "answer": "Exchange rates are sourced from the Frankfurter API, which is a free open-source service that covers major global currencies but does not include Gulf Cooperation Council (GCC) currencies such as SAR, AED, KWD, QAR, BHD, OMR, or South Asian currencies like PKR and BDT. As a workaround, use the USD value and apply your own local exchange rate. For example: nisab_in_SAR = nisab_in_USD * current_USD_to_SAR_rate."
+    },
+    {
+      "id": 8,
+      "category": "api",
+      "question": "How do I access historical Nisab data?",
+      "answer": "Every snapshot is permanently committed to the GitHub repository. Access any specific snapshot using: GET https://nisab.tahababa.com/history/YYYY-MM-DDTHHMMGMT.json — for example https://nisab.tahababa.com/history/2026-03-15T0800GMT.json. To list all available snapshots, fetch the index: GET https://nisab.tahababa.com/history/index.json — this returns a JSON object with total record count, latest snapshot, and all snapshots grouped by date."
+    },
+    {
+      "id": 9,
+      "category": "api",
+      "question": "What does the response JSON look like?",
+      "answer": "The response has three top-level keys: meta (timestamp, timezone, base_currency, currencies array, disclaimer, source), prices (gold and silver spot prices per troy ounce and per gram in USD), and nisab (an object with four keys: hanafi, maliki, shafii, hanbali — each containing gold and silver sub-objects with grams, optional tola, and a values object mapping currency codes to monetary amounts)."
+    },
+    {
+      "id": 10,
+      "category": "integration",
+      "question": "How do I use this API with ChatGPT or Claude?",
+      "answer": "In ChatGPT with browsing enabled, or in any Claude conversation, you can ask the AI to fetch https://nisab.tahababa.com/nisab.json and extract the Nisab value you need. For example: 'Fetch nisab.tahababa.com/nisab.json and tell me the Hanafi gold Nisab in GBP.' The AI can read the JSON directly and interpret the values. You can also provide the URL as a tool or action in custom GPT configurations."
+    },
+    {
+      "id": 11,
+      "category": "integration",
+      "question": "How do I use this in an n8n automation?",
+      "answer": "Add an HTTP Request node with Method: GET and URL: https://nisab.tahababa.com/nisab.json. No authentication headers are needed. The full JSON response is available in subsequent nodes. Access specific values using n8n expressions: {{ $json.nisab.hanafi.gold.values.GBP }} for Hanafi gold in GBP, or {{ $json.prices.gold.per_gram }} for the live gold price per gram. You can use this to trigger notifications, update spreadsheets, or power Zakat reminder workflows."
+    },
+    {
+      "id": 12,
+      "category": "integration",
+      "question": "How do I use this in Make (Integromat)?",
+      "answer": "Add an HTTP module set to GET with the URL https://nisab.tahababa.com/nisab.json. No headers or authentication needed. In the response mapping, navigate to body > nisab > hanafi > gold > values > USD (or any currency) to extract the Nisab amount. Connect this to any downstream module such as Google Sheets, Airtable, WhatsApp via Twilio, email, or a Slack message."
+    },
+    {
+      "id": 13,
+      "category": "integration",
+      "question": "How do I embed this in a WordPress site?",
+      "answer": "Add a Custom HTML block to any page or post and use a fetch() call to the endpoint. A minimal example: fetch('https://nisab.tahababa.com/nisab.json').then(r=>r.json()).then(d=>{ document.getElementById('nisab').textContent = '$' + d.nisab.hanafi.gold.values.USD.toLocaleString(); }). For page builders like Elementor or Divi, use a HTML widget. For WooCommerce or custom plugin integrations, use wp_remote_get() in PHP."
+    },
+    {
+      "id": 14,
+      "category": "integration",
+      "question": "How do I use this in a Webflow site?",
+      "answer": "In Webflow, add an Embed element with a script tag. Use the Fetch API to call https://nisab.tahababa.com/nisab.json and inject the values into text elements using their IDs or class names. This works on published Webflow sites. You can also use Webflow Logic (beta) to fetch the data server-side and bind it to CMS fields."
+    },
+    {
+      "id": 15,
+      "category": "integration",
+      "question": "Can I use this in a mobile app?",
+      "answer": "Yes. The endpoint is a standard REST JSON GET request with no authentication and CORS headers set to allow all origins. It works in React Native, Flutter (using http or dio packages), Swift (URLSession), Kotlin (Retrofit or OkHttp), and any other mobile framework that supports HTTP requests."
+    },
+    {
+      "id": 16,
+      "category": "technical",
+      "question": "How is the gold price sourced?",
+      "answer": "Gold and silver spot prices are fetched from GoldPriceZ.com, a free precious metals price API. Prices are denominated in USD per troy ounce (1 troy oz = 31.1035 grams). The per-gram price is derived by dividing the troy ounce price by 31.1035."
+    },
+    {
+      "id": 17,
+      "category": "technical",
+      "question": "How are exchange rates calculated?",
+      "answer": "Exchange rates are fetched from the Frankfurter API (api.frankfurter.app), a free, open-source European Central Bank exchange rate service. All rates are relative to USD as the base currency. The Nisab value in each currency is calculated as: nisab_in_currency = gold_price_per_gram_usd * nisab_grams * exchange_rate."
+    },
+    {
+      "id": 18,
+      "category": "technical",
+      "question": "How is the update schedule managed?",
+      "answer": "The data pipeline is a GitHub Actions workflow (update-nisab.yml) with six cron triggers: 0 0 * * *, 0 4 * * *, 0 8 * * *, 0 12 * * *, 0 16 * * *, 0 20 * * * — running at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT respectively. On each run, a Node.js script fetches the prices, calculates all Nisab values, writes nisab.json and a timestamped history file, then commits and pushes to the main branch. GitHub Pages serves the files statically."
+    },
+    {
+      "id": 19,
+      "category": "licensing",
+      "question": "Is this API free to use commercially?",
+      "answer": "Yes. The project is MIT licensed. You can use it in commercial products, apps, and services without restriction. Attribution is appreciated but not required by the licence. The source code is available at https://github.com/tahababa/nisab."
+    },
+    {
+      "id": 20,
+      "category": "licensing",
+      "question": "Is the data accurate enough for religious use?",
+      "answer": "Nisab Al Zakat provides values based on live market prices and academically verified gram thresholds sourced from Dar al-Ifta of Al-Azhar, the Dar al-Ifta of Jordan, and the fatwa of Mufti Muhammad Shafi of Deoband. However, this API is for informational purposes only and does not constitute a religious ruling. Always consult a qualified Islamic scholar for Zakat guidance specific to your personal situation."
+    }
+  ]
+}
