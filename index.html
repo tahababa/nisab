@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nisab Al Zakat — Live Nisab Thresholds API</title>
+  <meta name="description" content="Free, open JSON API for live Nisab Al Zakat thresholds. All four schools of jurisprudence, 27 currencies, updated 6 times daily with full historical archive." />
+  <meta property="og:title" content="Nisab Al Zakat" />
+  <meta property="og:description" content="Free live Nisab thresholds — all schools, 27 currencies, 6× daily updates, full historical archive." />
+  <meta property="og:url" content="https://nisab.tahababa.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:      #C9A84C;
+      --gold-lt:   #E8C97A;
+      --gold-dim:  #8A6E2F;
+      --ink:       #0E0E0C;
+      --paper:     #FAF8F3;
+      --paper-w:   #F5F0E8;
+      --border:    rgba(201,168,76,0.22);
+      --mono:      'JetBrains Mono', monospace;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--serif);
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.025) 40px, rgba(201,168,76,0.025) 41px),
+        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(201,168,76,0.025) 40px, rgba(201,168,76,0.025) 41px);
+      pointer-events: none; z-index: 0;
+    }
+
+    .wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+    /* Header */
+    header { padding: 5rem 0 3rem; text-align: center; border-bottom: 1px solid var(--border); }
+    .basmala { font-size: 1.4rem; color: var(--gold); letter-spacing: 0.3em; opacity: 0.6; margin-bottom: 2rem; display: block; }
+    h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: -0.02em; }
+    h1 em { color: var(--gold); font-style: italic; }
+    .tagline { margin-top: 1rem; font-size: 1.1rem; font-weight: 300; color: rgba(250,248,243,0.5); font-style: italic; }
+
+    .endpoint-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      margin-top: 2.5rem; padding: 0.6rem 1.4rem;
+      border: 1px solid var(--border); border-radius: 2px;
+      font-family: var(--mono); font-size: 0.82rem; color: var(--gold-lt);
+      background: rgba(201,168,76,0.07); text-decoration: none;
+      transition: all 0.2s;
+    }
+    .endpoint-badge:hover { background: rgba(201,168,76,0.14); border-color: var(--gold); }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 3rem 0; }
+    .stat { background: var(--ink); padding: 1.2rem 1.4rem; text-align: center; }
+    .stat-v { font-family: var(--mono); font-size: 1.3rem; color: var(--gold); display: block; }
+    .stat-l { font-size: 0.72rem; color: rgba(250,248,243,0.38); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; display: block; }
+
+    /* Sections */
+    section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+    h2 { font-size: 1.55rem; font-weight: 400; margin-bottom: 1.4rem; }
+    h2 .n { font-family: var(--mono); font-size: 0.72rem; color: var(--gold-dim); margin-right: 0.6rem; vertical-align: middle; }
+    p { font-size: 1.05rem; line-height: 1.75; color: rgba(250,248,243,0.6); font-weight: 300; max-width: 64ch; }
+
+    /* Code */
+    .code-wrap { margin: 1.5rem 0; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+    .code-top { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 1.1rem; background: rgba(201,168,76,0.07); border-bottom: 1px solid var(--border); }
+    .code-lang { font-family: var(--mono); font-size: 0.7rem; color: var(--gold-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+    .copy { font-family: var(--mono); font-size: 0.68rem; color: var(--gold-dim); background: none; border: none; cursor: pointer; transition: color 0.15s; }
+    .copy:hover { color: var(--gold-lt); }
+    pre { padding: 1.3rem 1.1rem; overflow-x: auto; background: rgba(0,0,0,0.4); }
+    code { font-family: var(--mono); font-size: 0.8rem; line-height: 1.7; color: var(--paper-w); }
+    .k { color: var(--gold-lt); }
+    .s { color: #A8D8A8; }
+    .num { color: #87CEEB; }
+    .c { color: rgba(250,248,243,0.32); font-style: italic; }
+
+    /* History section */
+    .history-controls { display: flex; gap: 0.8rem; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    #date-picker {
+      font-family: var(--mono); font-size: 0.82rem;
+      background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+      color: var(--paper); padding: 0.5rem 0.8rem; border-radius: 2px;
+      cursor: pointer;
+    }
+    #date-picker:focus { outline: 1px solid var(--gold); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1.1rem; border: 1px solid var(--border);
+      background: rgba(201,168,76,0.08); color: var(--gold-lt);
+      font-family: var(--mono); font-size: 0.78rem; cursor: pointer;
+      border-radius: 2px; transition: all 0.2s;
+    }
+    .btn:hover { background: rgba(201,168,76,0.18); border-color: var(--gold); }
+
+    .result-box { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin-top: 0.8rem; }
+    .result-header { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 1.1rem; background: rgba(201,168,76,0.07); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 0.75rem; color: var(--gold-dim); }
+    #result-output { padding: 1.2rem 1.1rem; font-family: var(--mono); font-size: 0.77rem; line-height: 1.7; background: rgba(0,0,0,0.4); color: var(--paper-w); min-height: 5rem; max-height: 28rem; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+
+    /* Nisab live table */
+    .nisab-table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; font-family: var(--mono); font-size: 0.8rem; }
+    .nisab-table th { text-align: left; padding: 0.5rem 0.8rem; color: var(--gold-dim); border-bottom: 1px solid var(--border); font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; }
+    .nisab-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(201,168,76,0.08); color: rgba(250,248,243,0.7); }
+    .nisab-table tr:last-child td { border-bottom: none; }
+    .nisab-table .school-col { color: var(--gold); }
+    #table-status { font-family: var(--mono); font-size: 0.75rem; color: rgba(250,248,243,0.35); margin-top: 0.6rem; }
+
+    /* History list */
+    .hist-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; max-height: 12rem; overflow-y: auto; }
+    .hist-tag { font-family: var(--mono); font-size: 0.72rem; padding: 0.22rem 0.6rem; border: 1px solid var(--border); color: rgba(250,248,243,0.45); cursor: pointer; border-radius: 1px; transition: all 0.15s; }
+    .hist-tag:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+    /* Divider */
+    .divider { text-align: center; color: var(--gold-dim); font-size: 1rem; letter-spacing: 0.5em; opacity: 0.35; padding: 1rem 0; }
+
+    footer { padding: 2.5rem 0; text-align: center; border-top: 1px solid var(--border); }
+    footer p { font-size: 0.85rem; color: rgba(250,248,243,0.28); font-style: italic; max-width: none; text-align: center; }
+    footer a { color: var(--gold-dim); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      header { padding: 3rem 0 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="basmala">﷽</span>
+    <h1>Nisab <em>Al Zakat</em></h1>
+    <p class="tagline">Live Nisab thresholds — all schools, 27 currencies, 6× daily updates &amp; full historical archive</p>
+    <a href="/nisab.json" class="endpoint-badge" target="_blank">
+      <span class="live-dot"></span>
+      nisab.tahababa.com/nisab.json
+    </a>
+  </header>
+
+  <!-- Live summary table -->
+  <section>
+    <h2><span class="n">◆</span>Today's Nisab</h2>
+    <p>Gold-based thresholds in USD and GBP, loaded directly from the live JSON.</p>
+    <table class="nisab-table" id="nisab-table">
+      <thead>
+        <tr>
+          <th>School</th>
+          <th>Gold (grams)</th>
+          <th>Nisab USD</th>
+          <th>Nisab GBP</th>
+          <th>Nisab SAR</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr><td colspan="5" style="color:rgba(250,248,243,0.3);padding:1rem 0.8rem;">Loading…</td></tr>
+      </tbody>
+    </table>
+    <p id="table-status"></p>
+  </section>
+
+  <!-- stats -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-v">4</span><span class="stat-l">Schools</span>
+    </div>
+    <div class="stat">
+      <span class="stat-v">27</span><span class="stat-l">Currencies</span>
+    </div>
+    <div class="stat">
+      <span class="stat-v">6×</span><span class="stat-l">Daily Updates</span>
+    </div>
+    <div class="stat">
+      <span class="stat-v" id="stat-days">—</span><span class="stat-l">Days Archived</span>
+    </div>
+  </div>
+
+  <!-- Endpoint usage -->
+  <section>
+    <h2><span class="n">01</span>What is Nisab Al Zakat?</h2>
+    <p>
+      <strong style="color:var(--gold);font-weight:400;">Nisab Al Zakat</strong> is a free, open JSON API
+      for the Nisab threshold — the minimum wealth at which Zakat becomes obligatory.
+      Values are calculated in real time from live gold and silver prices, across all four major
+      schools of Islamic jurisprudence, in 27 currencies, updated 6 times every day.
+    </p>
+    <p style="margin-top:1rem;">
+      No authentication. No rate limits. No registration. Just a clean JSON endpoint
+      you can fetch from any app, website, or automation. Every snapshot is permanently
+      archived, building a growing historical record of Nisab thresholds over time.
+    </p>
+  </section>
+
+  <!-- Endpoint usage -->
+  <section>
+    <h2><span class="n">02</span>The Endpoints</h2>
+      <div class="code-top"><span class="code-lang">Today (live)</span><button class="copy" onclick="cp(this,'curl https://nisab.tahababa.com/nisab.json')">copy</button></div>
+      <pre><code>curl https://nisab.tahababa.com/nisab.json</code></pre>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-top"><span class="code-lang">Specific date</span><button class="copy" onclick="cp(this,'curl https://nisab.tahababa.com/history/2026-03-15.json')">copy</button></div>
+      <pre><code>curl https://nisab.tahababa.com/history/<span class="k">2026-03-15</span>.json</code></pre>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-top"><span class="code-lang">History index</span><button class="copy" onclick="cp(this,'curl https://nisab.tahababa.com/history/index.json')">copy</button></div>
+      <pre><code>curl https://nisab.tahababa.com/history/index.json
+<span class="c">// → { "count": 365, "dates": ["2026-03-15", "2026-03-14", ...] }</span></code></pre>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-top"><span class="code-lang">JavaScript — get one value</span></div>
+      <pre><code><span class="k">const</span> { nisab } = <span class="k">await</span> fetch(<span class="s">'/nisab.json'</span>).then(r => r.json());
+
+<span class="c">// Hanafi gold nisab in GBP today</span>
+nisab.hanafi.gold.values.GBP   <span class="c">// → 6842.11</span>
+
+<span class="c">// Maliki silver nisab in SAR</span>
+nisab.maliki.silver.values.SAR  <span class="c">// → 2218.40</span></code></pre>
+    </div>
+  </section>
+
+  <!-- Historical browser -->
+  <section>
+    <h2><span class="n">03</span>Historical Archive</h2>
+    <p>Every snapshot is permanently committed to the GitHub repository. 6 snapshots per day means ~2,190 records per year — a full, queryable price history of Nisab thresholds building itself automatically.</p>
+
+    <div class="history-controls" style="margin-top:1.2rem;">
+      <input type="date" id="date-picker" />
+      <button class="btn" onclick="loadDate()">Load that day</button>
+      <button class="btn" onclick="loadToday()">Today</button>
+    </div>
+
+    <div class="result-box" id="result-box" style="display:none;">
+      <div class="result-header">
+        <span class="live-dot"></span>
+        <span id="result-label">—</span>
+      </div>
+      <div id="result-output">Loading…</div>
+    </div>
+
+    <p style="margin-top:1.5rem;">Recent archive:</p>
+    <div class="hist-list" id="hist-list">
+      <span style="font-family:var(--mono);font-size:0.75rem;color:rgba(250,248,243,0.3);">Loading index…</span>
+    </div>
+  </section>
+
+  <!-- Schema -->
+  <section>
+    <h2><span class="n">04</span>Response Schema</h2>
+    <div class="code-wrap">
+      <div class="code-top"><span class="code-lang">json</span></div>
+      <pre><code>{
+  <span class="k">"meta"</span>: {
+    <span class="k">"timestamp"</span>:     <span class="s">"2026-03-15T0800GMT"</span>,
+    <span class="k">"updated_at"</span>:   <span class="s">"2026-03-15T08:01:44.000Z"</span>,
+    <span class="k">"timezone"</span>:     <span class="s">"GMT"</span>,
+    <span class="k">"base_currency"</span>: <span class="s">"USD"</span>,
+    <span class="k">"currencies"</span>:   [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 27 total */</span>],
+    <span class="k">"disclaimer"</span>:   <span class="s">"..."</span>,
+    <span class="k">"source"</span>:       <span class="s">"Nisab Al Zakat"</span>
+  },
+  <span class="k">"prices"</span>: {
+    <span class="k">"gold"</span>:   { <span class="k">"per_troy_oz"</span>: <span class="num">2962.10</span>, <span class="k">"per_gram"</span>: <span class="num">95.23</span> },
+    <span class="k">"silver"</span>: { <span class="k">"per_troy_oz"</span>:   <span class="num">30.50</span>, <span class="k">"per_gram"</span>:  <span class="num">0.98</span> }
+  },
+  <span class="k">"nisab"</span>: {
+    <span class="k">"hanafi"</span>: {
+      <span class="k">"gold"</span>:   { <span class="k">"grams"</span>: <span class="num">87.48</span>, <span class="k">"tola"</span>: <span class="num">7.5</span>, <span class="k">"values"</span>: { <span class="k">"USD"</span>: <span class="num">8333.12</span>, <span class="k">"GBP"</span>: <span class="num">6570.44</span>, <span class="c">/* ... */</span> } },
+      <span class="k">"silver"</span>: { <span class="k">"grams"</span>: <span class="num">612.36</span>, <span class="k">"tola"</span>: <span class="num">52.5</span>, <span class="k">"values"</span>: { <span class="c">/* ... */</span> } }
+    },
+    <span class="k">"maliki"</span>:  { <span class="c">/* same structure */</span> },
+    <span class="k">"shafii"</span>:  { <span class="c">/* same structure */</span> },
+    <span class="k">"hanbali"</span>: { <span class="c">/* same structure */</span> }
+  }
+}</code></pre>
+    </div>
+  </section>
+
+  <div class="divider">◆ ◆ ◆</div>
+
+  <footer>
+    <p>
+      <strong style="color:var(--gold);font-weight:400;">Nisab Al Zakat</strong> ·
+      Built by <a href="https://tahababa.com" target="_blank">Taha Baba</a> ·
+      Open source on <a href="https://github.com/tahababa/nisab" target="_blank">GitHub</a> ·
+      Data: <a href="https://goldpricez.com" target="_blank">GoldPriceZ</a> &amp;
+      <a href="https://www.frankfurter.app" target="_blank">Frankfurter</a>
+    </p>
+    <p style="margin-top:0.5rem;">
+      Nisab values are for informational purposes only.
+      Consult a qualified scholar for your specific situation.
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  const BASE = '';  // same origin via GitHub Pages
+
+  // ── Load live nisab table ──────────────────────────────────────────────────
+  async function loadTable() {
+    try {
+      const res  = await fetch(`${BASE}/nisab.json`);
+      const data = await res.json();
+      const schools = ['hanafi','maliki','shafii','hanbali'];
+      const labels  = { hanafi:"Hanafi", maliki:"Maliki", shafii:"Shafi'i", hanbali:"Hanbali" };
+
+      const rows = schools.map(s => {
+        const g = data.nisab[s].gold;
+        return `<tr>
+          <td class="school-col">${labels[s]}</td>
+          <td>${g.grams}g${g.tola ? ' / '+g.tola+' tola' : ''}</td>
+          <td>$${g.values.USD.toLocaleString()}</td>
+          <td>£${g.values.GBP.toLocaleString()}</td>
+          <td>﷼${g.values.SAR.toLocaleString()}</td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('table-body').innerHTML = rows;
+      document.getElementById('table-status').textContent =
+        `Gold $${data.prices.gold.per_troy_oz}/oz (USD) · Silver $${data.prices.silver.per_troy_oz}/oz (USD) · ${data.meta.timestamp} (GMT)`;
+    } catch (e) {
+      document.getElementById('table-body').innerHTML =
+        `<tr><td colspan="5" style="color:rgba(250,248,243,0.3);padding:0.8rem;">Could not load live data</td></tr>`;
+    }
+  }
+
+  // ── Load history index ─────────────────────────────────────────────────────
+  async function loadHistoryIndex() {
+    try {
+      const res  = await fetch(`${BASE}/history/index.json`);
+      const data = await res.json();
+
+      document.getElementById('stat-days').textContent = data.count;
+
+      const list = document.getElementById('hist-list');
+      list.innerHTML = '';
+      data.dates.slice(0, 60).forEach(d => {
+        const tag = document.createElement('span');
+        tag.className = 'hist-tag';
+        tag.textContent = d;
+        tag.onclick = () => loadHistFile(d);
+        list.appendChild(tag);
+      });
+    } catch (_) {}
+  }
+
+  // ── Load a specific date ───────────────────────────────────────────────────
+  async function loadHistFile(dateStr) {
+    const box    = document.getElementById('result-box');
+    const output = document.getElementById('result-output');
+    const label  = document.getElementById('result-label');
+    box.style.display = 'block';
+    label.textContent = `history/${dateStr}.json`;
+    output.textContent = 'Loading…';
+
+    try {
+      const res  = await fetch(`${BASE}/history/${dateStr}.json`);
+      if (!res.ok) throw new Error(`No data for ${dateStr}`);
+      const data = await res.json();
+      // Show a clean summary: meta + prices + hanafi gold values (first 5 currencies)
+      const preview = {
+        meta:   data.meta,
+        prices: data.prices,
+        nisab: {
+          hanafi: {
+            gold:   { grams: data.nisab.hanafi.gold.grams, values: Object.fromEntries(Object.entries(data.nisab.hanafi.gold.values).slice(0,8)) },
+            silver: { grams: data.nisab.hanafi.silver.grams, values: Object.fromEntries(Object.entries(data.nisab.hanafi.silver.values).slice(0,8)) }
+          }
+        },
+        _note: 'Showing hanafi school only and first 8 currencies. Fetch the full JSON for complete data.'
+      };
+      output.textContent = JSON.stringify(preview, null, 2);
+    } catch (e) {
+      output.textContent = `Error: ${e.message}`;
+    }
+  }
+
+  function loadDate() {
+    const d = document.getElementById('date-picker').value;
+    if (d) loadHistFile(d);
+  }
+
+  function loadToday() {
+    const today = new Date().toISOString().slice(0,10);
+    document.getElementById('date-picker').value = today;
+    loadHistFile(today);
+  }
+
+  function cp(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      setTimeout(() => btn.textContent = 'copy', 1800);
+    });
+  }
+
+  // Set date picker max to today
+  document.getElementById('date-picker').max = new Date().toISOString().slice(0,10);
+
+  loadTable();
+  loadHistoryIndex();
+</script>
+</body>
+</html>
