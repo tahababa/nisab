@@ -40,5 +40,4 @@ jobs:
           git config user.email "bot@tahababa.com"
           git add nisab.json history/
           git diff --staged --quiet || git commit -m "chore: update nisab $(date -u +%Y-%m-%dT%H:%M)GMT"
-          git pull --rebase
-          git push
+          git push --force-with-lease
