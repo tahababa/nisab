@@ -241,9 +241,9 @@ async function main() {
   writeFiles(payload, slug);
 
   console.log('\nHanafi gold nisab:');
-  console.log(`  USD: $${payload.nisab.hanafi.gold.values.USD.toLocaleString()}`);
-  console.log(`  GBP: £${payload.nisab.hanafi.gold.values.GBP.toLocaleString()}`);
-  console.log(`  SAR: ﷼${payload.nisab.hanafi.gold.values.SAR.toLocaleString()}`);
+  console.log(`  USD: $${payload.nisab.hanafi.gold.values.USD?.toLocaleString() ?? 'N/A'}`);
+  console.log(`  GBP: £${payload.nisab.hanafi.gold.values.GBP?.toLocaleString() ?? 'N/A'}`);
+  console.log(`  SAR: ﷼${payload.nisab.hanafi.gold.values.SAR?.toLocaleString() ?? 'N/A'}`);
 }
 
 main().catch(err => {
