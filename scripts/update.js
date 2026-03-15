@@ -77,35 +77,31 @@ async function fetchMetalPrices() {
   const key = process.env.GOLD_API_KEY;
   if (!key) throw new Error('GOLD_API_KEY env var is not set');
 
-  // goldpricez.com endpoint: returns price per troy ounce in USD
-  const headers = { 'x-access-token': key };
+  const headers = { 'X-API-KEY': key };
 
-  const [goldRes, silverRes] = await Promise.all([
-    fetch('https://goldpricez.com/api/rate/currency/usd/measure/ounce', { headers }),
-    fetch('https://goldpricez.com/api/rate/currency/usd/measure/ounce/metal/silver', { headers })
-  ]);
+  // One call returns all metals and units in USD
+  const res = await fetch('https://goldpricez.com/api/rates/currency/usd/measure/all', { headers });
 
-  if (!goldRes.ok)   throw new Error(`goldpricez gold error: ${goldRes.status}`);
-  if (!silverRes.ok) throw new Error(`goldpricez silver error: ${silverRes.status}`);
+  if (!res.ok) throw new Error(`goldpricez error: ${res.status}`);
 
-  const [gold, silver] = await Promise.all([goldRes.json(), silverRes.json()]);
+  const data = await res.json();
 
-  // goldpricez returns { gold_price: number } / { silver_price: number }
-  const goldPrice   = gold.gold_price     ?? gold.price   ?? gold.rate;
-  const silverPrice = silver.silver_price ?? silver.price ?? silver.rate;
+  // Response contains fields like ounce_in_usd, gram_in_usd, silver_ounce_in_usd etc.
+  const goldOz   = parseFloat(data.ounce_in_usd   ?? data.gold_ounce_in_usd);
+  const silverOz = parseFloat(data.silver_ounce_in_usd ?? data.silver_ounce);
 
-  if (!goldPrice || !silverPrice) {
-    throw new Error(`Unexpected goldpricez response: ${JSON.stringify({ gold, silver })}`);
+  if (!goldOz || !silverOz) {
+    throw new Error(`Unexpected goldpricez response: ${JSON.stringify(data)}`);
   }
 
   return {
     gold: {
-      per_troy_oz: parseFloat(Number(goldPrice).toFixed(4)),
-      per_gram:    parseFloat((Number(goldPrice) / TROY_OZ_TO_GRAMS).toFixed(6))
+      per_troy_oz: parseFloat(goldOz.toFixed(4)),
+      per_gram:    parseFloat((goldOz / TROY_OZ_TO_GRAMS).toFixed(6))
     },
     silver: {
-      per_troy_oz: parseFloat(Number(silverPrice).toFixed(4)),
-      per_gram:    parseFloat((Number(silverPrice) / TROY_OZ_TO_GRAMS).toFixed(6))
+      per_troy_oz: parseFloat(silverOz.toFixed(4)),
+      per_gram:    parseFloat((silverOz / TROY_OZ_TO_GRAMS).toFixed(6))
     }
   };
 }
