@@ -79,7 +79,6 @@ async function fetchMetalPrices() {
 
   const headers = { 'X-API-KEY': key };
 
-  // Two separate calls — gold and silver return different endpoints
   const [goldRes, silverRes] = await Promise.all([
     fetch('https://goldpricez.com/api/rates/currency/usd/measure/all', { headers }),
     fetch('https://goldpricez.com/api/rates/currency/usd/measure/all/metal/silver', { headers })
@@ -88,11 +87,14 @@ async function fetchMetalPrices() {
   if (!goldRes.ok)   throw new Error(`goldpricez gold error: ${goldRes.status}`);
   if (!silverRes.ok) throw new Error(`goldpricez silver error: ${silverRes.status}`);
 
-  const [gold, silver] = await Promise.all([goldRes.json(), silverRes.json()]);
+  // API returns a double-encoded JSON string — parse twice
+  const goldRaw   = await goldRes.json();
+  const silverRaw = await silverRes.json();
+  const gold   = typeof goldRaw   === 'string' ? JSON.parse(goldRaw)   : goldRaw;
+  const silver = typeof silverRaw === 'string' ? JSON.parse(silverRaw) : silverRaw;
 
-  // Parse strings to floats — API returns quoted numbers
   const goldOz   = parseFloat(gold.ounce_price_usd);
-  const silverOz = parseFloat(silver.ounce_price_usd);
+  const silverOz = parseFloat(silver.silver_ounce_price_ask_usd);
 
   if (!goldOz || !silverOz) {
     throw new Error(`Could not parse prices. Gold: ${JSON.stringify(gold)}, Silver: ${JSON.stringify(silver)}`);
