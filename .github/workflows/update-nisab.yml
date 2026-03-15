@@ -2,13 +2,14 @@ name: Nisab Al Zakat — Update (6x Daily)
 
 on:
   schedule:
-    - cron: '0 0  * * *'
-    - cron: '0 4  * * *'
-    - cron: '0 8  * * *'
-    - cron: '0 12 * * *'
-    - cron: '0 16 * * *'
-    - cron: '0 20 * * *'
+    - cron: '0 0  * * *'   # 00:00 GMT
+    - cron: '0 4  * * *'   # 04:00 GMT
+    - cron: '0 8  * * *'   # 08:00 GMT
+    - cron: '0 12 * * *'   # 12:00 GMT
+    - cron: '0 16 * * *'   # 16:00 GMT
+    - cron: '0 20 * * *'   # 20:00 GMT
   workflow_dispatch:
+    # Manual trigger from GitHub UI
 
 permissions:
   contents: write
@@ -18,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,4 +40,5 @@ jobs:
           git config user.email "bot@tahababa.com"
           git add nisab.json history/
           git diff --staged --quiet || git commit -m "chore: update nisab $(date -u +%Y-%m-%dT%H:%M)GMT"
+          git pull --rebase
           git push
