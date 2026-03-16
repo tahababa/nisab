@@ -6,7 +6,7 @@
 
   <!-- Primary Meta -->
   <title>Nisab Al Zakat — Live Nisab Thresholds API</title>
-  <meta name="description" content="Free, open JSON API for live Nisab Al Zakat thresholds. All four schools of Islamic jurisprudence, 17 currencies, updated 6 times daily with full historical archive." />
+  <meta name="description" content="Free, open JSON API for live Nisab Al Zakat thresholds. All four schools of Islamic jurisprudence, 20 currencies, updated 6 times daily with full historical archive." />
   <meta name="author" content="Taha Baba" />
   <meta name="keywords" content="nisab, zakat, nisab calculator, nisab al zakat, gold price, silver price, zakat threshold, islamic finance, API, JSON" />
   <link rel="canonical" href="https://nisab.tahababa.com" />
@@ -15,7 +15,7 @@
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://nisab.tahababa.com" />
   <meta property="og:title"       content="Nisab Al Zakat — Live Nisab Thresholds API" />
-  <meta property="og:description" content="Free JSON API for live Nisab thresholds — all 4 schools of jurisprudence, 17 currencies, updated 6× daily with full historical archive." />
+  <meta property="og:description" content="Free JSON API for live Nisab thresholds — all 4 schools of jurisprudence, 20 currencies, updated 6× daily with full historical archive." />
   <meta property="og:image"       content="https://nisab.tahababa.com/og.png" />
   <meta property="og:locale"      content="en_GB" />
   <meta property="og:site_name"   content="Nisab Al Zakat" />
@@ -24,7 +24,7 @@
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:url"         content="https://nisab.tahababa.com" />
   <meta name="twitter:title"       content="Nisab Al Zakat — Live Nisab Thresholds API" />
-  <meta name="twitter:description" content="Free JSON API for live Nisab thresholds — all 4 schools, 17 currencies, updated 6× daily." />
+  <meta name="twitter:description" content="Free JSON API for live Nisab thresholds — all 4 schools, 20 currencies, updated 6× daily." />
   <meta name="twitter:image"       content="https://nisab.tahababa.com/og.png" />
   <meta name="twitter:creator"     content="@tahababa" />
 
@@ -191,7 +191,7 @@
   <header>
     <span class="basmala">بسم الله الرحمن الرحيم</span>
     <h1>Nisab <em>Al Zakat</em></h1>
-    <p class="tagline">Live Nisab thresholds — all schools, 17 currencies, updated 6× daily</p>
+    <p class="tagline">Live Nisab thresholds — all schools, 20 currencies, updated 6× daily</p>
     <a href="/nisab.json" class="endpoint-badge" target="_blank" rel="noopener">
       <span class="live-dot"></span>
       nisab.tahababa.com/nisab.json
@@ -222,7 +222,7 @@
   <!-- Stats -->
   <div class="stats">
     <div class="stat"><span class="stat-v">4</span><span class="stat-l">Schools</span></div>
-    <div class="stat"><span class="stat-v">17</span><span class="stat-l">Currencies</span></div>
+    <div class="stat"><span class="stat-v">20</span><span class="stat-l">Currencies</span></div>
     <div class="stat"><span class="stat-v">6×</span><span class="stat-l">Daily GMT</span></div>
     <div class="stat"><span class="stat-v" id="stat-days">—</span><span class="stat-l">Snapshots</span></div>
   </div>
@@ -230,7 +230,7 @@
   <!-- What is this -->
   <section>
     <h2><span class="n">01</span>What is Nisab Al Zakat?</h2>
-    <p><strong style="color:var(--gold);font-weight:400;">Nisab Al Zakat</strong> is a free, open JSON API for the Nisab threshold — the minimum wealth at which Zakat becomes obligatory. Values are calculated from live gold and silver prices, across all four major schools of Islamic jurisprudence, in 17 currencies, updated 6 times every day.</p>
+    <p><strong style="color:var(--gold);font-weight:400;">Nisab Al Zakat</strong> is a free, open JSON API for the Nisab threshold — the minimum wealth at which Zakat becomes obligatory. Values are calculated from live gold and silver prices, across all four major schools of Islamic jurisprudence, in 20 currencies, updated 6 times every day.</p>
     <p>No authentication. No rate limits. No registration. Every snapshot is permanently archived, building a growing historical record of Nisab thresholds over time.</p>
   </section>
 
@@ -303,7 +303,7 @@ data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span clas
   <!-- Currencies -->
   <section>
     <h2><span class="n">04</span>Supported Currencies</h2>
-    <p>Every Nisab value is returned in all 17 currencies simultaneously.</p>
+    <p>Every Nisab value is returned in all 20 currencies simultaneously.</p>
     <div class="currency-grid" id="currency-grid"></div>
   </section>
 
@@ -317,7 +317,7 @@ data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span clas
     <span class="k">"timestamp"</span>:     <span class="s">"2026-03-15T0800GMT"</span>,
     <span class="k">"timezone"</span>:     <span class="s">"GMT"</span>,
     <span class="k">"base_currency"</span>: <span class="s">"USD"</span>,
-    <span class="k">"currencies"</span>:   [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 17 total */</span>]
+    <span class="k">"currencies"</span>:   [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 20 total */</span>]
   },
   <span class="k">"prices"</span>: {
     <span class="k">"gold"</span>:   { <span class="k">"per_troy_oz"</span>: <span class="nm">5019.18</span>, <span class="k">"per_gram"</span>: <span class="nm">161.37</span> },
@@ -350,7 +350,7 @@ data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span clas
       Built by <a href="https://tahababa.com" target="_blank" rel="noopener">Taha Baba</a> ·
       <a href="https://github.com/tahababa/nisab" target="_blank" rel="noopener">GitHub</a> ·
       Data: <a href="https://goldpricez.com" target="_blank" rel="noopener">GoldPriceZ</a> &amp;
-      <a href="https://www.frankfurter.app" target="_blank" rel="noopener">Frankfurter</a>
+      <a href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener">Exchange API</a>
     </p>
     <p style="margin-top:0.5rem;">
       Nisab values are for informational purposes only.
@@ -365,16 +365,18 @@ data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span clas
 
   const CURRENCIES = [
     'USD','GBP','EUR','CAD','AUD','JPY',
-    'CHF','CNY','INR','MYR','IDR','TRY',
-    'ZAR','SEK','NOK','SGD','DKK'
+    'CHF','CNY','INR','PKR','BDT','MYR',
+    'IDR','TRY','ZAR','NGN','SEK','NOK',
+    'SGD','DKK'
   ];
 
   const CURRENCY_NAMES = {
     USD:'US Dollar', GBP:'British Pound', EUR:'Euro',
     CAD:'Canadian Dollar', AUD:'Australian Dollar', JPY:'Japanese Yen',
     CHF:'Swiss Franc', CNY:'Chinese Yuan', INR:'Indian Rupee',
-    MYR:'Malaysian Ringgit', IDR:'Indonesian Rupiah', TRY:'Turkish Lira',
-    ZAR:'South African Rand', SEK:'Swedish Krona', NOK:'Norwegian Krone',
+    PKR:'Pakistani Rupee', BDT:'Bangladeshi Taka', MYR:'Malaysian Ringgit',
+    IDR:'Indonesian Rupiah', TRY:'Turkish Lira', ZAR:'South African Rand',
+    NGN:'Nigerian Naira', SEK:'Swedish Krona', NOK:'Norwegian Krone',
     SGD:'Singapore Dollar', DKK:'Danish Krone'
   };
 
@@ -404,8 +406,8 @@ data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span clas
       a: 'This API provides thresholds for all four major Sunni schools. The Hanafi school uses 87.48g of gold (7.5 tola). The Maliki, Shafi\'i, and Hanbali schools use 85g. Consult a qualified Islamic scholar for guidance specific to your situation.'
     },
     {
-      q: 'Why are Gulf and South Asian currencies not included?',
-      a: 'Exchange rates come from the Frankfurter API which covers major global currencies but does not include SAR, AED, KWD, QAR, BHD, OMR, PKR, or BDT. Use the USD value as a reference — you can apply your own local exchange rate to convert.'
+      q: 'Why are some currencies like SAR or AED not included?',
+      a: 'The API now includes PKR, BDT, and NGN. Some Gulf currencies (SAR, AED, KWD, QAR, BHD, OMR) are still not published in the API output. Use the USD value as a reference and apply your local USD exchange rate when needed.'
     },
     {
       q: 'How far back does the historical data go?',

@@ -16,7 +16,7 @@
       "id": 1,
       "category": "about",
       "question": "What is Nisab Al Zakat?",
-      "answer": "Nisab Al Zakat is a free, open JSON API that provides live Nisab thresholds — the minimum wealth at which Zakat becomes obligatory in Islam. Values are calculated from live gold and silver spot prices, across all four major Sunni schools of Islamic jurisprudence (Hanafi, Maliki, Shafi'i, Hanbali), in 17 currencies, updated 6 times daily at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. No authentication, no rate limits, no registration required."
+      "answer": "Nisab Al Zakat is a free, open JSON API that provides live Nisab thresholds — the minimum wealth at which Zakat becomes obligatory in Islam. Values are calculated from live gold and silver spot prices, across all four major Sunni schools of Islamic jurisprudence (Hanafi, Maliki, Shafi'i, Hanbali), in 20 currencies, updated 6 times daily at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. No authentication, no rate limits, no registration required."
     },
     {
       "id": 2,
@@ -40,19 +40,19 @@
       "id": 5,
       "category": "api",
       "question": "How do I fetch the current Nisab in a specific currency?",
-      "answer": "Fetch the main endpoint: GET https://nisab.tahababa.com/nisab.json — the response contains all four schools, both gold and silver, in all 17 supported currencies simultaneously. For example, to get the Hanafi gold Nisab in British pounds: data.nisab.hanafi.gold.values.GBP. For Maliki silver in euros: data.nisab.maliki.silver.values.EUR."
+      "answer": "Fetch the main endpoint: GET https://nisab.tahababa.com/nisab.json — the response contains all four schools, both gold and silver, in all 20 supported currencies simultaneously. For example, to get the Hanafi gold Nisab in British pounds: data.nisab.hanafi.gold.values.GBP. For Maliki silver in euros: data.nisab.maliki.silver.values.EUR."
     },
     {
       "id": 6,
       "category": "api",
       "question": "What currencies are supported?",
-      "answer": "17 currencies are currently supported: USD (US Dollar), GBP (British Pound), EUR (Euro), CAD (Canadian Dollar), AUD (Australian Dollar), JPY (Japanese Yen), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), MYR (Malaysian Ringgit), IDR (Indonesian Rupiah), TRY (Turkish Lira), ZAR (South African Rand), SEK (Swedish Krona), NOK (Norwegian Krone), SGD (Singapore Dollar), DKK (Danish Krone). Exchange rates are sourced from the Frankfurter API."
+      "answer": "20 currencies are currently supported: USD (US Dollar), GBP (British Pound), EUR (Euro), CAD (Canadian Dollar), AUD (Australian Dollar), JPY (Japanese Yen), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), PKR (Pakistani Rupee), BDT (Bangladeshi Taka), MYR (Malaysian Ringgit), IDR (Indonesian Rupiah), TRY (Turkish Lira), ZAR (South African Rand), NGN (Nigerian Naira), SEK (Swedish Krona), NOK (Norwegian Krone), SGD (Singapore Dollar), DKK (Danish Krone). Exchange rates are sourced from fawazahmed0/currency-api via jsDelivr."
     },
     {
       "id": 7,
       "category": "api",
-      "question": "Why are Gulf currencies like SAR, AED, KWD not included?",
-      "answer": "Exchange rates are sourced from the Frankfurter API, which is a free open-source service that covers major global currencies but does not include Gulf Cooperation Council (GCC) currencies such as SAR, AED, KWD, QAR, BHD, OMR, or South Asian currencies like PKR and BDT. As a workaround, use the USD value and apply your own local exchange rate. For example: nisab_in_SAR = nisab_in_USD * current_USD_to_SAR_rate."
+      "question": "Why are some currencies like SAR or AED not included?",
+      "answer": "The API intentionally publishes a curated currency list. Some currencies such as SAR and AED are not included in the current output. As a workaround, use the USD value and apply your own local exchange rate. For example: nisab_in_SAR = nisab_in_USD * current_USD_to_SAR_rate."
     },
     {
       "id": 8,
@@ -112,7 +112,7 @@
       "id": 17,
       "category": "technical",
       "question": "How are exchange rates calculated?",
-      "answer": "Exchange rates are fetched from the Frankfurter API (api.frankfurter.app), a free, open-source European Central Bank exchange rate service. All rates are relative to USD as the base currency. The Nisab value in each currency is calculated as: nisab_in_currency = gold_price_per_gram_usd * nisab_grams * exchange_rate."
+      "answer": "Exchange rates are fetched from fawazahmed0/currency-api via jsDelivr using the USD base JSON file. The source returns lowercase currency codes, which are normalized to uppercase project currency codes in the update script. The Nisab value in each currency is calculated as: nisab_in_currency = gold_price_per_gram_usd * nisab_grams * exchange_rate."
     },
     {
       "id": 18,

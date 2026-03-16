@@ -2,7 +2,7 @@
  * Nisab Al Zakat — scripts/update.js
  *
  * Fetches gold & silver prices from goldpricez.com (free, 30-60 req/hour)
- * and exchange rates from Frankfurter (free, unlimited, no key).
+ * and exchange rates from fawazahmed0/currency-api via jsDelivr (free, no key, 160+ currencies).
  *
  * Writes:
  *   nisab.json                       — always the latest snapshot
@@ -19,8 +19,9 @@ const TROY_OZ_TO_GRAMS = 31.1035;
 
 const CURRENCIES = [
   'USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY',
-  'CHF', 'CNY', 'INR', 'MYR', 'IDR', 'TRY',
-  'ZAR', 'SEK', 'NOK', 'SGD', 'DKK'
+  'CHF', 'CNY', 'INR', 'PKR', 'BDT', 'MYR',
+  'IDR', 'TRY', 'ZAR', 'NGN', 'SEK', 'NOK',
+  'SGD', 'DKK'
 ];
 
 const SCHOOLS = {
@@ -111,15 +112,28 @@ async function fetchMetalPrices() {
   };
 }
 
-// ─── Fetch exchange rates from Frankfurter ─────────────────────────────────────
-// Free, no API key, no rate limit.
+// ─── Fetch exchange rates ─────────────────────────────────────────────────────
+// Source: fawazahmed0/currency-api via jsDelivr (free, no API key).
 
 async function fetchRates() {
-  const nonUSD = CURRENCIES.filter(c => c !== 'USD').join(',');
-  const res    = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${nonUSD}`);
-  if (!res.ok) throw new Error(`Frankfurter error: ${res.status}`);
+  const res = await fetch(
+    'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json'
+  );
+  if (!res.ok) throw new Error(`Exchange rate API error: ${res.status}`);
   const data = await res.json();
-  return { USD: 1.0, ...data.rates };
+
+  const rates = { USD: 1.0 };
+  for (const c of CURRENCIES) {
+    const val = data.usd?.[c.toLowerCase()];
+    rates[c] = val != null ? val : null;
+  }
+
+  const missing = CURRENCIES.filter(c => rates[c] == null);
+  if (missing.length) {
+    console.warn(`Warning: missing exchange rates for ${missing.join(', ')}; output values will be null for those currencies.`);
+  }
+
+  return rates;
 }
 
 // ─── Build payload ─────────────────────────────────────────────────────────────
@@ -242,7 +256,7 @@ async function main() {
   console.log('\nHanafi gold nisab:');
   console.log(`  USD: $${payload.nisab.hanafi.gold.values.USD?.toLocaleString() ?? 'N/A'}`);
   console.log(`  GBP: £${payload.nisab.hanafi.gold.values.GBP?.toLocaleString() ?? 'N/A'}`);
-  console.log(`  SAR: ﷼${payload.nisab.hanafi.gold.values.SAR?.toLocaleString() ?? 'N/A'}`);
+  console.log(`  PKR: ₨${payload.nisab.hanafi.gold.values.PKR?.toLocaleString() ?? 'N/A'}`);
 }
 
 main().catch(err => {
