@@ -1,6 +1,6 @@
 # نصاب الزكاة · Nisab Al Zakat
 
-> A free, open JSON API for live Nisab thresholds — all four schools of Islamic jurisprudence, 27 currencies, **updated 8 times daily aligned to UK market hours**, with a full historical archive.
+> A free, open JSON API for live Nisab thresholds — all four schools of Islamic jurisprudence, 20 currencies, **updated 6 times daily (GMT)**, with a full historical archive.
 
 **Live endpoint:** [nisab.tahababa.com/nisab.json](https://nisab.tahababa.com/nisab.json)  
 **Landing page:** [nisab.tahababa.com](https://nisab.tahababa.com)
@@ -65,7 +65,7 @@ curl https://nisab.tahababa.com/history/index.json
   "meta": {
     "timestamp":   "2026-03-15T0800GMT",
     "updated_at":  "2026-03-15T09:01:22.000Z",
-    "currencies":  ["GBP", "USD", "EUR", "SAR", "AED", "..."],
+    "currencies":  ["USD", "GBP", "EUR", "PKR", "BDT", "NGN", "..."],
     "disclaimer":  "Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.",
     "source":      "Nisab Al Zakat",
     "url":         "nisab.tahababa.com",
@@ -79,8 +79,8 @@ curl https://nisab.tahababa.com/history/index.json
     "hanafi": {
       "label": "Hanafi",
       "note":  "Based on 7.5 tola (87.48g) of gold or 52.5 tola (612.36g) of silver",
-      "gold":   { "grams": 87.48, "tola": 7.5,  "values": { "GBP": 6570.44, "USD": 8333.12, "SAR": 31249.20, "...": "27 currencies" } },
-      "silver": { "grams": 612.36, "tola": 52.5, "values": { "GBP": 474.81, "...": "27 currencies" } }
+      "gold":   { "grams": 87.48, "tola": 7.5,  "values": { "GBP": 6570.44, "USD": 8333.12, "PKR": 2331000.00, "...": "20 currencies" } },
+      "silver": { "grams": 612.36, "tola": 52.5, "values": { "GBP": 474.81, "...": "20 currencies" } }
     },
     "maliki":  { "..." },
     "shafii":  { "..." },
@@ -109,9 +109,9 @@ The Hanafi threshold derives from the classical South Asian unit of weight, the 
 
 ## Currencies
 
-All 27 currencies are returned in every response:
+All 20 currencies are returned in every response:
 
-`GBP` `USD` `EUR` `SAR` `AED` `CAD` `AUD` `JPY` `CHF` `CNY` `INR` `PKR` `BDT` `MYR` `IDR` `TRY` `EGP` `KWD` `QAR` `BHD` `OMR` `NGN` `ZAR` `SEK` `NOK` `SGD` `DKK`
+`USD` `GBP` `EUR` `CAD` `AUD` `JPY` `CHF` `CNY` `INR` `PKR` `BDT` `MYR` `IDR` `TRY` `ZAR` `NGN` `SEK` `NOK` `SGD` `DKK`
 
 ---
 
@@ -125,8 +125,8 @@ const { nisab, prices } = await fetch('https://nisab.tahababa.com/nisab.json')
 // Hanafi gold Nisab in British pounds
 console.log(nisab.hanafi.gold.values.GBP);
 
-// Maliki silver Nisab in Saudi riyals
-console.log(nisab.maliki.silver.values.SAR);
+// Maliki silver Nisab in Pakistani rupees
+console.log(nisab.maliki.silver.values.PKR);
 
 // Current gold price per gram
 console.log(prices.gold.per_gram);
@@ -158,7 +158,7 @@ Every snapshot is permanently committed to this repository. The `history/index.j
   "total_days": 365,
   "latest": "2026-03-15T2100Z",
   "by_date": {
-    "2026-03-15": ["2026-03-15T2100Z", "2026-03-15T1800Z", "2026-03-15T1500Z", "...8 per day"],
+    "2026-03-15": ["2026-03-15T2100Z", "2026-03-15T1800Z", "2026-03-15T1500Z", "...6 per day"],
     "2026-03-14": ["2026-03-14T2100Z", "..."]
   }
 }
@@ -171,7 +171,7 @@ Every snapshot is permanently committed to this repository. The `history/index.j
 | Data | Source |
 |------|--------|
 | Gold & silver prices | [GoldPriceZ.com](https://goldpricez.com) |
-| Exchange rates | [Frankfurter API](https://www.frankfurter.app) |
+| Exchange rates | [fawazahmed0/currency-api](https://github.com/fawazahmed0/exchange-api) via [jsDelivr](https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json) |
 | Hosting | GitHub Pages |
 | Automation | GitHub Actions |
 
