@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Hawl (Lunar Year) — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Understanding the Hawl: when your Zakat year starts, how to track it, what happens when wealth fluctuates, and differences across schools."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> The Hawl
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>The <em>Hawl</em></h1>
+        <p class="subtitle">The Lunar Year Requirement</p>
+      </header>
+
+      <section class="content">
+        <h2><span class="n">01</span>What is the Hawl?</h2>
+        <p>
+          <strong>Hawl</strong> literally means "a year" in Arabic. In Zakat
+          terminology, it refers to the requirement that wealth must remain at
+          or above the <a href="nisab.html">Nisab</a> for
+          <strong>one complete lunar year</strong> (approximately 354 days)
+          before Zakat becomes obligatory. This applies to monetary assets,
+          gold, silver, and trade goods. It does <em>not</em> apply to
+          agricultural produce (Zakat is due at harvest) or discovered treasure
+          (due immediately).
+        </p>
+
+        <h2><span class="n">02</span>When Does It Start?</h2>
+        <p>
+          Your personal Hawl begins on the day your total <a href="zakatable-wealth.html">zakatable wealth</a>
+          <strong>first reaches or exceeds the Nisab</strong>. This date is
+          sometimes called your <strong>seed date</strong>.
+        </p>
+
+        <div class="info-card">
+          <h4>Example</h4>
+          <p style="margin: 0">
+            If your wealth first reached the Nisab on 10 Sha'ban 1447 AH, that
+            becomes your seed date. Your first Zakat will be calculated on 10
+            Sha'ban 1448 AH, one full lunar year later. This date remains your
+            annual Zakat date going forward.
+          </p>
+        </div>
+
+        <p>
+          If you cannot remember the exact date, make your best estimate. If no
+          estimate is possible, simply fix a date and stick with it every year.
+          Many Muslims choose the first of Ramadan for the spiritual reward of
+          giving during that blessed month, but this is a preference, not a
+          requirement.
+        </p>
+
+        <h2><span class="n">03</span>What If Wealth Fluctuates?</h2>
+        <p>This is where the schools differ in a practically important way:</p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>School</th>
+                <th>Ruling on Mid-Year Dips</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag hanafi">Hanafi</span></td>
+                <td>
+                  What matters is that the Nisab exists at the
+                  <strong>start and end</strong> of the Hawl. Temporary dips
+                  during the year do not matter. The Hawl does not reset unless
+                  wealth drops to <strong>zero entirely</strong>.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag shafii">Shafi'i</span></td>
+                <td>
+                  If wealth drops below the Nisab at any point during the year,
+                  the <strong>Hawl resets</strong>. A new Hawl begins when
+                  wealth reaches the Nisab again.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag hanbali">Hanbali</span></td>
+                <td>
+                  Similar to Shafi'i: the Hawl resets if wealth falls below the
+                  Nisab during the year.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag maliki">Maliki</span></td>
+                <td>
+                  Generally aligned with the Shafi'i/Hanbali view on resetting,
+                  though details vary by scholar.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            <strong>Practical example (Hanafi):</strong> Last Ramadan you had
+            $20,000. During the year your wealth dipped to $8,000 (below the
+            Nisab) then recovered. This Ramadan you have $25,000. In the Hanafi
+            school, you calculate Zakat on $25,000. The mid-year dip is
+            irrelevant because you had Nisab at both the start and end of the
+            Hawl.
+          </p>
+        </div>
+
+        <h2>
+          <span class="n">04</span>Every Single Dollar Does Not Need Its Own
+          Year
+        </h2>
+        <p>
+          A common misconception is that each individual amount must be held for
+          a full year. This is <strong>not the case</strong> in the Hanafi
+          school. What matters is that you held the Nisab at the beginning of
+          your Zakat year and you hold it (or more) at the end. Everything you
+          possess on your Zakat date is calculated together.
+        </p>
+
+        <p>
+          For example, if you received a bonus the day before your Zakat date,
+          that bonus is included in your total zakatable wealth for this year.
+        </p>
+
+        <div class="info-card">
+          <h4>The Shafi'i Approach</h4>
+          <p style="margin: 0">
+            The Shafi'i school takes a different view: each amount that
+            independently reaches the Nisab gets its own separate Hawl. New
+            wealth that arrives mid-year starts its own one-year clock. This is
+            more conservative and can result in different timing for Zakat
+            payments on different portions of wealth.
+          </p>
+        </div>
+
+        <h2><span class="n">05</span>New Income Before the Hawl Ends</h2>
+        <p>
+          In the <strong>Hanafi</strong> school, money received from the
+          <strong>same type</strong> of wealth (e.g. a salary that adds to your
+          cash savings, or profit from trade goods) is combined with existing
+          wealth and counted on the Zakat date, even if it was received just one
+          day before.
+        </p>
+        <p>
+          However, money that arrives <strong>after</strong> your Zakat date
+          counts toward the <em>next</em> Hawl. Think of your Hawl date as the
+          start of your financial year.
+        </p>
+
+        <h2><span class="n">06</span>Why the Hawl Matters</h2>
+        <p>
+          The Hawl requirement ensures that Zakat is not due on wealth that is
+          fleeting or spent quickly. By requiring possession for a full lunar
+          year, the law differentiates between stable, surplus wealth and
+          temporary earnings. This protects people whose wealth briefly crosses
+          the Nisab from being obligated when they may not have genuine surplus.
+        </p>
+
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Next:
+            <a href="zakatable-wealth.html" style="font-weight: 500"
+              >Zakatable Wealth</a
+            >
+            — What types of wealth are subject to Zakat?
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

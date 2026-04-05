@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zakatable Wealth — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="What types of wealth are subject to Zakat? Cash, gold, silver, jewellery, business goods, stocks, real estate, pensions, trusts, livestock, and more."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> Zakatable Wealth
+      </div>
+      <header class="page-header fade-up">
+        <h1>Zakatable <em>Wealth</em></h1>
+        <p class="subtitle">What counts and what doesn't</p>
+      </header>
+
+      <section class="content">
+        <p>
+          Not everything you own is subject to Zakat. Assets for personal use
+          (your home, clothing, personal vehicle, furniture, and work tools) are
+          <strong>exempt</strong>. Zakat applies only to wealth that is
+          productive, held for growth, or surplus to basic needs.
+        </p>
+
+        <h2><span class="n">01</span>Cash and Savings</h2>
+        <p>
+          All cash is zakatable: bank accounts (savings, current, fixed
+          deposits), cash in hand, ISAs, bonds, national savings, and any form
+          of liquid investment that can be readily converted to cash. This
+          includes all currencies.
+        </p>
+
+        <h2><span class="n">02</span>Gold and Silver</h2>
+        <p>
+          Gold and silver in <strong>any form</strong> (bars, coins, ingots,
+          jewellery) are zakatable. The key school difference is on
+          <strong>worn jewellery</strong>:
+        </p>
+        <div class="info-card">
+          <p style="margin: 0">
+            <span class="tag hanafi">Hanafi</span> All gold and silver is
+            zakatable, whether worn or stored, for personal use or investment.
+            No exemption for jewellery.
+          </p>
+        </div>
+        <div class="info-card">
+          <p style="margin: 0">
+            <span class="tag maliki">Maliki</span>
+            <span class="tag shafii">Shafi'i</span>
+            <span class="tag hanbali">Hanbali</span> Jewellery worn for regular
+            personal adornment is <strong>exempt</strong>. However, jewellery
+            kept as investment, stored without use, or held for hoarding is
+            always zakatable in all schools.
+          </p>
+        </div>
+
+        <h4>Valuation</h4>
+        <p>
+          Use the <strong>resale value of old gold</strong> (what a gold shop
+          would pay you today), not the retail price you originally paid. For
+          mixed metals, the Hanafi school says if 50%+ of the metal is
+          gold/silver, the entire piece is treated as gold/silver. Gold-plated
+          items (gold content well below 50%) are not zakatable.
+        </p>
+
+        <h4>Diamonds and Precious Stones</h4>
+        <p>
+          There is scholarly consensus that diamonds, rubies, pearls, and other
+          precious stones are <strong>NOT zakatable</strong>. However, if they
+          are held for trading purposes and their value reaches the <a href="nisab.html">Nisab</a>, Zakat
+          is due on the trade value.
+        </p>
+
+        <h2><span class="n">03</span>Business Goods</h2>
+        <p>
+          All merchandise and goods purchased for resale are zakatable at
+          <strong>current market value</strong> (selling price, not purchase
+          price). This includes finished goods, work in progress, and raw
+          materials. The key principle is
+          <strong>intention at purchase</strong>: if bought to resell, it is
+          trade stock and zakatable.
+        </p>
+        <p>
+          Service-based businesses without physical inventory owe Zakat on
+          remaining cash, receivables, and any other zakatable assets if they
+          reach the Nisab.
+        </p>
+
+        <h2><span class="n">04</span>Stocks and Shares</h2>
+        <div class="info-card">
+          <h4>Purchased for Resale (Trading)</h4>
+          <p style="margin: 0">
+            The entire market value is zakatable, just like trade goods.
+            Calculate at the market price on your Zakat date.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Purchased as Investment (Dividends)</h4>
+          <p style="margin: 0">
+            The share value itself is not zakatable. Instead, Zakat is due only
+            on the <strong>zakatable portion</strong> of the company's assets
+            (cash, inventory, receivables). Make a realistic estimate of what
+            percentage of the company's assets are zakatable, and apply that to
+            your shareholding. Saved dividends are fully zakatable as cash.
+          </p>
+        </div>
+
+        <h2><span class="n">05</span>Real Estate</h2>
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Zakatable?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Personal residence</td>
+                <td>No. Exempt as personal use.</td>
+              </tr>
+              <tr>
+                <td>Rental property</td>
+                <td>
+                  No Zakat on the property value. Zakat on
+                  <strong>saved rental income</strong> if it reaches Nisab and
+                  completes <a href="hawl.html">Hawl</a>.
+                </td>
+              </tr>
+              <tr>
+                <td>Property for resale (trading)</td>
+                <td>
+                  Yes. Full market value is zakatable annually, like trade
+                  goods.
+                </td>
+              </tr>
+              <tr>
+                <td>No clear intention at purchase</td>
+                <td>
+                  No Zakat on property value. Only rental income (if any) is
+                  zakatable.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="box box-tip">
+          <p style="margin: 0">
+            <strong>Change of intention:</strong> If you bought a property to
+            rent but later decide to sell, the property does not become
+            zakatable trade stock retroactively. It only becomes zakatable once
+            sale proceeds are held as cash on a future Zakat date.
+          </p>
+        </div>
+
+        <h2><span class="n">06</span>Pensions</h2>
+        <div class="info-card">
+          <h4>After Retirement</h4>
+          <p style="margin: 0">
+            Pension income received after retirement is fully zakatable as cash
+            savings.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Before Retirement: Defined Benefit (Final Salary)</h4>
+          <p style="margin: 0">
+            <strong>Not zakatable.</strong> You have no control over how the
+            money is invested, and cannot access it until retirement.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Before Retirement: Defined Contribution / Personal Pension</h4>
+          <p style="margin: 0">
+            <strong>Zakatable.</strong> You choose how the money is invested,
+            which constitutes a degree of ownership and control. Pay Zakat on
+            the accessible fund value.
+          </p>
+        </div>
+
+        <h2><span class="n">07</span>Trusts</h2>
+        <p>
+          <strong>Child Trust Funds:</strong> No Zakat until the child reaches
+          18 (or puberty in the Hanafi school).
+          <strong>Bare (Nominee) Trusts:</strong> Zakatable if the beneficiary
+          has reached the age of obligation; trustees pay on their behalf.
+          <strong>Discretionary and other trusts:</strong> Not zakatable while
+          assets remain in trust, because neither trustees nor beneficiaries
+          have full possession. Zakat applies only once assets are distributed.
+        </p>
+
+        <h2><span class="n">08</span>Agricultural Produce (Ushr)</h2>
+        <p>
+          Zakat on agricultural produce is called <strong>Ushr</strong> and has
+          different rules from monetary Zakat. It is due at
+          <strong>harvest time</strong>, not after a year. The rate is
+          <strong>10%</strong> for rain-fed or naturally irrigated crops, and
+          <strong>5%</strong> for artificially irrigated crops (pumps, tube
+          wells). Farming expenses are generally
+          <strong>not deducted</strong> before calculating Ushr.
+        </p>
+        <p>
+          If land produces multiple harvests per year, Ushr is payable on each
+          harvest. After paying Ushr, stored grain is exempt from further Ushr,
+          but if sold, the proceeds enter the normal Zakat cycle.
+        </p>
+
+        <h2><span class="n">09</span>Livestock</h2>
+        <p>
+          Camels are zakatable from 5 head (one sheep due), cattle from 30 head
+          (one yearling calf), and sheep/goats from 40 head (one sheep). Larger
+          herds follow graded schedules in classical manuals. Livestock must
+          graze freely (Sa'imah) for most of the year to be zakatable in all
+          schools except Maliki, which levies Zakat on both grazing and
+          non-grazing livestock.
+        </p>
+
+        <h2><span class="n">10</span>Mining and Treasure (Rikaz)</h2>
+        <p>
+          Treasure found underground is zakatable
+          <strong>immediately at 20%</strong>, with no Hawl and no Nisab
+          requirement. Minerals extracted from the earth are also zakatable upon
+          extraction.
+        </p>
+
+        <h2><span class="n">11</span>What Is NOT Zakatable</h2>
+        <div class="info-card">
+          <p style="margin: 0; font-size: 0.92rem">
+            Your primary residence · Your personal vehicle · Clothing and
+            personal items · Furniture and household goods · Work tools and
+            equipment · Diamonds and precious stones (unless for trade) ·
+            Gold-plated items (gold content below 50%) · Haraam income (must be
+            disposed entirely as charity, not Zakat)
+          </p>
+        </div>
+
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Next:
+            <a href="how-to-calculate.html" style="font-weight: 500"
+              >How to Calculate Zakat</a
+            >
+            — Step-by-step method with worked examples.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

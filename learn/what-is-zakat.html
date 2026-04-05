@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What is Zakat? — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Understanding Zakat: the meaning, purpose, spiritual dimensions, and historical context of the third pillar of Islam."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+      !(function () {
+        var s;
+        try {
+          s = localStorage.getItem("nisab-theme");
+        } catch (e) {}
+        var h = new Date().getHours();
+        document.documentElement.setAttribute(
+          "data-theme",
+          s || (h >= 6 && h < 18 ? "light" : "dark"),
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li>
+            <button
+              class="theme-toggle"
+              onclick="toggleTheme()"
+              aria-label="Toggle theme"
+            >
+              <span class="icon-dark">☀️</span
+              ><span class="icon-light">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> What is Zakat?
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>What is <em>Zakat</em>?</h1>
+        <p class="subtitle">The Third Pillar of Islam</p>
+      </header>
+
+      <section class="content">
+        <!-- Linguistic Meaning -->
+        <h2 class="fade-up"><span class="n">01</span>The Meaning of Zakat</h2>
+
+        <p>
+          The word <strong>Zakat</strong> comes from the Arabic root
+          <em>zakā</em> (زكا), which carries several interconnected meanings:
+          <strong>growth</strong>, <strong>increase</strong>,
+          <strong>purification</strong>, and <strong>blessing</strong>. This is
+          no coincidence. Scholars note that paying Zakat simultaneously
+          purifies a person's wealth and causes it to grow, both materially and
+          spiritually.
+        </p>
+
+        <p>
+          In the terminology of Islamic law (Shari'ah), Zakat is defined as a
+          <strong>specified obligatory portion</strong> taken from specific
+          types of wealth and given to designated categories of <a href="recipients.html">recipients</a>, with
+          the intention of worship and obedience to Allah.
+        </p>
+
+        <div class="info-card gold">
+          <h4>The Hanafi Definition</h4>
+          <p style="margin: 0">
+            Zakat is the act of <strong>transferring ownership</strong> (Tamlik)
+            of a specified portion of one's wealth to a qualifying recipient, as
+            prescribed by Allah. The key word here is
+            <em>transferring ownership</em>, meaning the recipient must be made
+            the full owner of the Zakat given to them.
+          </p>
+        </div>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            Zakat also applies to livestock and agricultural produce (grains,
+            dates, and raisins), each with their own thresholds and rules. This
+            site focuses on <strong>Zakat al-Mal</strong> (monetary wealth: gold,
+            silver, cash, and trade goods). For rulings on animals and crops,
+            please consult a qualified scholar or mufti directly.
+          </p>
+        </div>
+
+        <!-- Pillar of Islam -->
+        <h2><span class="n">02</span>A Pillar of Islam</h2>
+
+        <p>
+          Zakat is the <strong>third of the five pillars</strong> of Islam,
+          placed immediately after the declaration of faith (Shahada) and prayer
+          (Salah). Its importance is such that the Quran refers to Zakat in
+          <strong>82 separate verses</strong> and pairs it directly with Salah
+          on <strong>32 occasions</strong>.
+        </p>
+
+        <div class="quran-verse">
+          <p class="quran-arabic">
+            وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ ۚ وَمَا تُقَدِّمُوا
+            لِأَنفُسِكُم مِّنْ خَيْرٍ تَجِدُوهُ عِندَ اللَّهِ ۗ إِنَّ اللَّهَ
+            بِمَا تَعْمَلُونَ بَصِيرٌ
+          </p>
+          "Establish regular prayer and give Zakat, and whatever good you put
+          forward for yourselves, you will find it with Allah."
+          <cite
+            ><span class="cite-ar">القرآن الكريم، سورة البقرة، الآية ١١٠</span
+            >Quran, Al-Baqarah 2:110</cite
+          >
+        </div>
+
+        <p>
+          The Prophet Muhammad (peace be upon him) counted Zakat among the five
+          pillars of Islam. Whoever denies its obligation has rejected a
+          fundamental tenet of the faith. Whoever acknowledges it but refuses to
+          pay it commits a grave sin, and the Zakat remains as a debt upon them.
+        </p>
+
+        <!-- Inner and Outer Dimensions -->
+        <h2><span class="n">03</span>Inner and Outer Dimensions</h2>
+
+        <p>
+          Scholars describe Zakat as having both an
+          <strong>outer dimension</strong> and an
+          <strong>inner dimension</strong>:
+        </p>
+
+        <div class="info-card">
+          <h4>The Outer Dimension</h4>
+          <p style="margin: 0">
+            Zakat serves as a filter that purifies a believer's wealth, removing
+            impurities so that the remaining wealth may increase in a manner
+            pleasing to Allah. The Prophet (peace be upon him) said:
+            <em>"Charity does not in any way decrease wealth."</em> (Muslim)
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h4>The Inner Dimension</h4>
+          <p style="margin: 0">
+            Zakat suppresses the ego and quells destructive tendencies such as
+            greed, jealousy, and miserliness. It trains the soul to detach from
+            material wealth and to see one's possessions as a trust (amanah)
+            from Allah, not as personal entitlements.
+          </p>
+        </div>
+
+        <div class="quran-verse">
+          <p class="quran-arabic">
+            خُذْ مِنْ أَمْوَالِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِم بِهَا
+            وَصَلِّ عَلَيْهِمْ ۖ إِنَّ صَلَاتَكَ سَكَنٌ لَّهُمْ ۗ وَاللَّهُ
+            سَمِيعٌ عَلِيمٌ
+          </p>
+          "Take alms from their wealth in order to purify them and sanctify them
+          with it, and invoke Allah for them. Verily, your invocations are a
+          source of comfort for them."
+          <cite
+            ><span class="cite-ar">القرآن الكريم، سورة التوبة، الآية ١٠٣</span
+            >Quran, At-Tawbah 9:103</cite
+          >
+        </div>
+
+        <!-- Historical Context -->
+        <h2><span class="n">04</span>Historical Context</h2>
+
+        <p>
+          Zakat was initially commanded in <strong>Makkah</strong> during the
+          early period of Islam, as deduced by the great Quranic commentator Ibn
+          Kathir from Surah al-Muzammil, which is among the earliest chapters
+          revealed. However, in this initial period, no specific amounts or
+          thresholds (<a href="nisab.html">Nisab</a>) were set. Muslims simply spent a major portion of
+          whatever remained after fulfilling their needs in the cause of Allah.
+        </p>
+
+        <p>
+          The <strong>specification of Nisab thresholds</strong> and the
+          <strong>determination of exact rates</strong> came after the
+          emigration (Hijrah) to Madinah. This is when Zakat took its
+          structured, legal form that we follow today.
+        </p>
+
+        <div class="info-card gold">
+          <h4>Abu Bakr's Enforcement</h4>
+          <p style="margin: 0">
+            After the Prophet's passing, some Arab tribes refused to pay Zakat
+            while still claiming to be Muslim. Abu Bakr, the first Caliph,
+            declared:
+            <em
+              >"By Allah, I will fight anyone who separates prayer from
+              Zakat."</em
+            >
+            He launched what became known as the
+            <strong>Wars of Apostasy</strong> (Hurub al-Riddah), underscoring
+            that Zakat is not optional. It is as central to Islam as prayer
+            itself.
+          </p>
+        </div>
+
+        <!-- Benefits -->
+        <h2><span class="n">05</span>Benefits of Zakat</h2>
+
+        <p>
+          While the primary purpose of Zakat is obedience to Allah's command,
+          regardless of any worldly benefit, Islam teaches that paying Zakat
+          yields tremendous blessings:
+        </p>
+
+        <p>
+          <strong>Purification and growth of wealth.</strong> Allah says in the
+          Quran:
+        </p>
+
+        <div class="quran-verse">
+          <p class="quran-arabic">يَمْحَقُ اللَّهُ الرِّبَا وَيُرْبِي الصَّدَقَاتِ ۗ وَاللَّهُ لَا يُحِبُّ كُلَّ كَفَّارٍ أَثِيمٍ</p>
+          "Allah destroys riba (usury) and nourishes charities."
+          <cite><span class="cite-ar">القرآن الكريم، سورة البقرة، الآية ٢٧٦</span>Quran, Al-Baqarah 2:276</cite>
+        </div>
+
+        <p>
+          The Prophet (peace be upon him) taught that when a
+          person pays Zakat, the angels pray:
+          <em>"O Allah! Grant abundance to him who spends in Your cause."</em>
+        </p>
+
+        <p>
+          <strong>Social welfare.</strong> Zakat functions as a structured
+          wealth redistribution mechanism, ensuring that surplus wealth reaches
+          those in genuine need, preventing the concentration of wealth among
+          the few.
+        </p>
+
+        <p>
+          <strong>Spiritual discipline.</strong> Regular giving trains the soul
+          to be generous, grateful, and detached from materialism. It is a
+          reminder that all wealth ultimately belongs to Allah and that we are
+          merely trustees.
+        </p>
+
+        <!-- Zakat vs Sadaqah -->
+        <h2><span class="n">06</span>Zakat vs Sadaqah</h2>
+
+        <p>
+          The words "Zakat" and "Sadaqah" are sometimes used interchangeably in
+          Islamic texts (including in certain Quranic verses), which can cause
+          confusion. However, they are distinct:
+        </p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Zakat</th>
+                <th>Sadaqah</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Obligation</td>
+                <td>Mandatory (fard)</td>
+                <td>Voluntary</td>
+              </tr>
+              <tr>
+                <td>Rate</td>
+                <td>Fixed at 2.5% for monetary wealth</td>
+                <td>Any amount</td>
+              </tr>
+              <tr>
+                <td>Recipients</td>
+                <td>Only the 8 Quranic categories</td>
+                <td>Anyone in need</td>
+              </tr>
+              <tr>
+                <td>Timing</td>
+                <td>
+                  After <a href="/learn/hawl.html">Hawl</a>
+                  completes
+                </td>
+                <td>Any time</td>
+              </tr>
+              <tr>
+                <td>To non-Muslims</td>
+                <td>Generally not permitted</td>
+                <td>Permitted and encouraged</td>
+              </tr>
+              <tr>
+                <td>Nisab required</td>
+                <td>Yes, must reach minimum threshold</td>
+                <td>No minimum</td>
+              </tr>
+              <tr>
+                <td>Consequence of neglect</td>
+                <td>Sin, remains as debt</td>
+                <td>No sin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            For a deeper exploration of voluntary charity, including the concept
+            of <strong>Qard-e-Hasana</strong> (the Goodly Loan to Allah), see
+            our dedicated page on
+            <a href="zakat-vs-sadaqah.html">Zakat vs Sadaqah</a>.
+          </p>
+        </div>
+
+        <!-- The Three-Word Rule -->
+        <h2><span class="n">07</span>The Three-Word Rule</h2>
+
+        <p>The entire system of Zakat can be summarised in three words:</p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+          "
+        >
+          <div class="info-card" style="text-align: center">
+            <h4 style="color: var(--gold-lt); font-size: 1.1rem">Nisab</h4>
+            <p style="margin: 0; font-size: 0.9rem">
+              Reaching the minimum threshold of wealth
+            </p>
+          </div>
+          <div class="info-card" style="text-align: center">
+            <h4 style="color: var(--gold-lt); font-size: 1.1rem">Hawl</h4>
+            <p style="margin: 0; font-size: 0.9rem">
+              Completing one full lunar year of ownership
+            </p>
+          </div>
+          <div class="info-card" style="text-align: center">
+            <h4 style="color: var(--gold-lt); font-size: 1.1rem">Tamlik</h4>
+            <p style="margin: 0; font-size: 0.9rem">
+              Transferring ownership to the eligible recipient
+            </p>
+          </div>
+        </div>
+
+        <p>
+          If your wealth meets the <strong>Nisab</strong>, has been held for a
+          full <strong>Hawl</strong>, and you give it with
+          <strong>Tamlik</strong> (direct ownership transfer) to an eligible
+          person, your Zakat is fulfilled.
+        </p>
+
+        <!-- Next -->
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Next:
+            <a href="conditions.html" style="font-weight: 500"
+              >Conditions of Obligation</a
+            >
+            — Who must pay Zakat and what makes it obligatory?
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

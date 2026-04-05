@@ -1,0 +1,1502 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zakat Calculator — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Free interactive Zakat calculator with educational explainers. Calculate your Zakat obligation across cash, gold, silver, stocks, and business assets with full transparency."
+    />
+    <meta name="author" content="Taha Baba" />
+    <link rel="canonical" href="https://nisab.tahababa.com/calculator" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nisab.tahababa.com/calculator" />
+    <meta property="og:title" content="Zakat Calculator — Nisab Al Zakat" />
+    <meta
+      property="og:description"
+      content="Free interactive Zakat calculator with step-by-step guidance. All four schools of jurisprudence supported."
+    />
+    <meta property="og:image" content="https://nisab.tahababa.com/og.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script>
+      !(function () {
+        var s;
+        try {
+          s = localStorage.getItem("nisab-theme");
+        } catch (e) {}
+        var h = new Date().getHours();
+        document.documentElement.setAttribute(
+          "data-theme",
+          s || (h >= 6 && h < 18 ? "light" : "dark"),
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="/" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/learn">Learn</a></li>
+          <li><a href="/calculator" class="active">Calculator</a></li>
+          <li><a href="./api.html">API</a></li>
+          <li>
+            <button
+              class="theme-toggle"
+              onclick="toggleTheme()"
+              aria-label="Toggle theme"
+            >
+              <span class="icon-dark">☀️</span
+              ><span class="icon-light">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="wrap">
+      <div class="header">
+        <span class="basmala">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</span>
+        <h1>Zakat <em>Calculator</em></h1>
+        <p class="subtitle">
+          Step-by-step guidance to calculate your Zakat obligation
+        </p>
+      </div>
+      <div id="api-loading" class="api-loading">
+        <div class="spinner"></div>
+        Fetching live Nisab thresholds...
+      </div>
+      <div id="api-error" class="api-error" style="display: none">
+        Could not load live Nisab data. Please refresh or try again later.
+      </div>
+
+      <div id="calculator" style="display: none">
+        <div class="progress-bar">
+          <div class="progress-line">
+            <div class="progress-line-fill" id="progress-fill"></div>
+          </div>
+          <div class="progress-step active" data-step="0">
+            <div class="progress-dot">1</div>
+            <div class="progress-label">Setup</div>
+          </div>
+          <div class="progress-step" data-step="1">
+            <div class="progress-dot">2</div>
+            <div class="progress-label">Cash</div>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="progress-dot">3</div>
+            <div class="progress-label">Gold</div>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="progress-dot">4</div>
+            <div class="progress-label">Stocks</div>
+          </div>
+          <div class="progress-step" data-step="4">
+            <div class="progress-dot">5</div>
+            <div class="progress-label">Business</div>
+          </div>
+          <div class="progress-step" data-step="5">
+            <div class="progress-dot">6</div>
+            <div class="progress-label">Other</div>
+          </div>
+          <div class="progress-step" data-step="6">
+            <div class="progress-dot">7</div>
+            <div class="progress-label">Debts</div>
+          </div>
+          <div class="progress-step" data-step="7">
+            <div class="progress-dot">8</div>
+            <div class="progress-label">Result</div>
+          </div>
+        </div>
+
+        <!-- STEP 0: Setup -->
+        <div class="step active" id="step-0">
+          <h2 class="step-title"><span class="step-num">01</span>Setup</h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>
+            <strong>Before we begin:</strong> Zakat is one of the five pillars
+            of Islam. It is an obligation on every Muslim whose total wealth
+            exceeds the <strong>Nisab</strong> threshold for
+            <strong>one full hawl</strong> (lunar year). The standard rate is
+            <strong>2.5%</strong> of your total zakatable wealth.
+            <button class="explainer-toggle" onclick="toggleExtra(this)">
+              Read more &#x25BE;
+            </button>
+            <div class="explainer-extra">
+              The Nisab is calculated based on the value of gold or silver.
+              Different schools of jurisprudence use slightly different gold
+              weights to determine the threshold. This calculator fetches
+              <strong>live prices</strong> from the Nisab Al Zakat API so your
+              threshold is always up to date. <br /><br />
+              <strong>Can I pay Zakat in advance?</strong> Yes. Zakat covers the
+              previous hawl period (12 hijri months), but scholars generally
+              permit paying it in advance if you anticipate meeting the Nisab
+              threshold.
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Currency</label>
+            <select id="currency">
+              <option value="USD">USD - US Dollar</option>
+              <option value="GBP">GBP - British Pound</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="CAD">CAD - Canadian Dollar</option>
+              <option value="AUD">AUD - Australian Dollar</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+              <option value="CHF">CHF - Swiss Franc</option>
+              <option value="CNY">CNY - Chinese Yuan</option>
+              <option value="INR">INR - Indian Rupee</option>
+              <option value="MYR">MYR - Malaysian Ringgit</option>
+              <option value="IDR">IDR - Indonesian Rupiah</option>
+              <option value="TRY">TRY - Turkish Lira</option>
+              <option value="ZAR">ZAR - South African Rand</option>
+              <option value="SEK">SEK - Swedish Krona</option>
+              <option value="NOK">NOK - Norwegian Krone</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="DKK">DKK - Danish Krone</option>
+              <option value="CUSTOM">Other (define your own)</option>
+            </select>
+            <p class="hint">
+              Auto-detected from your location. You can change it above.
+            </p>
+          </div>
+          <div class="custom-currency-row" id="custom-currency-row">
+            <div class="field-group">
+              <label>Currency code</label>
+              <input
+                type="text"
+                id="custom-currency-code"
+                placeholder="e.g. SAR, AED, PKR"
+                maxlength="4"
+                style="text-transform: uppercase"
+              />
+            </div>
+            <div class="field-group">
+              <label>1 USD = ? in your currency</label>
+              <input
+                type="number"
+                id="custom-currency-rate"
+                placeholder="e.g. 3.75"
+                min="0"
+                step="any"
+              />
+              <p class="hint">
+                Enter how many units of your currency equal 1 US Dollar
+              </p>
+            </div>
+          </div>
+          <div class="field-group">
+            <label>School of jurisprudence (Madhab)</label>
+            <select id="madhab">
+              <option value="hanafi">Hanafi</option>
+              <option value="maliki">Maliki</option>
+              <option value="shafii">Shafi'i</option>
+              <option value="hanbali">Hanbali</option>
+            </select>
+          </div>
+          <div class="explainer" style="margin-top: 0.75rem">
+            <span class="learn-icon">?</span>
+            <strong>Why does the school matter?</strong> The four schools agree
+            on the 2.5% rate but differ slightly on some rules and Fikih. All
+            four schools use <strong>85g</strong> of gold for the Nisab
+            calculation.
+          </div>
+          <div id="nisab-preview" style="margin-top: 1rem"></div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="goStep(1)">
+              Begin calculation &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 1: Cash -->
+        <div class="step" id="step-1">
+          <h2 class="step-title">
+            <span class="step-num">02</span>Cash &amp; Bank Balances
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>
+            All cash you currently hold is <strong>zakatable</strong>, whether
+            in your bank accounts, digital wallets, or physically at home.
+            Include
+            <strong>savings accounts, current accounts, fixed deposits</strong>,
+            and any cash on hand.
+            <button class="explainer-toggle" onclick="toggleExtra(this)">
+              Read more &#x25BE;
+            </button>
+            <div class="explainer-extra">
+              Interest earned on savings accounts is a separate matter in
+              Islamic jurisprudence, but for Zakat purposes, the
+              <strong>total balance</strong> in your account (including any
+              interest) should be included in your calculation. You may choose
+              to donate the interest portion separately as sadaqah.
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Cash on hand</label
+            ><input
+              type="number"
+              id="cash-hand"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Physical cash, wallet, money at home</p>
+          </div>
+          <div class="field-group">
+            <label>Bank accounts (savings + current)</label
+            ><input
+              type="number"
+              id="cash-bank"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Total across all bank accounts</p>
+          </div>
+          <div class="field-group">
+            <label>Digital wallets &amp; prepaid cards</label
+            ><input
+              type="number"
+              id="cash-digital"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">PayPal, Venmo, Revolut, prepaid cards, etc.</p>
+          </div>
+          <div class="field-group">
+            <label>Fixed deposits / term savings</label
+            ><input
+              type="number"
+              id="cash-fixed"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Locked savings, certificates of deposit</p>
+          </div>
+          <div class="field-group">
+            <label>Money owed to you (receivables you expect to collect)</label
+            ><input
+              type="number"
+              id="cash-receivables"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Personal loans given, salary owed, refunds expected
+            </p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(0)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(2)">
+              Next: Gold &amp; Silver &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Gold & Silver -->
+        <div class="step" id="step-2">
+          <h2 class="step-title">
+            <span class="step-num">03</span>Gold &amp; Silver
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>
+            <strong>All gold and silver</strong> you own is subject to Zakat,
+            whether it is jewellery (worn or stored), bullion, coins, or bars.
+            This applies regardless of whether the item is for personal use or
+            investment.
+            <button class="explainer-toggle" onclick="toggleExtra(this)">
+              Read more &#x25BE;
+            </button>
+            <div class="explainer-extra">
+              There is scholarly debate on whether frequently worn personal
+              jewellery is exempt. The <strong>Hanafi</strong> school considers
+              all gold and silver zakatable regardless of use. The
+              <strong>Maliki, Shafi'i, and Hanbali</strong> schools generally
+              exempt regularly worn personal jewellery within customary amounts.
+              This calculator follows the school you selected and includes all
+              gold/silver. If you follow a school that exempts worn jewellery,
+              you may adjust accordingly.
+            </div>
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--gold);
+              margin-bottom: 0.75rem;
+              font-weight: 600;
+            "
+          >
+            Gold
+          </h3>
+          <div
+            id="gold-price-display"
+            class="nisab-compare"
+            style="margin-bottom: 1rem"
+          ></div>
+          <div class="toggle-group">
+            <button
+              class="toggle-option active"
+              onclick="toggleGoldMode('weight', this)"
+            >
+              By weight (grams)</button
+            ><button
+              class="toggle-option"
+              onclick="toggleGoldMode('value', this)"
+            >
+              By estimated value
+            </button>
+          </div>
+          <div id="gold-weight-mode">
+            <div id="gold-entries" class="sub-entries">
+              <div class="sub-entry" data-gold-idx="0">
+                <div class="sub-entry-header">
+                  <span class="sub-entry-title">Gold item #1</span>
+                </div>
+                <div class="input-row">
+                  <div class="field-group">
+                    <label>Weight (grams)</label
+                    ><input
+                      type="number"
+                      class="gold-grams"
+                      placeholder="0"
+                      min="0"
+                      step="any"
+                    />
+                  </div>
+                  <div class="field-group">
+                    <label>Karat</label
+                    ><select class="gold-karat">
+                      <option value="24">24K (pure)</option>
+                      <option value="22">22K</option>
+                      <option value="21" selected>21K</option>
+                      <option value="18">18K</option>
+                      <option value="14">14K</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-add" onclick="addGoldEntry()">
+              + Add another gold item
+            </button>
+          </div>
+          <div id="gold-value-mode" style="display: none">
+            <div class="field-group">
+              <label>Total estimated value of all gold</label
+              ><input
+                type="number"
+                id="gold-total-value"
+                placeholder="0.00"
+                min="0"
+                step="any"
+              />
+              <p class="hint">Market value of all your gold items combined</p>
+            </div>
+          </div>
+          <div class="explainer" style="margin-top: 1rem">
+            <span class="learn-icon">?</span
+            ><strong>What is karat?</strong> Karat measures gold purity.
+            <strong>24K</strong> is pure gold (99.9%).
+            <strong>21K</strong> (common in Middle Eastern jewellery) is 87.5%
+            pure. <strong>18K</strong> (common in European jewellery) is 75%
+            pure. The purity affects the zakatable value because Zakat is
+            calculated on the pure gold content only.
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--text-mid);
+              margin: 1.5rem 0 0.75rem;
+              font-weight: 600;
+            "
+          >
+            Silver
+          </h3>
+          <div
+            id="silver-price-display"
+            class="nisab-compare"
+            style="margin-bottom: 1rem"
+          ></div>
+          <div class="toggle-group">
+            <button
+              class="toggle-option active"
+              onclick="toggleSilverMode('weight', this)"
+            >
+              By weight (grams)</button
+            ><button
+              class="toggle-option"
+              onclick="toggleSilverMode('value', this)"
+            >
+              By estimated value
+            </button>
+          </div>
+          <div id="silver-weight-mode">
+            <div class="field-group">
+              <label>Silver weight (grams)</label
+              ><input
+                type="number"
+                id="silver-grams"
+                placeholder="0"
+                min="0"
+                step="any"
+              />
+              <p class="hint">
+                Total weight of all silver items (jewellery, coins, bars)
+              </p>
+            </div>
+          </div>
+          <div id="silver-value-mode" style="display: none">
+            <div class="field-group">
+              <label>Total estimated value of all silver</label
+              ><input
+                type="number"
+                id="silver-total-value"
+                placeholder="0.00"
+                min="0"
+                step="any"
+              />
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(1)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(3)">
+              Next: Stocks &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Stocks -->
+        <div class="step" id="step-3">
+          <h2 class="step-title">
+            <span class="step-num">04</span>Stocks &amp; Investments
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>
+            Investments held for <strong>growth or income</strong> are generally
+            zakatable at their <strong>current market value</strong>. This
+            includes stocks, mutual funds, ETFs, bonds, and cryptocurrency.
+            <button class="explainer-toggle" onclick="toggleExtra(this)">
+              Read more &#x25BE;
+            </button>
+            <div class="explainer-extra">
+              For <strong>actively traded stocks</strong> (bought and sold
+              frequently), Zakat is on the full market value. For
+              <strong>long-term investments</strong>, some scholars say Zakat is
+              only due on the dividend/profit portion, while others include the
+              full value. Most modern scholars and Zakat organisations recommend
+              using the <strong>full current market value</strong> for
+              simplicity and caution.<br /><br /><strong
+                >Retirement accounts (pension, 401k, etc.):</strong
+              >
+              If accessible, include the current value. If locked until
+              retirement, many scholars say Zakat is only due once you can
+              access the funds, though opinions vary.
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Stocks, ETFs, mutual funds</label
+            ><input
+              type="number"
+              id="invest-stocks"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Current market value of all holdings</p>
+          </div>
+          <div class="field-group">
+            <label>Cryptocurrency</label
+            ><input
+              type="number"
+              id="invest-crypto"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Bitcoin, Ethereum, stablecoins, etc. at current value
+            </p>
+          </div>
+          <div class="field-group">
+            <label>Bonds &amp; sukuk</label
+            ><input
+              type="number"
+              id="invest-bonds"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <div class="field-group">
+            <label>Accessible retirement / pension funds</label
+            ><input
+              type="number"
+              id="invest-retirement"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Only include if you can currently access or withdraw these funds
+            </p>
+          </div>
+          <div class="field-group">
+            <label>Other investments</label
+            ><input
+              type="number"
+              id="invest-other"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Investment properties (rental income value), peer-to-peer lending,
+              etc.
+            </p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(2)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(4)">
+              Next: Business &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Business -->
+        <div class="step" id="step-4">
+          <h2 class="step-title">
+            <span class="step-num">05</span>Business &amp; Trade Assets
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>
+            If you own a business or trade goods, the
+            <strong>stock/inventory</strong> held for sale and the
+            <strong>cash/receivables</strong> within the business are zakatable.
+            Fixed assets like machinery, office furniture, or property used for
+            the business itself are <strong>not</strong> zakatable.
+            <button class="explainer-toggle" onclick="toggleExtra(this)">
+              Read more &#x25BE;
+            </button>
+            <div class="explainer-extra">
+              <strong>Trade goods</strong> are items you purchase with the
+              intention of reselling at a profit. Their Zakat is calculated
+              based on their <strong>current market value</strong> (not what you
+              paid for them). Business cash and receivables should be included
+              here if not already counted in the Cash step.
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Inventory / stock for sale</label
+            ><input
+              type="number"
+              id="biz-inventory"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Current market value of goods you intend to sell</p>
+          </div>
+          <div class="field-group">
+            <label>Business cash &amp; receivables</label
+            ><input
+              type="number"
+              id="biz-cash"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">If not already counted in Step 2 (Cash)</p>
+          </div>
+          <div class="field-group">
+            <label>Raw materials for production</label
+            ><input
+              type="number"
+              id="biz-materials"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Materials purchased for manufacturing or resale</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(3)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(5)">
+              Next: Other Assets &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5: Other (insurance removed) -->
+        <div class="step" id="step-5">
+          <h2 class="step-title">
+            <span class="step-num">06</span>Other Zakatable Assets
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>Any other wealth you hold that does
+            not fall into the categories above should be included here. This may
+            include accumulated rental income or any other liquid assets.
+          </div>
+          <div class="field-group">
+            <label>Rental income (saved/uninvested)</label
+            ><input
+              type="number"
+              id="other-rental"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Accumulated rental income not yet invested or spent
+            </p>
+          </div>
+          <div class="field-group">
+            <label>Any other liquid assets</label
+            ><input
+              type="number"
+              id="other-misc"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <div class="redirect-notice">
+            <strong>Looking for livestock or agricultural Zakat?</strong
+            ><br />Zakat on animals (cattle, sheep, camels) and agricultural
+            produce has different rules, rates, and thresholds that go beyond
+            this calculator. We recommend consulting a dedicated resource such
+            as
+            <a
+              href="https://islamqa.info"
+              target="_blank"
+              style="color: var(--red)"
+              >IslamQA</a
+            >
+            or your local Islamic scholar for guidance on these categories.
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(4)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(6)">
+              Next: Deductions &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 6: Debts (hawl terminology) -->
+        <div class="step" id="step-6">
+          <h2 class="step-title">
+            <span class="step-num">07</span>Debts &amp; Deductions
+          </h2>
+          <div class="explainer">
+            <span class="learn-icon">i</span>Debts and liabilities that are
+            <strong
+              >currently due or became due during the hawl period (12 hijri
+              months)</strong
+            >
+            can be deducted from your total assets before calculating Zakat.
+            This reduces your zakatable wealth and may bring you below the Nisab
+            threshold.
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--gold);
+              margin-bottom: 0.5rem;
+              font-weight: 600;
+            "
+          >
+            Islamic financing
+          </h3>
+          <div class="field-group">
+            <label
+              >Islamic loan / Murabaha / Ijara payments due during the
+              hawl</label
+            ><input
+              type="number"
+              id="debt-islamic"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Total payments due during the hawl period (12 hijri months)
+            </p>
+          </div>
+          <div class="explainer" style="font-size: 0.82rem">
+            <span class="learn-icon">i</span
+            ><strong>Islamic financing:</strong> Payments due on
+            Sharia-compliant loans (Murabaha, Ijara, Musharaka) are deductible
+            in full. Only include the portion due during the hawl period, not
+            the entire outstanding balance.
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--text-mid);
+              margin: 1.25rem 0 0.5rem;
+              font-weight: 600;
+            "
+          >
+            Conventional (non-Islamic) loans
+          </h3>
+          <div class="scholarly-note">
+            <strong>A note on scholarly views:</strong> There is debate among
+            scholars on how to treat conventional (interest-bearing) loans for
+            Zakat deduction purposes.<br /><br /><strong
+              >View 1 (majority):</strong
+            >
+            Deduct only the <strong>principal portion</strong> of payments due
+            during the hawl. The interest portion is not considered a legitimate
+            debt in Islamic law and should not reduce your zakatable wealth.<br /><br /><strong
+              >View 2 (practical):</strong
+            >
+            Some modern scholars allow deducting the
+            <strong>full payment</strong> (principal + interest) since it is a
+            real financial obligation you must meet, and failing to pay it would
+            cause harm.<br /><br />This calculator deducts the
+            <strong>full amount you enter</strong>. We recommend consulting your
+            local scholar for guidance specific to your situation.
+          </div>
+          <div class="field-group">
+            <label>Mortgage / home loan payments due during the hawl</label
+            ><input
+              type="number"
+              id="debt-mortgage"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Only the payments due during the hawl period (12 hijri months)
+            </p>
+          </div>
+          <div class="field-group">
+            <label>Personal loan payments due during the hawl</label
+            ><input
+              type="number"
+              id="debt-personal"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <div class="field-group">
+            <label>Student loan payments due during the hawl</label
+            ><input
+              type="number"
+              id="debt-student"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <div class="field-group">
+            <label>Car loan payments due during the hawl</label
+            ><input
+              type="number"
+              id="debt-car"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--text-mid);
+              margin: 1.25rem 0 0.5rem;
+              font-weight: 600;
+            "
+          >
+            Credit card &amp; short-term debt
+          </h3>
+          <div class="field-group">
+            <label>Credit card balance owed</label
+            ><input
+              type="number"
+              id="debt-credit"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">Current outstanding balance across all cards</p>
+          </div>
+          <h3
+            style="
+              font-size: 0.95rem;
+              color: var(--text-mid);
+              margin: 1.25rem 0 0.5rem;
+              font-weight: 600;
+            "
+          >
+            Rent &amp; bills
+          </h3>
+          <div class="field-group">
+            <label>Rent &amp; essential bills currently due</label
+            ><input
+              type="number"
+              id="debt-rent"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <p class="hint">
+              Unpaid rent, utilities, or essential bills that are currently
+              overdue or due now
+            </p>
+          </div>
+          <div class="field-group">
+            <label>Other debts &amp; liabilities due during the hawl</label
+            ><input
+              type="number"
+              id="debt-other"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goStep(5)">
+              &larr; Back</button
+            ><button class="btn btn-primary" onclick="goStep(7)">
+              Calculate my Zakat &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 7: Summary -->
+        <div class="step" id="step-7">
+          <h2 class="step-title">
+            <span class="step-num">08</span>Your Zakat Summary
+          </h2>
+          <div id="summary-content"></div>
+          <div class="btn-row" style="flex-wrap: wrap">
+            <button class="btn btn-secondary" onclick="goStep(6)">
+              &larr; Back to edit
+            </button>
+            <button
+              class="btn btn-primary btn-download"
+              onclick="downloadPDF()"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 1v9m0 0L5 7m3 3l3-3M2 12v1.5A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5V12"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Download PDF
+            </button>
+            <button
+              class="btn btn-secondary"
+              onclick="goStep(0)"
+              style="flex: 0 0 100%; margin-top: 0.25rem"
+            >
+              Start over
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>
+          Data powered by <a href="/">Nisab Al Zakat API</a> &middot; Built by
+          <a href="https://tahababa.com" target="_blank">Taha Baba</a>
+        </p>
+        <p style="margin-top: 0.5rem">
+          This calculator provides estimates for guidance only. Always consult a
+          qualified scholar for your specific situation.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      let nisabData = null;
+      let currentStep = 0;
+      const TOTAL_STEPS = 8;
+      let goldEntryCount = 1;
+
+      // ═══════════════════════════════════════════════════════
+      // API DATA ACCESS
+      // The actual nisab.json structure is:
+      //   nisabData.prices.gold.per_gram      -> gold price per gram (24K pure)
+      //   nisabData.prices.silver.per_gram    -> silver price per gram
+      //   nisabData.nisab.hanafi.gold.values.USD  -> gold nisab in USD for Hanafi
+      //   nisabData.nisab.hanafi.gold.grams       -> 85
+      //   nisabData.nisab.hanafi.silver.values.USD
+      //   nisabData.nisab.hanafi.silver.grams     -> 612.36
+      // ═══════════════════════════════════════════════════════
+
+      function getEffectiveCurrency() {
+        var sel = document.getElementById("currency").value;
+        if (sel !== "CUSTOM") return sel;
+        return (
+          document.getElementById("custom-currency-code").value || "CUSTOM"
+        ).toUpperCase();
+      }
+      function getCustomRate() {
+        return (
+          parseFloat(document.getElementById("custom-currency-rate").value) || 0
+        );
+      }
+
+      function getNisabThreshold() {
+        if (!nisabData || !nisabData.nisab) return 0;
+        var madhab = document.getElementById("madhab").value;
+        var school = nisabData.nisab[madhab];
+        if (!school || !school.gold || !school.gold.values) return 0;
+        var cur = document.getElementById("currency").value;
+        if (cur === "CUSTOM") {
+          var usdVal = school.gold.values["USD"] || 0;
+          var rate = getCustomRate();
+          return rate > 0 ? usdVal * rate : 0;
+        }
+        return school.gold.values[cur] || 0;
+      }
+
+      function getSilverNisabThreshold() {
+        if (!nisabData || !nisabData.nisab) return 0;
+        var madhab = document.getElementById("madhab").value;
+        var school = nisabData.nisab[madhab];
+        if (!school || !school.silver || !school.silver.values) return 0;
+        var cur = document.getElementById("currency").value;
+        if (cur === "CUSTOM") {
+          var usdVal = school.silver.values["USD"] || 0;
+          var rate = getCustomRate();
+          return rate > 0 ? usdVal * rate : 0;
+        }
+        return school.silver.values[cur] || 0;
+      }
+
+      function getGoldGrams() {
+        if (!nisabData || !nisabData.nisab) return 85;
+        var madhab = document.getElementById("madhab").value;
+        var school = nisabData.nisab[madhab];
+        return school?.gold?.grams || 85;
+      }
+
+      function getSilverGrams() {
+        if (!nisabData || !nisabData.nisab) return 595;
+        var madhab = document.getElementById("madhab").value;
+        var school = nisabData.nisab[madhab];
+        return school?.silver?.grams || 595;
+      }
+
+      function getGoldPricePerGramPure() {
+        // Direct from API prices object (most accurate)
+        if (nisabData?.prices?.gold?.per_gram) {
+          var ppg = nisabData.prices.gold.per_gram;
+          var cur = document.getElementById("currency").value;
+          if (cur === "CUSTOM") {
+            var rate = getCustomRate();
+            return rate > 0 ? ppg * rate : 0;
+          }
+          if (cur === "USD") return ppg;
+          // For non-USD, derive from nisab values
+          var nisabVal = getNisabThreshold();
+          var grams = getGoldGrams();
+          return grams > 0 ? nisabVal / grams : 0;
+        }
+        // Fallback: derive from nisab
+        var nisabVal2 = getNisabThreshold();
+        var grams2 = getGoldGrams();
+        return grams2 > 0 ? nisabVal2 / grams2 : 0;
+      }
+
+      function getSilverPricePerGram() {
+        // Direct from API prices object (most accurate)
+        if (nisabData?.prices?.silver?.per_gram) {
+          var ppg = nisabData.prices.silver.per_gram;
+          var cur = document.getElementById("currency").value;
+          if (cur === "CUSTOM") {
+            var rate = getCustomRate();
+            return rate > 0 ? ppg * rate : 0;
+          }
+          if (cur === "USD") return ppg;
+          // For non-USD, derive from silver nisab values
+          var silverNisab = getSilverNisabThreshold();
+          var grams = getSilverGrams();
+          return grams > 0 ? silverNisab / grams : 0;
+        }
+        // Fallback
+        var silverNisab2 = getSilverNisabThreshold();
+        var grams2 = getSilverGrams();
+        return grams2 > 0 ? silverNisab2 / grams2 : 0;
+      }
+
+      async function init() {
+        try {
+          const res = await fetch("https://nisab.tahababa.com/nisab.json");
+          nisabData = await res.json();
+          console.log("[Nisab] API loaded. Keys:", Object.keys(nisabData));
+          console.log(
+            "[Nisab] Schools:",
+            nisabData.nisab ? Object.keys(nisabData.nisab) : "NOT FOUND",
+          );
+          console.log(
+            "[Nisab] Gold price/gram:",
+            nisabData.prices?.gold?.per_gram,
+          );
+          if (nisabData.nisab?.hanafi)
+            console.log(
+              "[Nisab] Hanafi gold USD:",
+              nisabData.nisab.hanafi.gold?.values?.USD,
+            );
+          document.getElementById("api-loading").style.display = "none";
+          document.getElementById("calculator").style.display = "block";
+          detectCurrency();
+          updateNisabPreview();
+          document
+            .getElementById("currency")
+            .addEventListener("change", onCurrencyChange);
+          document
+            .getElementById("madhab")
+            .addEventListener("change", updateNisabPreview);
+          document
+            .getElementById("custom-currency-rate")
+            .addEventListener("input", updateNisabPreview);
+          document
+            .getElementById("custom-currency-code")
+            .addEventListener("input", updateNisabPreview);
+        } catch (e) {
+          document.getElementById("api-loading").style.display = "none";
+          document.getElementById("api-error").style.display = "block";
+          console.error("Failed to load Nisab data:", e);
+        }
+      }
+      function onCurrencyChange() {
+        const row = document.getElementById("custom-currency-row");
+        document.getElementById("currency").value === "CUSTOM"
+          ? row.classList.add("show")
+          : row.classList.remove("show");
+        updateNisabPreview();
+      }
+      function detectCurrency() {
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+          const map = {
+            "America/": "USD",
+            "US/": "USD",
+            "Europe/London": "GBP",
+            "Europe/": "EUR",
+            "Asia/Kolkata": "INR",
+            "Asia/Calcutta": "INR",
+            "Asia/Kuala_Lumpur": "MYR",
+            "Asia/Jakarta": "IDR",
+            "Asia/Singapore": "SGD",
+            "Asia/Tokyo": "JPY",
+            "Asia/Shanghai": "CNY",
+            "Asia/Hong_Kong": "CNY",
+            "Europe/Istanbul": "TRY",
+            "Africa/Johannesburg": "ZAR",
+            "America/Toronto": "CAD",
+            "Canada/": "CAD",
+            "Australia/": "AUD",
+            "Europe/Stockholm": "SEK",
+            "Europe/Oslo": "NOK",
+            "Europe/Copenhagen": "DKK",
+            "Europe/Zurich": "CHF",
+          };
+          for (const [key, cur] of Object.entries(map)) {
+            if (tz.includes(key)) {
+              const sel = document.getElementById("currency");
+              if ([...sel.options].some((o) => o.value === cur)) {
+                sel.value = cur;
+                return;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+      function updateNisabPreview() {
+        var nisabVal = getNisabThreshold();
+        var curCode = getEffectiveCurrency();
+        var goldG = getGoldGrams();
+        if (nisabVal > 0) {
+          document.getElementById("nisab-preview").innerHTML =
+            '<div class="nisab-compare"><div class="nisab-compare-item highlight"><div class="nc-label">Your Nisab threshold</div><div class="nc-value">' +
+            formatCurrency(nisabVal, curCode) +
+            '</div></div><div class="nisab-compare-item"><div class="nc-label">Based on</div><div class="nc-value">' +
+            goldG +
+            "g gold</div></div></div>";
+        } else {
+          document.getElementById("nisab-preview").innerHTML =
+            '<div style="font-size:0.82rem;color:var(--text-dim);padding:0.5rem 0;">' +
+            (document.getElementById("currency").value === "CUSTOM"
+              ? "Enter the exchange rate above to see your Nisab threshold."
+              : "Nisab threshold could not be loaded for this currency.") +
+            "</div>";
+        }
+        updateMetalPriceDisplays(curCode);
+      }
+      function updateMetalPriceDisplays(curCode) {
+        var gp = getGoldPricePerGramPure();
+        var sp = getSilverPricePerGram();
+        var ge = document.getElementById("gold-price-display");
+        var se = document.getElementById("silver-price-display");
+        if (ge) {
+          ge.innerHTML =
+            gp > 0
+              ? '<div class="nisab-compare-item highlight"><div class="nc-label">1 gram of 24K gold</div><div class="nc-value">' +
+                formatCurrency(gp, curCode) +
+                '</div></div><div class="nisab-compare-item"><div class="nc-label">Source</div><div class="nc-value" style="font-size:0.78rem;">Nisab API (live)</div></div>'
+              : "";
+        }
+        if (se) {
+          se.innerHTML =
+            sp > 0
+              ? '<div class="nisab-compare-item"><div class="nc-label">1 gram of silver</div><div class="nc-value">' +
+                formatCurrency(sp, curCode) +
+                '</div></div><div class="nisab-compare-item"><div class="nc-label">Source</div><div class="nc-value" style="font-size:0.78rem;">Nisab API (live)</div></div>'
+              : "";
+        }
+      }
+
+      function goStep(n) {
+        if (n === 7) buildSummary();
+        if (n === 2) updateMetalPriceDisplays(getEffectiveCurrency());
+        document.querySelectorAll(".step").forEach(function (s) {
+          s.classList.remove("active");
+        });
+        document.getElementById("step-" + n).classList.add("active");
+        document.querySelectorAll(".progress-step").forEach(function (ps, i) {
+          ps.classList.remove("active", "done");
+          if (i < n) ps.classList.add("done");
+          if (i === n) ps.classList.add("active");
+        });
+        document.getElementById("progress-fill").style.width =
+          (n === 0 ? 0 : (n / (TOTAL_STEPS - 1)) * 100) + "%";
+        currentStep = n;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function toggleExtra(btn) {
+        var e = btn.nextElementSibling;
+        e.classList.toggle("show");
+        btn.textContent = e.classList.contains("show")
+          ? "Show less \u25B4"
+          : "Read more \u25BE";
+      }
+      function toggleGoldMode(m, b) {
+        b.parentElement
+          .querySelectorAll(".toggle-option")
+          .forEach(function (x) {
+            x.classList.remove("active");
+          });
+        b.classList.add("active");
+        document.getElementById("gold-weight-mode").style.display =
+          m === "weight" ? "block" : "none";
+        document.getElementById("gold-value-mode").style.display =
+          m === "value" ? "block" : "none";
+      }
+      function toggleSilverMode(m, b) {
+        b.parentElement
+          .querySelectorAll(".toggle-option")
+          .forEach(function (x) {
+            x.classList.remove("active");
+          });
+        b.classList.add("active");
+        document.getElementById("silver-weight-mode").style.display =
+          m === "weight" ? "block" : "none";
+        document.getElementById("silver-value-mode").style.display =
+          m === "value" ? "block" : "none";
+      }
+
+      function addGoldEntry() {
+        goldEntryCount++;
+        var idx = goldEntryCount;
+        document
+          .getElementById("gold-entries")
+          .insertAdjacentHTML(
+            "beforeend",
+            '<div class="sub-entry" data-gold-idx="' +
+              idx +
+              '"><div class="sub-entry-header"><span class="sub-entry-title">Gold item #' +
+              idx +
+              '</span><button class="btn-remove" onclick="removeGoldEntry(this)">&times; remove</button></div><div class="input-row"><div class="field-group"><label>Weight (grams)</label><input type="number" class="gold-grams" placeholder="0" min="0" step="any" /></div><div class="field-group"><label>Karat</label><select class="gold-karat"><option value="24">24K (pure)</option><option value="22">22K</option><option value="21" selected>21K</option><option value="18">18K</option><option value="14">14K</option></select></div></div></div>',
+          );
+      }
+      function removeGoldEntry(btn) {
+        btn.closest(".sub-entry").remove();
+      }
+
+      function val(id) {
+        var el = document.getElementById(id);
+        return el ? parseFloat(el.value) || 0 : 0;
+      }
+      function formatCurrency(amount, cur) {
+        try {
+          return new Intl.NumberFormat("en", {
+            style: "currency",
+            currency: cur,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(amount);
+        } catch (e) {
+          return cur + " " + amount.toFixed(2);
+        }
+      }
+
+      function calcGoldValue() {
+        if (
+          document.getElementById("gold-weight-mode").style.display === "none"
+        )
+          return val("gold-total-value");
+        var ppg = getGoldPricePerGramPure();
+        if (ppg === 0) return 0;
+        var total = 0;
+        document.querySelectorAll(".sub-entry").forEach(function (entry) {
+          var g = parseFloat(entry.querySelector(".gold-grams")?.value) || 0;
+          var k = parseInt(entry.querySelector(".gold-karat")?.value) || 24;
+          total += g * (k / 24) * ppg;
+        });
+        return total;
+      }
+      function calcSilverValue() {
+        if (
+          document.getElementById("silver-weight-mode").style.display === "none"
+        )
+          return val("silver-total-value");
+        var g = val("silver-grams");
+        if (g === 0) return 0;
+        var ppg = getSilverPricePerGram();
+        return g * ppg;
+      }
+
+      function buildSummary() {
+        var curCode = getEffectiveCurrency();
+        var madhab = document.getElementById("madhab").value;
+        var nisabThreshold = getNisabThreshold();
+        var madhabName = {
+          hanafi: "Hanafi",
+          maliki: "Maliki",
+          shafii: "Shafi'i",
+          hanbali: "Hanbali",
+        }[madhab];
+        var cashHand = val("cash-hand"),
+          cashBank = val("cash-bank"),
+          cashDigital = val("cash-digital"),
+          cashFixed = val("cash-fixed"),
+          cashReceivables = val("cash-receivables");
+        var totalCash =
+          cashHand + cashBank + cashDigital + cashFixed + cashReceivables;
+        var goldVal = calcGoldValue(),
+          silverVal = calcSilverValue(),
+          totalGoldSilver = goldVal + silverVal;
+        var investStocks = val("invest-stocks"),
+          investCrypto = val("invest-crypto"),
+          investBonds = val("invest-bonds"),
+          investRetirement = val("invest-retirement"),
+          investOther = val("invest-other");
+        var totalInvest =
+          investStocks +
+          investCrypto +
+          investBonds +
+          investRetirement +
+          investOther;
+        var bizInventory = val("biz-inventory"),
+          bizCash = val("biz-cash"),
+          bizMaterials = val("biz-materials"),
+          totalBiz = bizInventory + bizCash + bizMaterials;
+        var otherRental = val("other-rental"),
+          otherMisc = val("other-misc"),
+          totalOther = otherRental + otherMisc;
+        var totalAssets =
+          totalCash + totalGoldSilver + totalInvest + totalBiz + totalOther;
+        var debtIslamic = val("debt-islamic"),
+          debtMortgage = val("debt-mortgage"),
+          debtPersonal = val("debt-personal"),
+          debtStudent = val("debt-student"),
+          debtCar = val("debt-car"),
+          debtCredit = val("debt-credit"),
+          debtRent = val("debt-rent"),
+          debtOther = val("debt-other");
+        var totalDebt =
+          debtIslamic +
+          debtMortgage +
+          debtPersonal +
+          debtStudent +
+          debtCar +
+          debtCredit +
+          debtRent +
+          debtOther;
+        var zakatableWealth = Math.max(0, totalAssets - totalDebt);
+        var zakatDue = nisabThreshold > 0 && zakatableWealth >= nisabThreshold;
+        var zakatAmount = zakatDue ? zakatableWealth * 0.025 : 0;
+        var f = function (v) {
+          return formatCurrency(v, curCode);
+        };
+        var h = "";
+        h +=
+          '<div class="nisab-compare"><div class="nisab-compare-item"><div class="nc-label">Your zakatable wealth</div><div class="nc-value">' +
+          f(zakatableWealth) +
+          '</div></div><div class="nisab-compare-item ' +
+          (zakatDue ? "" : "highlight") +
+          '"><div class="nc-label">Nisab (' +
+          madhabName +
+          ')</div><div class="nc-value">' +
+          f(nisabThreshold) +
+          "</div></div></div>";
+        if (zakatDue) {
+          h +=
+            '<div class="zakat-result"><div class="zakat-label">Your Zakat Due (2.5%)</div><div class="zakat-amount">' +
+            f(zakatAmount) +
+            '</div><div class="zakat-note">' +
+            madhabName +
+            " school &middot; " +
+            curCode +
+            " &middot; " +
+            new Date().toLocaleDateString("en-GB") +
+            "</div></div>";
+        } else if (nisabThreshold === 0) {
+          h +=
+            '<div class="zakat-not-due" style="border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.06);"><p style="color:var(--red);">Nisab threshold could not be determined</p><div class="sub">Please go back to Setup and verify your currency selection. If using a custom currency, ensure the exchange rate is entered correctly.</div></div>';
+        } else {
+          h +=
+            '<div class="zakat-not-due"><p>Zakat is not obligatory on you at this time</p><div class="sub">Your zakatable wealth (' +
+            f(zakatableWealth) +
+            ") is below the Nisab threshold (" +
+            f(nisabThreshold) +
+            "). You may still give voluntary charity (Sadaqah).</div></div>";
+        }
+        h += '<div class="summary-card"><h3>Assets</h3>';
+        if (totalCash > 0) {
+          h += sr("Cash &amp; Bank Balances", f(totalCash));
+          if (cashHand > 0) h += sr("Cash on hand", f(cashHand), 1);
+          if (cashBank > 0) h += sr("Bank accounts", f(cashBank), 1);
+          if (cashDigital > 0) h += sr("Digital wallets", f(cashDigital), 1);
+          if (cashFixed > 0) h += sr("Fixed deposits", f(cashFixed), 1);
+          if (cashReceivables > 0)
+            h += sr("Receivables", f(cashReceivables), 1);
+        }
+        if (totalGoldSilver > 0) {
+          h += sr("Gold &amp; Silver", f(totalGoldSilver));
+          if (goldVal > 0) h += sr("Gold", f(goldVal), 1);
+          if (silverVal > 0) h += sr("Silver", f(silverVal), 1);
+        }
+        if (totalInvest > 0) {
+          h += sr("Stocks &amp; Investments", f(totalInvest));
+          if (investStocks > 0)
+            h += sr("Stocks / ETFs / Funds", f(investStocks), 1);
+          if (investCrypto > 0) h += sr("Cryptocurrency", f(investCrypto), 1);
+          if (investBonds > 0) h += sr("Bonds / Sukuk", f(investBonds), 1);
+          if (investRetirement > 0)
+            h += sr("Retirement funds", f(investRetirement), 1);
+          if (investOther > 0) h += sr("Other investments", f(investOther), 1);
+        }
+        if (totalBiz > 0) {
+          h += sr("Business &amp; Trade", f(totalBiz));
+          if (bizInventory > 0) h += sr("Inventory", f(bizInventory), 1);
+          if (bizCash > 0) h += sr("Business cash", f(bizCash), 1);
+          if (bizMaterials > 0) h += sr("Raw materials", f(bizMaterials), 1);
+        }
+        if (totalOther > 0) {
+          h += sr("Other Assets", f(totalOther));
+          if (otherRental > 0) h += sr("Rental income", f(otherRental), 1);
+          if (otherMisc > 0) h += sr("Miscellaneous", f(otherMisc), 1);
+        }
+        h += sr("Total Assets", f(totalAssets), 0, 1) + "</div>";
+        if (totalDebt > 0) {
+          h += '<div class="summary-card"><h3>Deductions</h3>';
+          if (debtIslamic > 0) h += sr("Islamic financing", f(debtIslamic));
+          if (debtMortgage > 0) h += sr("Mortgage payments", f(debtMortgage));
+          if (debtPersonal > 0) h += sr("Personal loans", f(debtPersonal));
+          if (debtStudent > 0) h += sr("Student loans", f(debtStudent));
+          if (debtCar > 0) h += sr("Car loan", f(debtCar));
+          if (debtCredit > 0) h += sr("Credit card debt", f(debtCredit));
+          if (debtRent > 0) h += sr("Rent &amp; bills due", f(debtRent));
+          if (debtOther > 0) h += sr("Other debts", f(debtOther));
+          h += sr("Total Deductions", f(totalDebt), 0, 1) + "</div>";
+        }
+        h += '<div class="summary-card"><h3>Calculation</h3>';
+        h += sr("Total Assets", f(totalAssets));
+        h += sr("Less: Deductions", "- " + f(totalDebt));
+        h += sr("Zakatable Wealth", f(zakatableWealth), 0, 1);
+        h += sr("Nisab Threshold (" + madhabName + ")", f(nisabThreshold));
+        h += sr("Meets Nisab?", zakatDue ? "Yes" : "No");
+        if (zakatDue) {
+          h += sr("Zakat Rate", "2.5%");
+          h += sr("Zakat Due", f(zakatAmount), 0, 1);
+        }
+        h += "</div>";
+        h +=
+          '<div class="explainer" style="margin-top:1rem;"><span class="learn-icon">!</span><strong>Disclaimer:</strong> This calculator provides estimates for educational and guidance purposes only. Zakat is a personal religious obligation, and individual circumstances vary. We strongly recommend consulting a qualified Islamic scholar or your local Zakat authority to verify your calculation, especially regarding complex assets or debts.</div>';
+        document.getElementById("summary-content").innerHTML = h;
+      }
+      function sr(label, value, indent, total) {
+        var c = "summary-row";
+        if (indent) c += " indent";
+        if (total) c += " total";
+        return (
+          '<div class="' +
+          c +
+          '"><span class="label">' +
+          label +
+          '</span><span class="value">' +
+          value +
+          "</span></div>"
+        );
+      }
+
+      function downloadPDF() {
+        var content = document.getElementById("summary-content").innerHTML;
+        var curCode = getEffectiveCurrency();
+        var madhab = document.getElementById("madhab").value;
+        var madhabName = {
+          hanafi: "Hanafi",
+          maliki: "Maliki",
+          shafii: "Shafi'i",
+          hanbali: "Hanbali",
+        }[madhab];
+        var printHTML =
+          '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Zakat Summary - ' +
+          new Date().toLocaleDateString("en-GB") +
+          '</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1a1a1a;max-width:700px;margin:0 auto;padding:2rem;line-height:1.6;font-size:15px}h1{font-size:1.4rem;border-bottom:2px solid #C9A84C;padding-bottom:.5rem;color:#333}h3{color:#8A6E2F;font-size:1rem;margin:1.5rem 0 .5rem}.summary-card{border:1px solid #e5e5e5;border-radius:8px;padding:1.25rem;margin-bottom:1rem}.summary-card h3{margin-top:0}.summary-row{display:flex;justify-content:space-between;padding:.35rem 0;font-size:.9rem;border-bottom:1px solid #f0f0f0}.summary-row:last-child{border-bottom:none}.summary-row .label{color:#555}.summary-row .value{font-weight:500;font-family:"SF Mono",Consolas,monospace}.summary-row.indent .label{padding-left:1rem;font-size:.85rem;color:#888}.summary-row.indent .value{font-size:.85rem;color:#888}.summary-row.total{border-top:2px solid #C9A84C;border-bottom:none;margin-top:.25rem;padding-top:.5rem}.summary-row.total .label{font-weight:600;color:#1a1a1a}.summary-row.total .value{font-weight:600;color:#8A6E2F}.zakat-result{text-align:center;padding:1.5rem;background:#fdf8e8;border:2px solid #C9A84C;border-radius:8px;margin:1rem 0}.zakat-result .zakat-label{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.1em}.zakat-result .zakat-amount{font-size:1.8rem;font-weight:700;color:#8A6E2F;font-family:"SF Mono",Consolas,monospace}.zakat-result .zakat-note{font-size:.78rem;color:#888;margin-top:.3rem}.zakat-not-due{text-align:center;padding:1.25rem;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;margin:1rem 0}.zakat-not-due p{color:#16a34a;font-weight:500}.zakat-not-due .sub{color:#888;font-size:.85rem}.nisab-compare{display:flex;gap:1rem;margin:1rem 0}.nisab-compare-item{flex:1;text-align:center;padding:.75rem;border:1px solid #e5e5e5;border-radius:6px}.nisab-compare-item .nc-label{font-size:.7rem;color:#888;text-transform:uppercase}.nisab-compare-item .nc-value{font-family:"SF Mono",Consolas,monospace;font-weight:500;margin-top:.2rem}.nisab-compare-item.highlight{border-color:#C9A84C;background:#fdf8e8}.nisab-compare-item.highlight .nc-value{color:#8A6E2F}.explainer{background:#f9f9f9;border-left:3px solid #C9A84C;padding:.75rem 1rem;font-size:.85rem;color:#666;border-radius:4px;margin:1rem 0}.explainer strong{color:#8A6E2F}.footer-print{text-align:center;margin-top:2rem;font-size:.78rem;color:#aaa;border-top:1px solid #eee;padding-top:1rem}@media print{body{padding:.5rem}}</style></head><body><h1>Zakat Summary</h1><p style="font-size:.9rem;color:#888;">Generated on ' +
+          new Date().toLocaleDateString("en-GB") +
+          " &middot; " +
+          madhabName +
+          " school &middot; " +
+          curCode +
+          "</p>" +
+          content +
+          '<div class="footer-print"><p>Powered by Nisab Al Zakat &middot; nisab.tahababa.com</p><p>This is an estimate for guidance only. Consult a qualified Islamic scholar for your specific situation.</p></div></body></html>';
+        var win = window.open("", "_blank");
+        win.document.write(printHTML);
+        win.document.close();
+        setTimeout(function () {
+          win.print();
+        }, 500);
+      }
+
+      init();
+    </script>
+    <script src="./scripts/popup.js"></script>
+    <script src="scripts/theme.js"></script>
+  </body>
+</html>

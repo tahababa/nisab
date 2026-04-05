@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Four Schools Compared — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Side-by-side comparison of Hanafi, Maliki, Shafi'i, and Hanbali rulings on every major Zakat question."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+      !(function () {
+        var s;
+        try {
+          s = localStorage.getItem("nisab-theme");
+        } catch (e) {}
+        var h = new Date().getHours();
+        document.documentElement.setAttribute(
+          "data-theme",
+          s || (h >= 6 && h < 18 ? "light" : "dark"),
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li>
+            <button
+              class="theme-toggle"
+              onclick="toggleTheme()"
+              aria-label="Toggle theme"
+            >
+              <span class="icon-dark">☀️</span
+              ><span class="icon-light">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap-wide">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> The Four Schools Compared
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>The Four <em>Schools</em> Compared</h1>
+        <p class="subtitle">Hanafi · Maliki · Shafi'i · Hanbali</p>
+      </header>
+
+      <section class="content">
+        <p>
+          All four Sunni schools of jurisprudence (madhabs) agree on the core
+          principles of Zakat but differ on specific rulings. This diversity
+          reflects the richness of Islamic jurisprudence. All four are
+          considered valid and orthodox, and scholars of each school have
+          traditionally respected the others.
+        </p>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            <strong>Which school should I follow?</strong> Follow the school
+            that is prevalent in your community or the one your trusted scholar
+            advises. If you are unsure, many contemporary scholars recommend
+            erring on the side of caution (e.g. paying Zakat on jewellery even
+            if your school exempts it).
+          </p>
+        </div>
+
+        <h2><span class="n">01</span>Overview of Each School</h2>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+          "
+        >
+          <div class="info-card">
+            <h4 style="margin-top: 0">
+              <span class="tag hanafi">Hanafi</span>
+            </h4>
+            <p style="font-size: 0.88rem; margin: 0.3rem 0">
+              <strong>Founded by:</strong> Imam Abu Hanifa (d. 767 CE)
+            </p>
+            <p style="font-size: 0.88rem; margin: 0">
+              <strong>Prevalent in:</strong> South Asia, Turkey, Central Asia,
+              Balkans, parts of Middle East and North Africa
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                margin: 0.5rem 0 0;
+                color: var(--paper-dim);
+              "
+            >
+              The largest school globally. Known for rational methodology and
+              inclusive approach to <a href="zakatable-wealth.html">zakatable assets</a>.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4 style="margin-top: 0">
+              <span class="tag maliki">Maliki</span>
+            </h4>
+            <p style="font-size: 0.88rem; margin: 0.3rem 0">
+              <strong>Founded by:</strong> Imam Malik ibn Anas (d. 795 CE)
+            </p>
+            <p style="font-size: 0.88rem; margin: 0">
+              <strong>Prevalent in:</strong> North and West Africa, parts of the
+              Gulf
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                margin: 0.5rem 0 0;
+                color: var(--paper-dim);
+              "
+            >
+              Emphasises the practice of the people of Madinah as a key legal
+              source.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4 style="margin-top: 0">
+              <span class="tag shafii">Shafi'i</span>
+            </h4>
+            <p style="font-size: 0.88rem; margin: 0.3rem 0">
+              <strong>Founded by:</strong> Imam al-Shafi'i (d. 820 CE)
+            </p>
+            <p style="font-size: 0.88rem; margin: 0">
+              <strong>Prevalent in:</strong> Southeast Asia, East Africa, Yemen,
+              Egypt, parts of the Levant
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                margin: 0.5rem 0 0;
+                color: var(--paper-dim);
+              "
+            >
+              Bridges between hadith-based and reason-based approaches. Wrote
+              the first treatise on legal theory.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4 style="margin-top: 0">
+              <span class="tag hanbali">Hanbali</span>
+            </h4>
+            <p style="font-size: 0.88rem; margin: 0.3rem 0">
+              <strong>Founded by:</strong> Imam Ahmad ibn Hanbal (d. 855 CE)
+            </p>
+            <p style="font-size: 0.88rem; margin: 0">
+              <strong>Prevalent in:</strong> Saudi Arabia, Qatar, parts of UAE
+              and Gulf
+            </p>
+            <p
+              style="
+                font-size: 0.85rem;
+                margin: 0.5rem 0 0;
+                color: var(--paper-dim);
+              "
+            >
+              The smallest school. Strictest adherence to hadith texts with less
+              reliance on analogy.
+            </p>
+          </div>
+        </div>
+
+        <h2><span class="n">02</span>Complete Comparison Table</h2>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th style="min-width: 180px">Ruling</th>
+                <th><span class="tag hanafi">Hanafi</span></th>
+                <th><span class="tag maliki">Maliki</span></th>
+                <th><span class="tag shafii">Shafi'i</span></th>
+                <th><span class="tag hanbali">Hanbali</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong><a href="nisab.html">Nisab</a> standard preference</strong></td>
+                <td>Silver (lower threshold)</td>
+                <td>Gold</td>
+                <td>Allows both</td>
+                <td>Gold</td>
+              </tr>
+              <tr>
+                <td><strong>Gold Nisab weight</strong></td>
+                <td>85g</td>
+                <td>85g</td>
+                <td>85g</td>
+                <td>85g</td>
+              </tr>
+              <tr>
+                <td><strong>Silver Nisab weight</strong></td>
+                <td>612.36g</td>
+                <td>595g</td>
+                <td>595g</td>
+                <td>595g</td>
+              </tr>
+              <tr>
+                <td><strong>Maturity &amp; sanity required?</strong></td>
+                <td>Yes. No Zakat on minors' or insane persons' wealth</td>
+                <td>No. Guardian pays on their behalf</td>
+                <td>No. Guardian pays on their behalf</td>
+                <td>No. Guardian pays on their behalf</td>
+              </tr>
+              <tr>
+                <td><strong>Zakat on worn jewellery</strong></td>
+                <td>Yes. All gold/silver is zakatable regardless of use</td>
+                <td>No (if in regular personal use)</td>
+                <td>No (if in regular personal use)</td>
+                <td>No (if in regular personal use)</td>
+              </tr>
+              <tr>
+                <td><strong>Debt deduction</strong></td>
+                <td>Yes. Deduct 12 months of installment debt</td>
+                <td>Yes. Deduct 12 months of installment debt</td>
+                <td>No. Debt does not reduce zakatable wealth</td>
+                <td>Yes. Deduct 12 months of installment debt</td>
+              </tr>
+              <tr>
+                <td><strong><a href="hawl.html">Hawl</a> reset if wealth dips</strong></td>
+                <td>No. Only start and end matter</td>
+                <td>Resets (generally)</td>
+                <td>Resets if below Nisab</td>
+                <td>Resets if below Nisab</td>
+              </tr>
+              <tr>
+                <td><strong>Separate Hawl per asset?</strong></td>
+                <td>No. All wealth calculated collectively at year-end</td>
+                <td>Closer to collective (varies)</td>
+                <td>Yes. Each amount gets its own Hawl</td>
+                <td>Closer to collective (varies)</td>
+              </tr>
+              <tr>
+                <td><strong>Combining gold &amp; silver values</strong></td>
+                <td>Yes. Combined value compared to silver Nisab</td>
+                <td>Yes (different method, can be complex)</td>
+                <td>No. Assessed independently</td>
+                <td>Yes (one narration says no)</td>
+              </tr>
+              <tr>
+                <td><strong>Jointly owned wealth</strong></td>
+                <td>Each person's share must individually reach Nisab</td>
+                <td>Each person's share must individually reach Nisab</td>
+                <td>
+                  Joint total counts, even if individual shares are below Nisab
+                </td>
+                <td>Joint total counts</td>
+              </tr>
+              <tr>
+                <td><strong>Mixed metals (gold &lt;50%)</strong></td>
+                <td>Not zakatable (below 50% = not gold)</td>
+                <td>Varies by scholar</td>
+                <td>Pay proportionally on gold portion</td>
+                <td>Pay proportionally on gold portion</td>
+              </tr>
+              <tr>
+                <td><strong>Advance payment</strong></td>
+                <td>Permitted once Nisab is reached</td>
+                <td>Stricter; generally requires Hawl completion</td>
+                <td>Permitted once Nisab is reached</td>
+                <td>Permitted once Nisab is reached</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Al-Mu'allafat Qulubuhum (reconciling hearts)</strong>
+                </td>
+                <td>Abrogated; not applicable today</td>
+                <td>Still valid if it serves Islamic interest</td>
+                <td>Still valid if it serves Islamic interest</td>
+                <td>Still valid if it serves Islamic interest</td>
+              </tr>
+              <tr>
+                <td><strong>Zakat al-Mal to non-Muslims</strong></td>
+                <td>Not permitted</td>
+                <td>Not permitted</td>
+                <td>Not permitted</td>
+                <td>Not permitted</td>
+              </tr>
+              <tr>
+                <td><strong>Zakat al-Fitr to non-Muslims</strong></td>
+                <td>Permitted (to poor non-Muslims)</td>
+                <td>Not permitted</td>
+                <td>Not permitted</td>
+                <td>Not permitted</td>
+              </tr>
+              <tr>
+                <td><strong>Agricultural Zakat scope</strong></td>
+                <td>All produce (broadest; includes fruits and vegetables)</td>
+                <td>
+                  Storable provisions (wheat, barley, rice, dates, raisins)
+                </td>
+                <td>Storable provisions</td>
+                <td>Everything weighed and stored from fruits and grains</td>
+              </tr>
+              <tr>
+                <td><strong>Agricultural Nisab</strong></td>
+                <td>
+                  Abu Hanifa: none (any amount). Abu Yusuf/Muhammad: 5 Wasaq
+                  (~653kg)
+                </td>
+                <td>5 Wasaq (~653kg)</td>
+                <td>5 Wasaq (~653kg)</td>
+                <td>5 Wasaq (~653kg)</td>
+              </tr>
+              <tr>
+                <td><strong>Receivables treatment</strong></td>
+                <td>
+                  3 tiers: strong (trade) = accrue Zakat; medium/weak = Zakat
+                  upon receipt
+                </td>
+                <td>Zakat for 1 year upon receipt only</td>
+                <td>Zakat for all past years upon receipt</td>
+                <td>Zakat for all past years upon receipt</td>
+              </tr>
+              <tr>
+                <td><strong>Tamlik (ownership transfer) required?</strong></td>
+                <td>Yes. Recipient must be made direct owner</td>
+                <td>Yes (generally)</td>
+                <td>Yes (generally)</td>
+                <td>Yes (generally)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2><span class="n">03</span>All Four Schools Are Valid</h2>
+
+        <p>
+          It is important to remember that all four schools are considered
+          equally valid paths within Sunni Islam. As scholars have noted, the
+          diversity of opinion is a mercy and reflects the depth of Islamic
+          jurisprudence. The truth lies within these four schools, and following
+          any one of them with sincerity fulfils one's obligation.
+        </p>
+
+        <div class="quran-verse">
+          <p class="quran-arabic">
+            لَّيْسَ الْبِرَّ أَن تُوَلُّوا وُجُوهَكُمْ قِبَلَ الْمَشْرِقِ
+            وَالْمَغْرِبِ وَلَٰكِنَّ الْبِرَّ مَنْ آمَنَ بِاللَّهِ وَالْيَوْمِ
+            الْآخِرِ وَالْمَلَائِكَةِ وَالْكِتَابِ وَالنَّبِيِّينَ وَآتَى
+            الْمَالَ عَلَىٰ حُبِّهِ ذَوِي الْقُرْبَىٰ وَالْيَتَامَىٰ
+            وَالْمَسَاكِينَ وَابْنَ السَّبِيلِ وَالسَّائِلِينَ
+          </p>
+          "Goodness does not consist in turning your face towards East or West.
+          The truly good are those who believe in God and the Last Day, in the
+          angels, the Scripture, and the prophets; who give away some of their
+          wealth, however much they cherish it, to relatives, to orphans, the
+          needy, travellers, and beggars."
+          <cite
+            ><span class="cite-ar">القرآن الكريم، سورة البقرة، الآية ١٧٧</span
+            >Quran, Al-Baqarah 2:177</cite
+          >
+        </div>
+
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Use our
+            <a href="../calculator" style="font-weight: 500"
+              >Zakat Calculator</a
+            >
+            which automatically adjusts for your chosen school's rulings on
+            jewellery, debt, and Nisab standard.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

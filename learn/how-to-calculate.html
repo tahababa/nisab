@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Calculate Zakat — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Step-by-step Zakat calculation method with debt deduction rules, worked examples, and self-assessment checklist."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> How to Calculate
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>How to <em>Calculate</em> Zakat</h1>
+        <p class="subtitle">Step by step, with worked examples</p>
+      </header>
+
+      <section class="content">
+        <h2><span class="n">01</span>The Four Steps</h2>
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Total Your Assets</h4>
+            <p>
+              Add up all <a href="zakatable-wealth.html">zakatable assets</a> on your Zakat date: cash (all
+              accounts, all currencies), gold, silver, investments (stocks,
+              funds, bonds, ISAs), business inventory (finished goods, work in
+              progress, raw materials), rental income saved, receivables (money
+              owed to you), pension fund value (if accessible), and property
+              held for resale. Use <strong>current market values</strong> on the
+              day you calculate, not purchase prices.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Deduct Eligible Debts</h4>
+            <p>
+              Subtract liabilities that are due. The rules differ by school (see
+              debt section below). Generally: immediate personal debts, 12
+              months of installment payments (mortgage, loans), outstanding rent
+              and utility bills, salaries owed to staff, unpaid dowry, and
+              outstanding basic living expenses.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Check Against Nisab</h4>
+            <p>
+              Compare your net zakatable wealth against the current
+              <a href="../">Nisab threshold</a>. If your net wealth is at or
+              above the Nisab, proceed to step 4. If below, no Zakat is due this
+              year.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Multiply by 2.5%</h4>
+            <p>
+              Your Zakat due = Net Zakatable Wealth × 0.025. This is the amount
+              you must pay to eligible <a href="recipients.html">recipients</a>.
+            </p>
+          </div>
+        </div>
+
+        <h2><span class="n">02</span>Debt Deduction Rules by School</h2>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>School</th>
+                <th>Jewellery</th>
+                <th>Debt Deduction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag hanafi">Hanafi</span></td>
+                <td>Includes all gold/silver jewellery</td>
+                <td>Deducts 12 months of installment debt</td>
+              </tr>
+              <tr>
+                <td><span class="tag maliki">Maliki</span></td>
+                <td>Exempts worn jewellery</td>
+                <td>Deducts 12 months of installment debt</td>
+              </tr>
+              <tr>
+                <td><span class="tag shafii">Shafi'i</span></td>
+                <td>Exempts worn jewellery</td>
+                <td>No debt deduction</td>
+              </tr>
+              <tr>
+                <td><span class="tag hanbali">Hanbali</span></td>
+                <td>Exempts worn jewellery</td>
+                <td>Deducts 12 months of installment debt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>The Four-Tier Debt Classification (Hanafi)</h3>
+        <p>
+          The Hanafi school classifies debts owed <em>to you</em> into four
+          categories, each treated differently for Zakat purposes:
+        </p>
+
+        <div class="info-card">
+          <h4>Strong Debts</h4>
+          <p style="margin: 0">
+            Personal loans you gave to others, trade debtors.
+            <strong>Include</strong> in your zakatable assets even before
+            received.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Medial Debts</h4>
+          <p style="margin: 0">
+            Debts from selling personal items. Only add to zakatable assets
+            <strong>12 months after receipt</strong>.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Weak Debts</h4>
+          <p style="margin: 0">
+            Wages, unpaid dowry, pensions, assets in trust. Only add
+            <strong>after received</strong>.
+          </p>
+        </div>
+        <div class="info-card">
+          <h4>Bad Debts</h4>
+          <p style="margin: 0">
+            Debts you realistically have no hope of recovering.
+            <strong>Do not include</strong> in zakatable assets.
+          </p>
+        </div>
+
+        <h3>Types of Debts You Owe</h3>
+
+        <p>
+          <strong>Immediate debts (Mu'ajjal):</strong> Debts due right now (e.g.
+          a personal loan from a friend that is now due). Wholly deductible.
+        </p>
+
+        <p>
+          <strong>Installment debts (Muajjal):</strong> Debts paid in
+          installments like mortgage payments, student loans, or car finance.
+          Only <strong>12 months</strong> of payments are deductible, not the
+          full outstanding balance.
+        </p>
+
+        <p>
+          <strong>Shariah home purchase schemes:</strong> Murabaha schemes allow
+          12 months of installments to be deducted. Ijarah and Diminishing
+          Musharakah schemes do not allow any deduction, since these are
+          technically rent/partnership, not debt.
+        </p>
+
+        <p>
+          <strong>Commercial loans:</strong> Only the portion of the loan that
+          financed zakatable assets can be deducted, not the entire loan.
+        </p>
+
+        <h2><span class="n">03</span>Worked Examples</h2>
+
+        <h3>Basic Example: Cash Only</h3>
+        <div class="info-card">
+          <p
+            style="
+              font-family: var(--mono);
+              font-size: 0.82rem;
+              color: var(--paper);
+              margin: 0;
+            "
+          >
+            Cash in bank: $20,000<br />
+            Cash in hand: $500<br />
+            Debts owed: $2,000 (credit card)<br /><br />
+            Net zakatable wealth: $20,000 + $500 - $2,000 =
+            <strong>$18,500</strong><br />
+            Nisab check: $18,500 > $14,121 (gold Nisab) ✓<br />
+            Zakat due: $18,500 × 2.5% = <strong>$462.50</strong>
+          </p>
+        </div>
+
+        <h3>Intermediate Example: Cash + Gold + Investments</h3>
+        <div class="info-card">
+          <p
+            style="
+              font-family: var(--mono);
+              font-size: 0.82rem;
+              color: var(--paper);
+              margin: 0;
+            "
+          >
+            Cash savings: $15,000<br />
+            Gold jewellery (resale value): $3,000<br />
+            Investment portfolio: $7,000<br />
+            <strong>Total assets: $25,000</strong><br /><br />
+            Mortgage (12 months): $12,000<br />
+            Outstanding bills: $500<br />
+            Credit card: $1,500<br />
+            <strong>Total liabilities: $14,000</strong><br /><br />
+            Net zakatable wealth: $25,000 - $14,000 = <strong>$11,000</strong
+            ><br />
+            Nisab check (using silver Nisab ~$1,665): $11,000 > $1,665 ✓<br />
+            Zakat due: $11,000 × 2.5% = <strong>$275</strong>
+          </p>
+        </div>
+
+        <h3>Advanced Example: Business Owner</h3>
+        <div class="info-card">
+          <p
+            style="
+              font-family: var(--mono);
+              font-size: 0.82rem;
+              color: var(--paper);
+              margin: 0;
+            "
+          >
+            Cash: $30,000<br />
+            Gold: $5,000<br />
+            Trade inventory (market value): $40,000<br />
+            Raw materials: $8,000<br />
+            Trade debtors (strong debt): $15,000<br />
+            Investment shares (zakatable portion): $6,000<br />
+            <strong>Total assets: $104,000</strong><br /><br />
+            Supplier invoices due: $20,000<br />
+            Staff salaries outstanding: $5,000<br />
+            Mortgage (12 months): $18,000<br />
+            Commercial loan (zakatable portion): $10,000<br />
+            <strong>Total liabilities: $53,000</strong><br /><br />
+            Net zakatable wealth: $104,000 - $53,000 = <strong>$51,000</strong
+            ><br />
+            Zakat due: $51,000 × 2.5% = <strong>$1,275</strong>
+          </p>
+        </div>
+
+        <h2><span class="n">04</span>Valuation Rules</h2>
+
+        <p>
+          <strong>Use current market value</strong>, not purchase price. For
+          gold jewellery specifically, use the
+          <strong>resale value of old gold</strong> (what you would get if you
+          sold it today at a gold shop), not the retail price you paid.
+        </p>
+
+        <p>
+          <strong>Gold-plated items</strong> are not zakatable if the gold
+          content is less than 50% of the total metal weight.
+        </p>
+
+        <p>
+          <strong>Diamonds and precious stones</strong> are NOT zakatable. There
+          is scholarly consensus (ijma) on this. However, if they are held for
+          trading purposes and reach the Nisab, then Zakat applies to their
+          trade value.
+        </p>
+
+        <h2><span class="n">05</span>Self-Assessment Checklist</h2>
+
+        <div class="info-card gold">
+          <h4>Assets to Include</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: var(--paper-dim)">
+            Gold and silver (all forms) · Cash at bank · Cash in hand · Savings
+            accounts · Investment bonds · ISAs · National savings · Other liquid
+            investments · Property for resale · Rental income saved · Finished
+            goods · Work in progress · Raw materials · Shares for resale ·
+            Shares held as investment (zakatable portion) · Strong debts owed to
+            you · Trade debtors · Pension fund value (if accessible) · Bare
+            trust assets
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h4>Liabilities to Deduct</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: var(--paper-dim)">
+            Personal loans owed to others · Outstanding mortgage payments (12
+            months) · Rent and bills outstanding · Goods purchased on credit ·
+            Salaries due to staff · Unpaid dowry · Commercial loans (zakatable
+            portion only) · Muajjal debts (12 months of future installments) ·
+            Outstanding basic living expenses · Bad debts (deduct from
+            receivables)
+          </p>
+        </div>
+
+        <div class="box box-warn">
+          <p style="margin: 0">
+            <strong>Haraam income</strong> is not subject to Zakat. The entire
+            value of haraam income must be disposed of as charity (not counted
+            as Zakat). Purify the wealth first, then calculate Zakat on the
+            remainder.
+          </p>
+        </div>
+
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Ready to calculate? Use our
+            <a href="../calculator/" style="font-weight: 500"
+              >Zakat Calculator</a
+            >
+            which handles all of this automatically based on your school.<br /><br />Next:
+            <a href="recipients.html" style="font-weight: 500"
+              >Who Receives Zakat?</a
+            >
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

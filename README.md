@@ -1,6 +1,6 @@
 # نصاب الزكاة · Nisab Al Zakat
 
-> A free, open JSON API for live Nisab thresholds — all four schools of Islamic jurisprudence, 27 currencies, **updated 8 times daily aligned to UK market hours**, with a full historical archive.
+> A free, open JSON API for live Nisab thresholds — all four schools of Islamic jurisprudence, 17 currencies, **updated 6 times daily**, with a full historical archive.
 
 **Live endpoint:** [nisab.tahababa.com/nisab.json](https://nisab.tahababa.com/nisab.json)  
 **Landing page:** [nisab.tahababa.com](https://nisab.tahababa.com)
@@ -63,13 +63,23 @@ curl https://nisab.tahababa.com/history/index.json
 ```json
 {
   "meta": {
-    "timestamp":   "2026-03-15T0800GMT",
-    "updated_at":  "2026-03-15T09:01:22.000Z",
-    "currencies":  ["GBP", "USD", "EUR", "SAR", "AED", "..."],
-    "disclaimer":  "Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.",
-    "source":      "Nisab Al Zakat",
-    "url":         "nisab.tahababa.com",
-    "github":      "https://github.com/tahababa/nisab"
+    "timestamp":    "2026-03-15T0800GMT",
+    "updated_at":   "2026-03-15T09:01:22.000Z",
+    "timezone":     "GMT",
+    "base_currency": "USD",
+    "currencies":   ["USD", "GBP", "EUR", "...17 total"],
+    "hijri": {
+      "day":          "15",
+      "month_en":     "Ramadan",
+      "month_ar":     "رَمَضَان",
+      "year":         "1447",
+      "formatted_en": "15 Ramadan 1447 AH",
+      "formatted_ar": "15 رَمَضَان 1447"
+    },
+    "disclaimer":   "Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.",
+    "source":       "Nisab Al Zakat",
+    "url":          "nisab.tahababa.com",
+    "github":       "https://github.com/tahababa/nisab"
   },
   "prices": {
     "gold":   { "per_troy_oz": 2962.10, "per_gram": 95.23 },
@@ -78,9 +88,9 @@ curl https://nisab.tahababa.com/history/index.json
   "nisab": {
     "hanafi": {
       "label": "Hanafi",
-      "note":  "Based on 7.5 tola (87.48g) of gold or 52.5 tola (612.36g) of silver",
-      "gold":   { "grams": 87.48, "tola": 7.5,  "values": { "GBP": 6570.44, "USD": 8333.12, "SAR": 31249.20, "...": "27 currencies" } },
-      "silver": { "grams": 612.36, "tola": 52.5, "values": { "GBP": 474.81, "...": "27 currencies" } }
+      "note":  "Based on 85g of gold or 612.36g of silver",
+      "gold":   { "grams": 85, "values": { "USD": 8094.37, "GBP": 6382.95, "...": "17 currencies" } },
+      "silver": { "grams": 612.36, "tola": 52.5, "values": { "USD": 599.11, "...": "17 currencies" } }
     },
     "maliki":  { "..." },
     "shafii":  { "..." },
@@ -95,23 +105,25 @@ curl https://nisab.tahababa.com/history/index.json
 
 The Nisab thresholds used in this API are sourced from authoritative Islamic scholarly institutions. See the [References](#references) section below for full citations.
 
-| School | Gold (grams) | Gold (tola) | Silver (grams) | Silver (tola) |
-|--------|-------------|-------------|----------------|---------------|
-| **Hanafi** | **87.48g** | 7.5 | **612.36g** | 52.5 |
-| **Maliki** | **85g** | — | **595g** | — |
-| **Shafi'i** | **85g** | — | **595g** | — |
-| **Hanbali** | **85g** | — | **595g** | — |
+| School | Gold (grams) | Silver (grams) | Silver (tola) |
+|--------|-------------|----------------|---------------|
+| **Hanafi** | **85g** | **612.36g** | 52.5 |
+| **Maliki** | **85g** | **595g** | — |
+| **Shafi'i** | **85g** | **595g** | — |
+| **Hanbali** | **85g** | **595g** | — |
 
-**Why is Hanafi slightly different?**  
-The Hanafi threshold derives from the classical South Asian unit of weight, the **tola** (1 tola = 11.664g). The gold Nisab of 7.5 tola therefore equals exactly 87.48g. The other three schools derive their figure from a different classical weight lineage, arriving at 85g. Both are valid and in active scholarly use worldwide.
+**Gold Nisab — all four schools**  
+All four schools use **85g** of gold as the gold Nisab threshold. The Hanafi school was historically associated with 87.48g (7.5 tola, based on the classical South Asian tola unit), but contemporary scholarly consensus and major institutions recognise 85g as the correct value. The Hanafi silver Nisab remains 612.36g (52.5 tola), which is slightly higher than the other three schools' 595g.
 
 ---
 
 ## Currencies
 
-All 27 currencies are returned in every response:
+All 17 currencies are returned in every response:
 
-`GBP` `USD` `EUR` `SAR` `AED` `CAD` `AUD` `JPY` `CHF` `CNY` `INR` `PKR` `BDT` `MYR` `IDR` `TRY` `EGP` `KWD` `QAR` `BHD` `OMR` `NGN` `ZAR` `SEK` `NOK` `SGD` `DKK`
+`USD` `GBP` `EUR` `CAD` `AUD` `JPY` `CHF` `CNY` `INR` `MYR` `IDR` `TRY` `ZAR` `SEK` `NOK` `SGD` `DKK`
+
+> Gulf and South Asian currencies (SAR, AED, KWD, QAR, PKR, BDT, etc.) are not included as they are not available from the Frankfurter exchange rate API. Use the USD value with your local exchange rate to convert.
 
 ---
 
@@ -125,8 +137,8 @@ const { nisab, prices } = await fetch('https://nisab.tahababa.com/nisab.json')
 // Hanafi gold Nisab in British pounds
 console.log(nisab.hanafi.gold.values.GBP);
 
-// Maliki silver Nisab in Saudi riyals
-console.log(nisab.maliki.silver.values.SAR);
+// Maliki silver Nisab in US dollars
+console.log(nisab.maliki.silver.values.USD);
 
 // Current gold price per gram
 console.log(prices.gold.per_gram);
@@ -154,12 +166,12 @@ Every snapshot is permanently committed to this repository. The `history/index.j
 
 ```json
 {
-  "total_records": 2920,
+  "total_records": 2190,
   "total_days": 365,
-  "latest": "2026-03-15T2100Z",
+  "latest": "2026-03-15T2000GMT",
   "by_date": {
-    "2026-03-15": ["2026-03-15T2100Z", "2026-03-15T1800Z", "2026-03-15T1500Z", "...8 per day"],
-    "2026-03-14": ["2026-03-14T2100Z", "..."]
+    "2026-03-15": ["2026-03-15T2000GMT", "2026-03-15T1600GMT", "...6 per day"],
+    "2026-03-14": ["2026-03-14T2000GMT", "..."]
   }
 }
 ```
@@ -172,6 +184,7 @@ Every snapshot is permanently committed to this repository. The `history/index.j
 |------|--------|
 | Gold & silver prices | [GoldPriceZ.com](https://goldpricez.com) |
 | Exchange rates | [Frankfurter API](https://www.frankfurter.app) |
+| Hijri date | [Aladhan API](https://aladhan.com) (Umm al-Qura / Saudi calendar) |
 | Hosting | GitHub Pages |
 | Automation | GitHub Actions |
 
@@ -191,7 +204,7 @@ The scholarly thresholds used in this API are sourced from the following authori
 
 3. **National Zakat Foundation UK (NZF)**  
    [nzf.org.uk/knowledge/zakat-on-gold-silver-jewellery](https://nzf.org.uk/knowledge/zakat-on-gold-silver-jewellery/)  
-   Confirms Hanafi Nisab at 87.48g gold (7.5 tola) / 612.36g silver (52.5 tola).
+   Confirms Hanafi Nisab at 85g gold / 612.36g silver (52.5 tola).
 
 4. **Joe Bradford — Nisab FAQ (2026)**  
    [joebradford.substack.com/p/nisab-your-complete-faq](https://joebradford.substack.com/p/nisab-your-complete-faq)  
@@ -213,15 +226,24 @@ The scholarly thresholds used in this API are sourced from the following authori
 nisab/
 ├── .github/
 │   └── workflows/
-│       └── update-nisab.yml   # Cron — 6× per day, every 4 hours GMT
+│       └── update-nisab.yml      # Cron — 6× per day, every 4 hours GMT
+├── css/
+│   ├── style.css                 # Unified stylesheet
+│   └── popup.css                 # Popup component styles
+├── learn/
+│   └── *.html                    # Educational articles on Zakat
 ├── scripts/
-│   └── update.js              # Fetches prices, writes JSON files
+│   ├── update.js                 # Fetches prices + Hijri date, writes JSON
+│   ├── popup.js                  # Popup component
+│   └── theme.js                  # Dark/light theme toggle
 ├── history/
-│   ├── index.json             # Auto-generated index of all snapshots
-│   └── YYYY-MM-DDTHHMM GMT.json  # One permanent file per snapshot
-├── nisab.json                 # Always the latest snapshot
-├── index.html                 # Landing page (GitHub Pages)
-├── CNAME                      # nisab.tahababa.com
+│   ├── index.json                # Auto-generated index of all snapshots
+│   └── YYYY-MM-DDTHHMMGMT.json  # One permanent file per snapshot
+├── nisab.json                    # Always the latest snapshot
+├── index.html                    # Landing page (GitHub Pages)
+├── calculator.html               # Zakat calculator
+├── .gitignore
+├── CNAME                         # nisab.tahababa.com
 └── package.json
 ```
 

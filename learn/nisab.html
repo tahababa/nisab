@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Understanding Nisab — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="What is Nisab? The minimum wealth threshold for Zakat across all four Sunni schools. Gold vs silver standards explained."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> Understanding Nisab
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>Understanding <em>Nisab</em></h1>
+        <p class="subtitle">The minimum threshold of wealth</p>
+      </header>
+
+      <section class="content">
+        <h2><span class="n">01</span>What is Nisab?</h2>
+
+        <p>
+          Nisab is the <strong>minimum amount of wealth</strong> a Muslim must
+          possess before Zakat becomes obligatory. Think of it as a financial
+          floor: if your total <a href="zakatable-wealth.html">zakatable assets</a> are below this threshold, you
+          owe nothing. If they meet or exceed it, you pay 2.5% on the
+          <strong>entire</strong> zakatable amount, not just the portion above
+          the line.
+        </p>
+
+        <p>
+          This is an important distinction. Nisab is a <strong>gateway</strong>,
+          not a deductible. Either you cross it and owe Zakat on everything, or
+          you do not cross it and owe nothing. There is no partial obligation.
+        </p>
+
+        <div class="info-card gold">
+          <h4>Why Nisab Exists</h4>
+          <p style="margin: 0">
+            Nisab prevents those who are themselves in need from being obligated
+            to give. It ensures that only people with genuine surplus wealth
+            contribute, and helps the genuinely poor qualify as
+            <a href="recipients.html"><em>recipients</em></a> rather than donors.
+          </p>
+        </div>
+
+        <h2><span class="n">02</span>The Two Standards</h2>
+
+        <p>
+          The Prophet Muhammad (peace be upon him) established the Nisab at two
+          specific amounts from the currencies of his time:
+          <strong>20 gold dinars</strong> or <strong>200 silver dirhams</strong>.
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+          "
+        >
+          <div class="info-card" style="text-align: center">
+            <p style="font-size: 2rem; margin: 0 0 0.3rem; color: var(--gold)">
+              🥇
+            </p>
+            <h4 style="font-size: 1rem; color: var(--gold-lt)">Gold Nisab</h4>
+            <p
+              style="
+                font-family: var(--mono);
+                font-size: 1.4rem;
+                color: var(--paper);
+                margin: 0.3rem 0;
+              "
+            >
+              20 Gold Dinars
+            </p>
+            <p style="margin: 0; font-size: 0.85rem">
+              <span class="tag all">All Schools</span> 85 grams
+            </p>
+          </div>
+          <div class="info-card" style="text-align: center">
+            <p
+              style="
+                font-size: 2rem;
+                margin: 0 0 0.3rem;
+                color: var(--paper-dim);
+              "
+            >
+              🥈
+            </p>
+            <h4 style="font-size: 1rem; color: var(--paper-dim)">
+              Silver Nisab
+            </h4>
+            <p
+              style="
+                font-family: var(--mono);
+                font-size: 1.4rem;
+                color: var(--paper);
+                margin: 0.3rem 0;
+              "
+            >
+              200 Silver Dirhams
+            </p>
+            <p style="margin: 0; font-size: 0.85rem">
+              <span class="tag hanafi">Hanafi</span> 612.36 grams (52.5 Tola)<br />
+              <span class="tag all">Majority</span> 595 grams
+            </p>
+          </div>
+        </div>
+
+        <p>
+          The difference in gram weights between schools stems from different
+          scholarly interpretations of the exact weight of the gold dinar and
+          silver dirham. Scholars have not disagreed on the number of coins —
+          20 and 200 respectively — but on how much each coin weighed, and these
+          interpretations have produced slightly different gram figures across
+          traditions.
+        </p>
+
+        <div class="box box-note">
+          <p style="margin: 0">
+            Contemporary scholars have given fatwas permitting the use of
+            <strong>either the gold or the silver standard</strong>. Depending
+            on which you apply, your Nisab threshold will be significantly
+            higher (gold) or lower (silver). Both are valid positions with
+            scholarly backing.
+          </p>
+        </div>
+
+        <h2><span class="n">03</span>Gold or Silver: Which Standard?</h2>
+
+        <p>
+          Because gold and silver prices have diverged dramatically since the
+          Prophet's time (in his era, the two Nisab values were roughly
+          equivalent in purchasing power), using gold or silver today produces
+          very different thresholds. As of early 2026, the gold Nisab is
+          approximately <strong>$14,000+</strong> while the silver Nisab is
+          approximately <strong>$1,500-1,800</strong>.
+        </p>
+
+        <p>
+          This means the choice of standard significantly affects who is
+          obligated to pay:
+        </p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>School</th>
+                <th>Preferred Standard</th>
+                <th>Reasoning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag hanafi">Hanafi</span></td>
+                <td>Silver (lower threshold)</td>
+                <td>
+                  More people pay Zakat, more funds reach the poor. Uses the
+                  lower of the two values to maximize benefit.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag maliki">Maliki</span></td>
+                <td>Gold (higher threshold)</td>
+                <td>
+                  Gold better reflects modern purchasing power and stable
+                  wealth.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag shafii">Shafi'i</span></td>
+                <td>Allows both</td>
+                <td>
+                  Individual choice, though many Shafi'i scholars lean toward
+                  gold.
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tag hanbali">Hanbali</span></td>
+                <td>Gold (higher threshold)</td>
+                <td>
+                  Similar reasoning to Maliki: practical relevance in modern
+                  contexts.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            <strong>Practical rule (Hanafi):</strong> If you only own gold, use
+            the gold Nisab. If you have a mixture of assets (cash, gold, silver,
+            investments), use the silver Nisab as the baseline, since it is the
+            lower and more inclusive threshold.
+          </p>
+        </div>
+
+        <h2><span class="n">04</span>How Nisab is Calculated</h2>
+
+        <p>The calculation is straightforward:</p>
+
+        <div class="info-card">
+          <p
+            style="
+              font-family: var(--mono);
+              font-size: 0.85rem;
+              color: var(--gold);
+              margin: 0;
+            "
+          >
+            Gold Nisab = 85g × current gold price per gram<br />
+            Silver Nisab = 595g (or 612.36g) × current silver price per gram
+          </p>
+        </div>
+
+        <p>
+          For example, if gold is trading at $166 per gram: 85 × $166 =
+          <strong>$14,110</strong> (gold Nisab). If silver is at $2.80 per gram:
+          595 × $2.80 = <strong>$1,666</strong> (silver Nisab).
+        </p>
+
+        <p>
+          These values fluctuate daily with precious metals markets, which is
+          why our <a href="../">Nisab dashboard</a> provides live, auto-updating
+          values across 17 currencies.
+        </p>
+
+        <h2><span class="n">05</span>The Seed Date</h2>
+
+        <p>
+          The first day your wealth reaches or exceeds the Nisab is called your
+          <strong>seed date</strong>. This is the starting point of your
+          personal Zakat year (Hawl). From this date, one full lunar year (354
+          days) must pass before Zakat becomes due.
+        </p>
+
+        <p>
+          If you cannot remember the exact date your wealth first reached Nisab,
+          make your best estimate. If no estimate is possible, simply fix a date
+          (many choose the start of Ramadan) and calculate consistently on that
+          date every year.
+        </p>
+
+        <div class="box box-note">
+          <p style="margin: 0">
+            The concept of the Hawl (lunar year) is explored in detail on our
+            <a href="hawl.html">Understanding the Hawl</a> page.
+          </p>
+        </div>
+
+        <h2><span class="n">06</span>Nisab for Other Types of Wealth</h2>
+
+        <h3>Agricultural Produce</h3>
+        <p>
+          Agricultural produce has its own Nisab, separate from gold and silver.
+          The majority of scholars (following Imams Abu Yusuf, Muhammad, Malik,
+          Shafi'i, and Ahmad) set this at <strong>5 Wasaq</strong>,
+          approximately <strong>653 kg</strong> of grain or dates. However, Imam
+          Abu Hanifa held that there is <strong>no minimum Nisab</strong> for
+          agricultural Zakat (Ushr); it is payable on every amount of produce,
+          regardless of quantity.
+        </p>
+
+        <h3>Livestock</h3>
+        <p>
+          Livestock has specific Nisab thresholds: camels become zakatable
+          starting at 5 head, cattle at 30 head, and sheep/goats at 40 head.
+          Each has its own payment schedule detailed in classical manuals.
+        </p>
+
+        <h3>Mining and Treasure (Rikaz)</h3>
+        <p>
+          Treasure found underground has no Nisab requirement and no Hawl. Zakat
+          (at 20% rather than 2.5%) is due immediately upon discovery.
+        </p>
+
+        <div
+          class="info-card gold"
+          style="margin-top: 3rem; text-align: center"
+        >
+          <p style="margin: 0">
+            Next:
+            <a href="hawl.html" style="font-weight: 500"
+              >The Hawl (Lunar Year)</a
+            >
+            — When does your Zakat year start and end?
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="API documentation for Nisab Al Zakat. Endpoints, response schema, code examples in JavaScript and Python, historical archive, and supported currencies."
+    />
+    <link rel="canonical" href="https://nisab.tahababa.com/api.html" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap">
+        <a href="./" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="document.querySelector('.nav-links').classList.toggle('open')"
+          aria-label="Menu"
+        >☰</button>
+        <ul class="nav-links">
+          <li><a href="./">Home</a></li>
+          <li><a href="./learn/">Learn</a></li>
+          <li><a href="./calculator.html">Calculator</a></li>
+          <li><a href="./api.html" class="active">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <header class="page-header fade-up">
+        <span class="basmala">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</span>
+        <h1>API <em>Documentation</em></h1>
+        <p class="subtitle">Endpoints, schema, examples, and historical archive</p>
+      </header>
+
+      <section class="content">
+
+        <p>
+          No authentication. No rate limits. No registration required. Every
+          response is a single JSON file served directly from GitHub Pages.
+        </p>
+
+        <a
+          href="/nisab.json"
+          class="endpoint-badge"
+          target="_blank"
+          rel="noopener"
+          style="display: inline-flex; margin-bottom: 2rem;"
+        >
+          <span class="live-dot"></span>
+          nisab.tahababa.com/nisab.json
+        </a>
+
+        <!-- Endpoints -->
+        <h2><span class="n">01</span>Endpoints</h2>
+
+        <div class="code-wrap">
+          <div class="code-top">
+            <span class="code-lang">Today (live)</span>
+            <button class="copy" onclick="cp(this, 'curl https://nisab.tahababa.com/nisab.json')">copy</button>
+          </div>
+          <pre><code>curl https://nisab.tahababa.com/nisab.json</code></pre>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-top">
+            <span class="code-lang">Specific snapshot</span>
+            <button class="copy" onclick="cp(this, 'curl https://nisab.tahababa.com/history/2026-03-15T0800GMT.json')">copy</button>
+          </div>
+          <pre><code>curl https://nisab.tahababa.com/history/<span class="k">2026-03-15T0800GMT</span>.json</code></pre>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-top">
+            <span class="code-lang">History index</span>
+            <button class="copy" onclick="cp(this, 'curl https://nisab.tahababa.com/history/index.json')">copy</button>
+          </div>
+          <pre><code>curl https://nisab.tahababa.com/history/index.json</code></pre>
+        </div>
+
+        <!-- Code examples -->
+        <h2><span class="n">02</span>Code Examples</h2>
+
+        <div class="code-tabs">
+          <div class="code-tab-bar">
+            <button class="code-tab active" onclick="switchTab(this, 'tab-js')">JavaScript</button>
+            <button class="code-tab" onclick="switchTab(this, 'tab-py')">Python</button>
+            <button class="code-tab" onclick="switchTab(this, 'tab-php')">PHP</button>
+          </div>
+
+          <div class="code-wrap" id="tab-js">
+            <pre><code><span class="k">const</span> { nisab, prices } = <span class="k">await</span> fetch(<span class="s">'https://nisab.tahababa.com/nisab.json'</span>)
+  .then(r => r.json());
+
+<span class="c">// Hanafi gold nisab in GBP</span>
+nisab.hanafi.gold.values.GBP    <span class="c">// → 10640.71</span>
+
+<span class="c">// Maliki silver nisab in EUR</span>
+nisab.maliki.silver.values.EUR  <span class="c">// → 547.32</span>
+
+<span class="c">// Live gold price per gram in USD</span>
+prices.gold.per_gram            <span class="c">// → 161.37</span></code></pre>
+          </div>
+
+          <div class="code-wrap" id="tab-py" style="display:none">
+            <pre><code><span class="k">import</span> requests
+
+data = requests.get(<span class="s">'https://nisab.tahababa.com/nisab.json'</span>).json()
+
+<span class="c"># Hanafi gold nisab in GBP</span>
+data[<span class="s">'nisab'</span>][<span class="s">'hanafi'</span>][<span class="s">'gold'</span>][<span class="s">'values'</span>][<span class="s">'GBP'</span>]    <span class="c"># → 10640.71</span>
+
+<span class="c"># Maliki silver nisab in EUR</span>
+data[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span class="s">'silver'</span>][<span class="s">'values'</span>][<span class="s">'EUR'</span>]  <span class="c"># → 547.32</span>
+
+<span class="c"># Live gold price per gram</span>
+data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class="s">'per_gram'</span>]                  <span class="c"># → 161.37</span></code></pre>
+          </div>
+
+          <div class="code-wrap" id="tab-php" style="display:none">
+            <pre><code><span class="k">$data</span> = json_decode(file_get_contents(<span class="s">'https://nisab.tahababa.com/nisab.json'</span>), <span class="k">true</span>);
+
+<span class="c">// Hanafi gold nisab in GBP</span>
+<span class="k">$data</span>[<span class="s">'nisab'</span>][<span class="s">'hanafi'</span>][<span class="s">'gold'</span>][<span class="s">'values'</span>][<span class="s">'GBP'</span>];    <span class="c">// → 10640.71</span>
+
+<span class="c">// Maliki silver nisab in EUR</span>
+<span class="k">$data</span>[<span class="s">'nisab'</span>][<span class="s">'maliki'</span>][<span class="s">'silver'</span>][<span class="s">'values'</span>][<span class="s">'EUR'</span>];  <span class="c">// → 547.32</span>
+
+<span class="c">// Live gold price per gram</span>
+<span class="k">$data</span>[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class="s">'per_gram'</span>];                  <span class="c">// → 161.37</span></code></pre>
+          </div>
+        </div>
+
+        <!-- Response Schema -->
+        <h2><span class="n">03</span>Response Schema</h2>
+        <div class="code-wrap">
+          <div class="code-top"><span class="code-lang">json</span></div>
+          <pre><code>{
+  <span class="k">"meta"</span>: {
+    <span class="k">"timestamp"</span>:     <span class="s">"2026-03-15T0800GMT"</span>,
+    <span class="k">"timezone"</span>:      <span class="s">"GMT"</span>,
+    <span class="k">"base_currency"</span>: <span class="s">"USD"</span>,
+    <span class="k">"currencies"</span>:    [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 17 total */</span>],
+    <span class="k">"hijri"</span>: {
+      <span class="k">"day"</span>:          <span class="s">"15"</span>,
+      <span class="k">"month_en"</span>:     <span class="s">"Ramadan"</span>,
+      <span class="k">"month_ar"</span>:     <span class="s">"رَمَضَان"</span>,
+      <span class="k">"year"</span>:         <span class="s">"1447"</span>,
+      <span class="k">"formatted_en"</span>: <span class="s">"15 Ramadan 1447 AH"</span>
+    }
+  },
+  <span class="k">"prices"</span>: {
+    <span class="k">"gold"</span>:   { <span class="k">"per_troy_oz"</span>: <span class="nm">5019.18</span>, <span class="k">"per_gram"</span>: <span class="nm">161.37</span> },
+    <span class="k">"silver"</span>: { <span class="k">"per_troy_oz"</span>:   <span class="nm">80.61</span>,  <span class="k">"per_gram"</span>:  <span class="nm">2.59</span>  }
+  },
+  <span class="k">"nisab"</span>: {
+    <span class="k">"hanafi"</span>: {
+      <span class="k">"gold"</span>:   { <span class="k">"grams"</span>: <span class="nm">85</span>, <span class="k">"values"</span>: { <span class="k">"USD"</span>: <span class="nm">13706.56</span>, <span class="k">"GBP"</span>: <span class="nm">10329.59</span>, <span class="c">…</span> } },
+      <span class="k">"silver"</span>: { <span class="k">"grams"</span>: <span class="nm">612.36</span>, <span class="k">"tola"</span>: <span class="nm">52.5</span>, <span class="k">"values"</span>: { <span class="k">"USD"</span>: <span class="nm">1587.21</span>, <span class="c">…</span> } }
+    },
+    <span class="k">"maliki"</span>:  { <span class="c">/* same structure */</span> },
+    <span class="k">"shafii"</span>:  { <span class="c">/* same structure */</span> },
+    <span class="k">"hanbali"</span>: { <span class="c">/* same structure */</span> }
+  }
+}</code></pre>
+        </div>
+
+        <!-- Historical archive -->
+        <h2><span class="n">04</span>Historical Archive</h2>
+        <p>
+          Every snapshot is permanently committed to GitHub. 6 snapshots per
+          day, every day — a growing, queryable price history of Nisab
+          thresholds.
+        </p>
+
+        <div class="history-controls">
+          <input type="date" id="date-picker" />
+          <button class="btn" onclick="loadDate()">Load that day</button>
+          <button class="btn" onclick="loadToday()">Today</button>
+        </div>
+
+        <div class="result-box" id="result-box" style="display: none">
+          <div class="result-header">
+            <span class="live-dot"></span>
+            <span id="result-label">—</span>
+          </div>
+          <div id="result-output">Loading…</div>
+        </div>
+
+        <p style="margin-top: 1.4rem">Recent snapshots:</p>
+        <div class="hist-list" id="hist-list">
+          <span class="hist-loading">Loading…</span>
+        </div>
+
+        <!-- Currencies -->
+        <h2><span class="n">05</span>Supported Currencies</h2>
+        <p>
+          Every Nisab value is returned in all 17 currencies simultaneously.
+        </p>
+        <div class="currency-grid" id="currency-grid"></div>
+
+        <div class="box box-tip" style="margin-top: 1.5rem;">
+          <p style="margin: 0;">
+            Gulf and South Asian currencies (SAR, AED, KWD, PKR, etc.) are not
+            available from the Frankfurter exchange rate API. Use the USD value
+            and apply your local rate to convert.
+          </p>
+        </div>
+
+        <!-- Developer FAQs -->
+        <h2><span class="n">06</span>Frequently Asked Questions</h2>
+        <div class="faq-list" id="faq-list"></div>
+
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          <strong class="text-gold-dim">Nisab Al Zakat</strong>
+          · Built by
+          <a href="https://tahababa.com" target="_blank" rel="noopener">Taha Baba</a>
+          ·
+          <a href="https://github.com/tahababa/nisab" target="_blank" rel="noopener">GitHub</a>
+          · Data:
+          <a href="https://goldpricez.com" target="_blank" rel="noopener">GoldPriceZ</a>
+          &amp;
+          <a href="https://www.frankfurter.app" target="_blank" rel="noopener">Frankfurter</a>
+        </p>
+        <p style="margin-top: 0.5rem">
+          Nisab values are for informational purposes only. Consult a qualified
+          scholar for your specific situation.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const BASE = "";
+
+      const CURRENCIES = [
+        "USD","GBP","EUR","CAD","AUD","JPY","CHF","CNY",
+        "INR","MYR","IDR","TRY","ZAR","SEK","NOK","SGD","DKK",
+      ];
+
+      const CURRENCY_NAMES = {
+        USD: "US Dollar", GBP: "British Pound", EUR: "Euro",
+        CAD: "Canadian Dollar", AUD: "Australian Dollar", JPY: "Japanese Yen",
+        CHF: "Swiss Franc", CNY: "Chinese Yuan", INR: "Indian Rupee",
+        MYR: "Malaysian Ringgit", IDR: "Indonesian Rupiah", TRY: "Turkish Lira",
+        ZAR: "South African Rand", SEK: "Swedish Krona", NOK: "Norwegian Krone",
+        SGD: "Singapore Dollar", DKK: "Danish Krone",
+      };
+
+      const FAQS = [
+        {
+          q: "Can I use this API with ChatGPT or Claude?",
+          a: "Yes. In any AI tool that supports web browsing or custom actions, reference the endpoint directly: <code>https://nisab.tahababa.com/nisab.json</code>. Ask the AI to fetch the JSON and extract the Nisab value for your school and currency.",
+        },
+        {
+          q: "How do I use this in an n8n automation?",
+          a: "Add an HTTP Request node, set Method to GET, URL to <code>https://nisab.tahababa.com/nisab.json</code>. No headers needed. Access values in subsequent nodes with expressions like <code>{{ $json.nisab.hanafi.gold.values.GBP }}</code>.",
+        },
+        {
+          q: "Can I use this in Make (Integromat)?",
+          a: "Yes. Use an HTTP module with a GET request to the endpoint. Parse the JSON response and map the fields you need to any downstream module — Airtable, Google Sheets, WhatsApp, email, or anything else.",
+        },
+        {
+          q: "Can I embed this in a WordPress or Webflow site?",
+          a: "Yes. Add a custom HTML block with a <code>fetch()</code> call to the endpoint. The response includes all schools and currencies so you can display exactly what your audience needs with a few lines of JavaScript.",
+        },
+        {
+          q: "How far back does the historical data go?",
+          a: "From the day the project launched. Every snapshot since then is permanently committed to the GitHub repository. Access any snapshot using <code>/history/YYYY-MM-DDTHHMMGMT.json</code> or browse all available dates via <code>/history/index.json</code>.",
+        },
+        {
+          q: "Is this free to use commercially?",
+          a: "Yes. The project is MIT licensed. You can use it in commercial products, apps, and services without restriction. Attribution is appreciated but not required by the licence.",
+        },
+      ];
+
+      // Render currency tags
+      const grid = document.getElementById("currency-grid");
+      CURRENCIES.forEach((c) => {
+        const tag = document.createElement("span");
+        tag.className = "currency-tag";
+        tag.title = CURRENCY_NAMES[c] || c;
+        tag.textContent = c;
+        grid.appendChild(tag);
+      });
+
+      // Render FAQs
+      const faqList = document.getElementById("faq-list");
+      FAQS.forEach((faq) => {
+        const item = document.createElement("div");
+        item.className = "faq-item";
+        item.innerHTML = `
+          <button class="faq-q" onclick="this.closest('.faq-item').classList.toggle('open')">
+            <span class="faq-q-text">${faq.q}</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">${faq.a}</div>`;
+        faqList.appendChild(item);
+      });
+
+      async function loadHistFile(slug) {
+        const box = document.getElementById("result-box");
+        const out = document.getElementById("result-output");
+        document.getElementById("result-label").textContent = `history/${slug}.json`;
+        box.style.display = "block";
+        out.textContent = "Loading…";
+        try {
+          const res = await fetch(`${BASE}/history/${slug}.json`);
+          if (!res.ok) throw new Error(`No data for ${slug}`);
+          const data = await res.json();
+          const preview = {
+            meta: data.meta,
+            prices: data.prices,
+            nisab: {
+              hanafi: {
+                gold:   { grams: data.nisab.hanafi.gold.grams,   values: pick(data.nisab.hanafi.gold.values,   ["USD","GBP","EUR","CAD","AUD"]) },
+                silver: { grams: data.nisab.hanafi.silver.grams, values: pick(data.nisab.hanafi.silver.values, ["USD","GBP","EUR","CAD","AUD"]) },
+              },
+            },
+            _note: "Showing Hanafi school, 5 currencies. Fetch full JSON for all data.",
+          };
+          out.textContent = JSON.stringify(preview, null, 2);
+        } catch (e) {
+          out.textContent = `Error: ${e.message}`;
+        }
+      }
+
+      async function loadHistoryIndex() {
+        try {
+          const res = await fetch(`${BASE}/history/index.json`);
+          if (!res.ok) return;
+          const data = await res.json();
+
+          let snaps = [];
+          if (data.by_date) {
+            Object.values(data.by_date).forEach((arr) => snaps.push(...arr));
+            snaps.sort().reverse();
+          } else if (data.dates) {
+            snaps = data.dates;
+          }
+
+          const list = document.getElementById("hist-list");
+          list.innerHTML = "";
+          snaps.slice(0, 48).forEach((d) => {
+            const tag = document.createElement("span");
+            tag.className = "hist-tag";
+            tag.textContent = d;
+            tag.onclick = () => loadHistFile(d);
+            list.appendChild(tag);
+          });
+        } catch (_) {}
+      }
+
+      function pick(obj, keys) {
+        const r = {};
+        keys.forEach((k) => { if (obj?.[k] != null) r[k] = obj[k]; });
+        return r;
+      }
+
+      function loadDate() {
+        const d = document.getElementById("date-picker").value;
+        if (!d) return;
+        fetch(`${BASE}/history/index.json`)
+          .then((r) => r.json())
+          .then((idx) => {
+            const snaps = idx.by_date?.[d] ?? (idx.dates || []).filter((x) => x.startsWith(d));
+            loadHistFile(snaps.length ? snaps[0] : d);
+          })
+          .catch(() => loadHistFile(d));
+      }
+
+      function loadToday() {
+        const today = new Date().toISOString().slice(0, 10);
+        document.getElementById("date-picker").value = today;
+        loadDate();
+      }
+
+      function switchTab(btn, tabId) {
+        btn.closest(".code-tabs").querySelectorAll(".code-tab").forEach(b => b.classList.remove("active"));
+        btn.closest(".code-tabs").querySelectorAll(".code-wrap").forEach(p => p.style.display = "none");
+        btn.classList.add("active");
+        document.getElementById(tabId).style.display = "block";
+      }
+
+      function cp(btn, text) {
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = "copied!";
+          setTimeout(() => (btn.textContent = "copy"), 1800);
+        });
+      }
+
+      document.getElementById("date-picker").max = new Date().toISOString().slice(0, 10);
+      loadHistoryIndex();
+    </script>
+    <script src="./scripts/popup.js"></script>
+    <script src="./scripts/theme.js"></script>
+  </body>
+</html>

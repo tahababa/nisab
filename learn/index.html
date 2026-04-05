@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn Zakat — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Comprehensive Zakat learning hub covering all four Sunni schools of jurisprudence. Nisab, Hawl, calculation methods, recipients, and more."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>
+      !(function () {
+        var s;
+        try {
+          s = localStorage.getItem("nisab-theme");
+        } catch (e) {}
+        var h = new Date().getHours();
+        document.documentElement.setAttribute(
+          "data-theme",
+          s || (h >= 6 && h < 18 ? "light" : "dark"),
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li>
+            <button
+              class="theme-toggle"
+              onclick="toggleTheme()"
+              aria-label="Toggle theme"
+            >
+              <span class="icon-dark">☀️</span
+              ><span class="icon-light">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <header class="page-header fade-up">
+        <span class="basmala">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</span>
+        <h1>Learn <em>Zakat</em></h1>
+        <p class="subtitle">
+          A comprehensive guide across all four Sunni schools
+        </p>
+      </header>
+
+      <section class="content">
+        <p
+          class="fade-up fade-up-d1"
+          style="
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: var(--paper-dim);
+          "
+        >
+          Whether you are new to Zakat or looking to deepen your understanding,
+          this hub covers everything from foundational concepts to contemporary
+          issues, with rulings from the Hanafi, Maliki, Shafi'i, and Hanbali
+          schools.
+        </p>
+
+        <h4 style="margin-bottom: 0.4rem">Recommended reading order</h4>
+        <p style="margin-bottom: 2rem">
+          Start with "What is Zakat?" and work your way through. Each article is
+          self-contained, so feel free to jump to any topic.
+        </p>
+
+        <div class="card-grid">
+          <a href="/learn/what-is-zakat.html" class="card fade-up fade-up-d1">
+            <div class="card-num">01 — Foundation</div>
+            <h3>What is Zakat?</h3>
+            <p>
+              The meaning, purpose, and spiritual dimensions of the third pillar
+              of Islam. Zakat vs Sadaqah, and the historical context.
+            </p>
+          </a>
+
+          <a href="/learn/conditions.html" class="card fade-up fade-up-d1">
+            <div class="card-num">02 — Foundation</div>
+            <h3>Conditions of Obligation</h3>
+            <p>
+              Who must pay Zakat? The requirements of Islam, maturity, sanity,
+              ownership, and how they differ across schools.
+            </p>
+          </a>
+
+          <a href="/learn/nisab.html" class="card fade-up fade-up-d2">
+            <div class="card-num">03 — Core Concept</div>
+            <h3>Understanding Nisab</h3>
+            <p>
+              The minimum wealth threshold. Gold vs silver standards, school
+              differences, and live Nisab values.
+            </p>
+          </a>
+
+          <a href="/learn/hawl.html" class="card fade-up fade-up-d2">
+            <div class="card-num">04 — Core Concept</div>
+            <h3>The Hawl (Lunar Year)</h3>
+            <p>
+              When the Zakat year starts, how to track it, what happens when
+              wealth fluctuates, and the "seed date" concept.
+            </p>
+          </a>
+
+          <a
+            href="/learn/zakatable-wealth.html"
+            class="card fade-up fade-up-d2"
+          >
+            <div class="card-num">05 — Practical</div>
+            <h3>Zakatable Wealth</h3>
+            <p>
+              Cash, gold, silver, jewellery, business goods, stocks, real
+              estate, pensions, trusts, agricultural produce, livestock, and
+              more.
+            </p>
+          </a>
+
+          <a
+            href="/learn/how-to-calculate.html"
+            class="card fade-up fade-up-d3"
+          >
+            <div class="card-num">06 — Practical</div>
+            <h3>How to Calculate Zakat</h3>
+            <p>
+              Step-by-step calculation method, debt deduction rules by school,
+              worked examples from basic to advanced.
+            </p>
+          </a>
+
+          <a href="/learn/recipients.html" class="card fade-up fade-up-d3">
+            <div class="card-num">07 — Distribution</div>
+            <h3>Who Receives Zakat?</h3>
+            <p>
+              The eight Quranic categories, who cannot receive, giving to
+              relatives, Tamlik, and practical distribution guidance.
+            </p>
+          </a>
+
+          <a
+            href="/learn/timing-and-payment.html"
+            class="card fade-up fade-up-d3"
+          >
+            <div class="card-num">08 — Distribution</div>
+            <h3>Timing &amp; Payment</h3>
+            <p>
+              When to pay, advance payments, installments, paying via charities,
+              missed Zakat, intention, and payment in kind.
+            </p>
+          </a>
+
+          <a href="/learn/schools.html" class="card fade-up">
+            <div class="card-num">09 — Reference</div>
+            <h3>The Four Schools Compared</h3>
+            <p>
+              Side-by-side comparison of Hanafi, Maliki, Shafi'i, and Hanbali
+              rulings on every major Zakat question.
+            </p>
+          </a>
+
+          <a href="/learn/common-mistakes.html" class="card fade-up">
+            <div class="card-num">10 — Practical</div>
+            <h3>Common Mistakes</h3>
+            <p>
+              Fifteen common errors Muslims make when calculating and paying
+              Zakat, and how to avoid them.
+            </p>
+          </a>
+
+          <a href="/learn/contemporary-issues.html" class="card fade-up">
+            <div class="card-num">11 — Modern</div>
+            <h3>Contemporary Issues</h3>
+            <p>
+              Zakat on salary, cryptocurrency, pensions, Shariah mortgages,
+              trusts, stocks, and tax-efficient giving.
+            </p>
+          </a>
+
+          <a href="/learn/zakat-vs-sadaqah.html" class="card fade-up">
+            <div class="card-num">12 — Spiritual</div>
+            <h3>Zakat vs Sadaqah</h3>
+            <p>
+              The difference between obligatory and voluntary charity,
+              Qard-e-Hasana, and the etiquette of giving.
+            </p>
+          </a>
+
+          <a href="/learn/warnings.html" class="card fade-up">
+            <div class="card-num">13 — Spiritual</div>
+            <h3>Warnings &amp; Virtues</h3>
+            <p>
+              Quranic warnings for withholding Zakat, Prophetic traditions on
+              its virtues, and the promise of purification.
+            </p>
+          </a>
+        </div>
+
+        <div
+          class="info-card gold"
+          style="text-align: center; margin-top: 3rem"
+        >
+          <p style="margin: 0; color: var(--paper)">
+            Ready to calculate? Use our
+            <a href="/calculator" style="font-weight: 500">Zakat Calculator</a>
+            with live Nisab values, school-specific rules, and full debt
+            handling.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+    <script src="/scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

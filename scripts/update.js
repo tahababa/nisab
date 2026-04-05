@@ -26,8 +26,8 @@ const CURRENCIES = [
 const SCHOOLS = {
   hanafi: {
     label: 'Hanafi',
-    note:  'Based on 7.5 tola (87.48g) of gold or 52.5 tola (612.36g) of silver',
-    gold:   { grams: 87.48,  tola: 7.5   },
+    note:  'Based on 85g of gold or 612.36g of silver',
+    gold:   { grams: 85.0   },
     silver: { grams: 612.36, tola: 52.5  }
   },
   maliki: {
@@ -122,6 +122,27 @@ async function fetchRates() {
   return { USD: 1.0, ...data.rates };
 }
 
+// ─── Fetch Hijri date from Aladhan (Umm al-Qura / Saudi calendar) ─────────────
+
+async function fetchHijriDate() {
+  const now  = new Date();
+  const dd   = String(now.getUTCDate()).padStart(2, '0');
+  const mm   = String(now.getUTCMonth() + 1).padStart(2, '0');
+  const yyyy = now.getUTCFullYear();
+  const res  = await fetch(`https://api.aladhan.com/v1/gToH?date=${dd}-${mm}-${yyyy}`);
+  if (!res.ok) throw new Error(`Aladhan error: ${res.status}`);
+  const data = await res.json();
+  const h    = data.data.hijri;
+  return {
+    day:          h.day,
+    month_en:     h.month.en,
+    month_ar:     h.month.ar,
+    year:         h.year,
+    formatted_en: `${parseInt(h.day, 10)} ${h.month.en} ${h.year} AH`,
+    formatted_ar: `${h.day} ${h.month.ar} ${h.year}`
+  };
+}
+
 // ─── Build payload ─────────────────────────────────────────────────────────────
 
 function currencyValues(pricePerGramUSD, grams, rates) {
@@ -135,7 +156,7 @@ function currencyValues(pricePerGramUSD, grams, rates) {
   return out;
 }
 
-function buildPayload(metals, rates, slug, isoTimestamp) {
+function buildPayload(metals, rates, slug, isoTimestamp, hijri) {
   const schoolPayload = {};
   for (const [key, school] of Object.entries(SCHOOLS)) {
     schoolPayload[key] = {
@@ -161,6 +182,7 @@ function buildPayload(metals, rates, slug, isoTimestamp) {
       timezone:     'GMT',
       base_currency: 'USD',
       currencies:   CURRENCIES,
+      hijri:        hijri ?? null,
       disclaimer:   'Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.',
       source:       'Nisab Al Zakat',
       url:          'nisab.tahababa.com',
@@ -228,15 +250,16 @@ async function main() {
 
   console.log(`Running nisab update: ${slug}`);
 
-  const [metals, rates] = await Promise.all([
+  const [metals, rates, hijri] = await Promise.all([
     fetchMetalPrices(),
-    fetchRates()
+    fetchRates(),
+    fetchHijriDate().catch(e => { console.warn('Hijri fetch failed:', e.message); return null; })
   ]);
 
   console.log(`Gold:   $${metals.gold.per_troy_oz}/oz   ($${metals.gold.per_gram}/g)`);
   console.log(`Silver: $${metals.silver.per_troy_oz}/oz  ($${metals.silver.per_gram}/g)`);
 
-  const payload = buildPayload(metals, rates, slug, isoStr);
+  const payload = buildPayload(metals, rates, slug, isoStr, hijri);
   writeFiles(payload, slug);
 
   console.log('\nHanafi gold nisab:');
