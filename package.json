@@ -1,7 +1,7 @@
 {
   "name": "nisab-al-zakat",
   "version": "1.0.0",
-  "description": "Nisab Al Zakat — Live Nisab thresholds, all schools, 27 currencies, 6× daily, full historical archive",
+  "description": "Nisab Al Zakat — Live Nisab thresholds, all schools, 37 currencies, 6× daily, full historical archive",
   "type": "module",
   "scripts": {
     "update": "node scripts/update.js"
