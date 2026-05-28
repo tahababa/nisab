@@ -93,6 +93,42 @@
           <pre><code>curl https://nisab.tahababa.com/history/index.json</code></pre>
         </div>
 
+        <p style="margin-top: 1.2rem;">
+          For lightweight integrations that only need a single currency, use the per-currency endpoint instead of downloading the full 37-currency file. Replace <code>{CURRENCY}</code> with any supported code (e.g. <code>SAR</code>, <code>GBP</code>, <code>PKR</code>).
+        </p>
+
+        <div class="code-wrap">
+          <div class="code-top">
+            <span class="code-lang">Per-currency (SAR example)</span>
+            <button class="copy" onclick="cp(this, 'curl https://nisab.tahababa.com/nisab/SAR.json')">copy</button>
+          </div>
+          <pre><code>curl https://nisab.tahababa.com/nisab/<span class="k">SAR</span>.json</code></pre>
+        </div>
+
+        <div class="code-wrap" style="margin-top: 0.75rem;">
+          <div class="code-top"><span class="code-lang">json — response shape</span></div>
+          <pre><code>{
+  <span class="k">"meta"</span>: {
+    <span class="k">"updated_at"</span>:    <span class="s">"2026-05-28T13:34:25.981Z"</span>,
+    <span class="k">"currency"</span>:     <span class="s">"SAR"</span>,
+    <span class="k">"pegged_to_usd"</span>: <span class="k">true</span>
+  },
+  <span class="k">"nisab"</span>: {
+    <span class="k">"hanafi"</span>:  { <span class="k">"label"</span>: <span class="s">"Hanafi"</span>,   <span class="k">"gold"</span>: <span class="nm">45297.99</span>, <span class="k">"silver"</span>: <span class="nm">5428.69</span> },
+    <span class="k">"maliki"</span>:  { <span class="k">"label"</span>: <span class="s">"Maliki"</span>,   <span class="k">"gold"</span>: <span class="nm">45297.99</span>, <span class="k">"silver"</span>: <span class="nm">5274.79</span> },
+    <span class="k">"shafii"</span>:  { <span class="k">"label"</span>: <span class="s">"Shafi'i"</span>,  <span class="k">"gold"</span>: <span class="nm">45297.99</span>, <span class="k">"silver"</span>: <span class="nm">5274.79</span> },
+    <span class="k">"hanbali"</span>: { <span class="k">"label"</span>: <span class="s">"Hanbali"</span>,  <span class="k">"gold"</span>: <span class="nm">45297.99</span>, <span class="k">"silver"</span>: <span class="nm">5274.79</span> }
+  }
+}</code></pre>
+        </div>
+
+        <div class="box box-tip" style="margin-top: 1rem;">
+          <p style="margin: 0;">
+            Six currencies are pegged to the US Dollar — SAR, AED, QAR, OMR, BHD, JOD — and return <code>"pegged_to_usd": true</code>. Their Nisab values move only with gold and silver prices, not with exchange-rate fluctuation. See <a href="learn/why-nisab-varies.html">Why Does My Nisab Vary by Currency?</a> for the full explanation.<br /><br />
+            An unsupported currency code (e.g. <code>/nisab/XYZ.json</code>) returns a <strong>404</strong> — these are served as static files by GitHub Pages.
+          </p>
+        </div>
+
         <!-- Code examples -->
         <h2><span class="n">02</span>Code Examples</h2>
 
@@ -152,10 +188,17 @@ data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class
           <div class="code-top"><span class="code-lang">json</span></div>
           <pre><code>{
   <span class="k">"meta"</span>: {
-    <span class="k">"timestamp"</span>:     <span class="s">"2026-03-15T0800GMT"</span>,
-    <span class="k">"timezone"</span>:      <span class="s">"GMT"</span>,
-    <span class="k">"base_currency"</span>: <span class="s">"USD"</span>,
-    <span class="k">"currencies"</span>:    [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 17 total */</span>],
+    <span class="k">"timestamp"</span>:      <span class="s">"2026-03-15T0800GMT"</span>,
+    <span class="k">"updated_at"</span>:     <span class="s">"2026-03-15T09:01:22.000Z"</span>,
+    <span class="k">"timezone"</span>:       <span class="s">"GMT"</span>,
+    <span class="k">"base_currency"</span>:  <span class="s">"USD"</span>,
+    <span class="k">"currencies"</span>:     [<span class="s">"USD"</span>, <span class="s">"GBP"</span>, <span class="s">"EUR"</span>, <span class="c">/* 37 total */</span>],
+    <span class="k">"currency_count"</span>: <span class="nm">37</span>,
+    <span class="k">"fx_rate_date"</span>:   <span class="s">"2026-03-15"</span>,
+    <span class="k">"usd_pegged"</span>: {
+      <span class="k">"currencies"</span>: [<span class="s">"SAR"</span>, <span class="s">"AED"</span>, <span class="s">"QAR"</span>, <span class="s">"OMR"</span>, <span class="s">"BHD"</span>, <span class="s">"JOD"</span>],
+      <span class="k">"note"</span>: <span class="s">"These currencies are fixed against the US Dollar…"</span>
+    },
     <span class="k">"hijri"</span>: {
       <span class="k">"day"</span>:          <span class="s">"15"</span>,
       <span class="k">"month_en"</span>:     <span class="s">"Ramadan"</span>,
