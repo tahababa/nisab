@@ -34,18 +34,31 @@ jobs:
           git config user.name "nisab-bot"
           git config user.email "bot@tahababa.com"
 
-          # Stage and commit the freshly generated files
-          git add nisab.json history/ nisab/
+          mkdir -p nisab history
+
+          git add nisab.json nisab/ history/
           git diff --staged --quiet || git commit -m "chore: update nisab $(date -u +%Y-%m-%dT%H:%M)GMT"
 
-          # Rebase onto latest main, preferring our freshly generated data on conflict.
-          # NOTE: during a rebase, -X theirs means "prefer the commits being replayed"
-          # (our fresh data), which is the inverse of how it works in a merge.
+          # During a rebase, -X theirs prefers the commits being replayed (our fresh data).
           git pull --rebase -X theirs origin main || {
-            # Fallback: if the rebase still stops, force our generated files to win for BOTH files
-            git checkout --theirs nisab.json history/index.json 2>/dev/null || true
-            git add nisab.json history/index.json
+            git checkout --theirs nisab.json nisab/ history/ 2>/dev/null || true
+            git add nisab.json nisab/ history/
             GIT_EDITOR=true git rebase --continue || git rebase --abort
           }
 
-          git push origin main
+          push_attempts=0
+          max_attempts=5
+          until git push origin main; do
+            push_attempts=$((push_attempts + 1))
+            if [ "$push_attempts" -ge "$max_attempts" ]; then
+              echo "Push failed after $max_attempts attempts. Giving up."
+              exit 1
+            fi
+            echo "Push rejected, re-syncing (attempt $push_attempts/$max_attempts)..."
+            git pull --rebase -X theirs origin main || {
+              git checkout --theirs nisab.json nisab/ history/ 2>/dev/null || true
+              git add nisab.json nisab/ history/
+              GIT_EDITOR=true git rebase --continue || git rebase --abort
+            }
+            sleep 3
+          done
