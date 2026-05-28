@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why Does My Nisab Behave Differently by Currency? — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Why your local Nisab can move faster than global gold prices. Pegged vs floating currencies, compounding effects, and what it means for your Zakat."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="
+            document.querySelector('.nav-links').classList.toggle('open')
+          "
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><span class="icon-dark">☀️</span><span class="icon-light">🌙</span></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> Why Does My Nisab Behave Differently by Currency?
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>Why Does My Zakat Threshold Behave Differently Depending on My Currency?</h1>
+        <p class="subtitle">Gold prices, exchange rates, and why local Nisab can move faster than global markets</p>
+      </header>
+
+      <section class="content">
+        <h2><span class="n">01</span>Gold and Silver Move Daily — for Everyone</h2>
+
+        <p>
+          The Nisab is rooted in physical precious metals: 85 grams of gold or
+          612.36 grams of silver (Hanafi), or 595 grams of silver (Maliki, Shafi'i,
+          Hanbali). These amounts are fixed by scholarly consensus. What changes
+          is the <strong>market price</strong> of those metals, which fluctuates
+          every trading day on global commodity exchanges.
+        </p>
+
+        <p>
+          When gold rises 2%, the gold Nisab rises 2% — in US dollars, in euros,
+          in British pounds, and in every other currency at once. This base
+          movement is universal: it affects every Muslim on Earth equally, in
+          percentage terms, before exchange rates enter the picture.
+        </p>
+
+        <div class="info-card">
+          <h4>The formula</h4>
+          <p style="font-family: var(--mono); font-size: 0.85rem; color: var(--gold); margin: 0">
+            Nisab (local) = Gold price per gram (USD) × 85g × local currency rate
+          </p>
+          <p style="margin: 0.6rem 0 0; font-size: 0.9rem">
+            Two variables are doing work here simultaneously: the metal price
+            <em>and</em> your currency's exchange rate against the US dollar.
+          </p>
+        </div>
+
+        <h2><span class="n">02</span>Pegged Currencies: Only Metal Prices Move</h2>
+
+        <p>
+          Some currencies maintain a hard, legally-fixed peg to the US dollar.
+          Their central banks intervene to hold the rate constant. The most
+          important of these for the Muslim world are:
+        </p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Currency</th>
+                <th>Country</th>
+                <th>Approximate rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>SAR</strong></td><td>Saudi Arabia</td><td>3.75 per USD</td></tr>
+              <tr><td><strong>AED</strong></td><td>UAE</td><td>3.67 per USD</td></tr>
+              <tr><td><strong>QAR</strong></td><td>Qatar</td><td>3.64 per USD</td></tr>
+              <tr><td><strong>OMR</strong></td><td>Oman</td><td>0.385 per USD</td></tr>
+              <tr><td><strong>BHD</strong></td><td>Bahrain</td><td>0.376 per USD</td></tr>
+              <tr><td><strong>JOD</strong></td><td>Jordan</td><td>0.709 per USD</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          If you live in Saudi Arabia, the UAE, Qatar, Oman, Bahrain, or Jordan,
+          the exchange rate half of the equation is essentially frozen. Your
+          Nisab in riyals, dirhams, or dinars moves <strong>only when gold
+          and silver prices move</strong>. A 2% rise in gold produces almost
+          exactly a 2% rise in your local Nisab. Nothing more.
+        </p>
+
+        <div class="info-card gold">
+          <h4>Practical tip for Gulf residents</h4>
+          <p style="margin: 0">
+            Because the SAR/AED/QAR/OMR/BHD Nisab tracks the USD Nisab almost
+            perfectly, you can mentally use the USD value as a proxy.
+            Multiply by 3.75 (SAR), 3.67 (AED), or 3.64 (QAR) at any time
+            and the result will be accurate to within rounding.
+          </p>
+        </div>
+
+        <h2><span class="n">03</span>Floating Currencies: Two Effects Stack</h2>
+
+        <p>
+          Most currencies in the world float freely against the dollar. Their
+          exchange rate is determined by markets and shifts continuously
+          — sometimes gradually, sometimes sharply. When your currency floats,
+          two separate forces act on your local Nisab at the same time:
+        </p>
+
+        <ol>
+          <li>
+            <strong>The metal price</strong> — rising gold in USD increases
+            the USD Nisab. This is the universal part.
+          </li>
+          <li>
+            <strong>Your currency's exchange rate</strong> — if your currency
+            weakens against the dollar (takes more of your currency to buy one
+            dollar), your local Nisab rises even further, because you now need
+            more of your currency to buy the same dollars needed to buy the
+            same gold.
+          </li>
+        </ol>
+
+        <p>
+          These two forces often compound. Gold tends to rise precisely during
+          periods of global economic stress — the same periods when emerging
+          market and developing currencies tend to weaken. When gold rises
+          <em>and</em> your currency weakens at the same time, your local
+          Nisab can spike sharply even if gold only moved a little in dollar terms.
+        </p>
+
+        <div class="box box-note">
+          <p style="margin: 0">
+            Currencies where this compounding effect is most visible include:
+            <strong>TRY</strong> (Turkish lira), <strong>EGP</strong> (Egyptian pound),
+            <strong>PKR</strong> (Pakistani rupee), <strong>BDT</strong> (Bangladeshi taka),
+            <strong>NGN</strong> (Nigerian naira), <strong>MYR</strong> (Malaysian ringgit),
+            <strong>IDR</strong> (Indonesian rupiah), <strong>ZAR</strong> (South African rand),
+            <strong>MAD</strong>, <strong>DZD</strong>, <strong>TND</strong>, <strong>LBP</strong>,
+            <strong>IQD</strong>, <strong>LYD</strong>, <strong>KZT</strong>, <strong>AFN</strong>,
+            <strong>UZS</strong>, <strong>INR</strong>, and many others.
+          </p>
+        </div>
+
+        <h2><span class="n">04</span>A Worked Example</h2>
+
+        <p>
+          Suppose gold rises by 2% overnight — from $3,000/oz to $3,060/oz.
+          The gold Nisab in grams stays fixed at 85g. Here is what happens
+          across four currencies:
+        </p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Currency</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Change</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>USD</strong></td>
+                <td>~$8,200</td>
+                <td>~$8,364</td>
+                <td>+2%</td>
+                <td>Pure metal price move</td>
+              </tr>
+              <tr>
+                <td><strong>SAR</strong> (pegged)</td>
+                <td>~30,750 SAR</td>
+                <td>~31,365 SAR</td>
+                <td>+2%</td>
+                <td>Tracks USD exactly — peg holds</td>
+              </tr>
+              <tr>
+                <td><strong>TRY</strong> (floating, weakening)</td>
+                <td>~265,000 TRY</td>
+                <td>~278,000 TRY</td>
+                <td>~+5%</td>
+                <td>Gold +2% <em>and</em> lira depreciated ~3% simultaneously</td>
+              </tr>
+              <tr>
+                <td><strong>EGP</strong> (floating, weakening)</td>
+                <td>~405,000 EGP</td>
+                <td>~430,000 EGP</td>
+                <td>~+6%</td>
+                <td>Gold +2% <em>and</em> pound depreciated ~4% simultaneously</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          The numbers above are illustrative — they use rough, realistic figures,
+          not a snapshot from a specific day. The point is the <em>structure</em>:
+          pegged currencies absorb only the metal move, while floating
+          currencies absorb both the metal move and their own exchange rate shift.
+          When those two forces point in the same direction — gold up, local
+          currency down — they multiply each other's effect.
+        </p>
+
+        <div class="box box-tip">
+          <p style="margin: 0">
+            This is not a flaw in the Nisab calculation. It reflects genuine
+            economic reality: if your currency has weakened, your purchasing
+            power has fallen, and the Nisab — anchored in real metal — naturally
+            rises to reflect that.
+          </p>
+        </div>
+
+        <h2><span class="n">05</span>What This Means for You</h2>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+          "
+        >
+          <div class="info-card">
+            <h4>Check at your Hawl, not daily</h4>
+            <p style="margin: 0">
+              The Nisab is relevant at two moments: when your wealth first
+              reaches it (your seed date) and when your annual Hawl completes.
+              Daily fluctuations between those points do not normally affect
+              your obligation. Avoid the habit of checking constantly — it
+              creates anxiety without changing anything.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <h4>A currency crisis is not a calculation error</h4>
+            <p style="margin: 0">
+              If your local Nisab jumps sharply during a period of currency
+              depreciation, do not assume something is wrong with the tool or
+              the data. It is working correctly. The higher local threshold
+              reflects the fact that your currency now buys less gold than it
+              did before.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <h4>Gulf residents: anchor on USD</h4>
+            <p style="margin: 0">
+              If you live in a GCC country (Saudi Arabia, UAE, Qatar, Oman,
+              Bahrain) or Jordan, your Nisab in local currency is simply the
+              USD Nisab multiplied by your fixed rate. You can check either
+              figure confidently — they move together.
+            </p>
+          </div>
+        </div>
+
+        <div class="info-card gold" style="margin-top: 3rem; text-align: center">
+          <p style="margin: 0">
+            Next: <a href="nisab.html" style="font-weight: 500">Understanding Nisab</a>
+            — the scholarly basis for the two standards across all four schools.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+  </body>
+</html>

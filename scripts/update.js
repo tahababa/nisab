@@ -2,12 +2,13 @@
  * Nisab Al Zakat — scripts/update.js
  *
  * Fetches gold & silver prices from goldpricez.com (free, 30-60 req/hour)
- * and exchange rates from Frankfurter (free, unlimited, no key).
+ * and exchange rates from @fawazahmed0/currency-api (free, 150+ currencies, no key, CDN-backed).
  *
  * Writes:
  *   nisab.json                       — always the latest snapshot
  *   history/2026-03-15T0000Z.json    — permanent timestamped record
  *   history/index.json               — updated list of all snapshots
+ *   nisab/{CURRENCY}.json            — slim per-currency payload for all 37 currencies
  */
 
 import fs   from 'fs';
@@ -18,15 +19,27 @@ import path from 'path';
 const TROY_OZ_TO_GRAMS = 31.1035;
 
 const CURRENCIES = [
-  'USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY',
-  'CHF', 'CNY', 'INR', 'MYR', 'IDR', 'TRY',
-  'ZAR', 'SEK', 'NOK', 'SGD', 'DKK'
+  // Original global set (17)
+  'USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY', 'CHF', 'CNY',
+  'INR', 'MYR', 'IDR', 'TRY', 'ZAR', 'SEK', 'NOK', 'SGD', 'DKK',
+  // GCC (6)
+  'SAR', 'AED', 'KWD', 'BHD', 'OMR', 'QAR',
+  // Major Muslim-majority economies (8)
+  'EGP', 'PKR', 'BDT', 'NGN', 'MAD', 'DZD', 'JOD', 'TND',
+  // Additional MENA + Central Asia (6)
+  'IQD', 'LBP', 'LYD', 'KZT', 'AFN', 'UZS'
 ];
+
+// Currencies with a hard peg to the US Dollar
+const USD_PEGGED = new Set(['SAR', 'AED', 'QAR', 'OMR', 'BHD', 'JOD']);
+
+// Low-denomination currencies where decimal places are noise
+const LOW_DECIMAL_CURRENCIES = ['IDR', 'IQD', 'LBP', 'KZT', 'UZS', 'AFN', 'NGN', 'PKR', 'BDT'];
 
 const SCHOOLS = {
   hanafi: {
     label: 'Hanafi',
-    note:  'Based on 85g of gold or 612.36g of silver',
+    note:  'Based on 85g of gold (following Al-Azhar) or 612.36g of silver (the traditional 52.5 tola Hanafi measure). The lower threshold is preferred to benefit the poor.',
     gold:   { grams: 85.0   },
     silver: { grams: 612.36, tola: 52.5  }
   },
@@ -111,15 +124,34 @@ async function fetchMetalPrices() {
   };
 }
 
-// ─── Fetch exchange rates from Frankfurter ─────────────────────────────────────
-// Free, no API key, no rate limit.
+// ─── Fetch exchange rates from @fawazahmed0/currency-api ──────────────────────
+// Free, no API key, 150+ currencies, served via jsDelivr CDN with a fallback.
+// Response shape: { "date": "YYYY-MM-DD", "usd": { "aed": 3.67, "eur": 0.92, … } }
 
 async function fetchRates() {
-  const nonUSD = CURRENCIES.filter(c => c !== 'USD').join(',');
-  const res    = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${nonUSD}`);
-  if (!res.ok) throw new Error(`Frankfurter error: ${res.status}`);
-  const data = await res.json();
-  return { USD: 1.0, ...data.rates };
+  const primaryUrl  = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json';
+  const fallbackUrl = 'https://latest.currency-api.pages.dev/v1/currencies/usd.json';
+
+  let data;
+  try {
+    const res = await fetch(primaryUrl);
+    if (!res.ok) throw new Error(`Primary FX error: ${res.status}`);
+    data = await res.json();
+  } catch (e) {
+    console.warn(`Primary FX fetch failed (${e.message}), trying fallback…`);
+    const res = await fetch(fallbackUrl);
+    if (!res.ok) throw new Error(`Fallback FX error: ${res.status}`);
+    data = await res.json();
+  }
+
+  const raw   = data.usd;   // lowercase ISO codes keyed off "usd"
+  const rates = { USD: 1.0 };
+  for (const c of CURRENCIES) {
+    if (c === 'USD') continue;
+    const key  = c.toLowerCase();
+    rates[c]   = raw[key] != null ? raw[key] : null;
+  }
+  return { rates, fx_date: data.date };
 }
 
 // ─── Fetch Hijri date from Aladhan (Umm al-Qura / Saudi calendar) ─────────────
@@ -149,14 +181,15 @@ function currencyValues(pricePerGramUSD, grams, rates) {
   const usdValue = pricePerGramUSD * grams;
   const out = {};
   for (const c of CURRENCIES) {
-    out[c] = rates[c] != null
-      ? parseFloat((usdValue * rates[c]).toFixed(2))
-      : null;
+    if (rates[c] == null) { out[c] = null; continue; }
+    const raw  = usdValue * rates[c];
+    const dp   = LOW_DECIMAL_CURRENCIES.includes(c) ? 0 : 2;
+    out[c]     = parseFloat(raw.toFixed(dp));
   }
   return out;
 }
 
-function buildPayload(metals, rates, slug, isoTimestamp, hijri) {
+function buildPayload(metals, rates, fx_date, slug, isoTimestamp, hijri) {
   const schoolPayload = {};
   for (const [key, school] of Object.entries(SCHOOLS)) {
     schoolPayload[key] = {
@@ -177,17 +210,23 @@ function buildPayload(metals, rates, slug, isoTimestamp, hijri) {
 
   return {
     meta: {
-      timestamp:    slug,             // e.g. "2026-03-15T0800GMT"
-      updated_at:   isoTimestamp,     // full ISO string
-      timezone:     'GMT',
-      base_currency: 'USD',
-      currencies:   CURRENCIES,
-      hijri:        hijri ?? null,
-      disclaimer:   'Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.',
-      source:       'Nisab Al Zakat',
-      url:          'nisab.tahababa.com',
-      data_source:  'goldpricez.com',
-      github:       'https://github.com/tahababa/nisab'
+      timestamp:      slug,           // e.g. "2026-03-15T0800GMT"
+      updated_at:     isoTimestamp,   // full ISO string
+      timezone:       'GMT',
+      base_currency:  'USD',
+      currencies:     CURRENCIES,
+      currency_count: CURRENCIES.length,
+      fx_rate_date:   fx_date,
+      usd_pegged: {
+        currencies: Array.from(USD_PEGGED),
+        note: 'These currencies are fixed against the US Dollar. Nisab values in these currencies move only with gold and silver prices, not with FX fluctuation.'
+      },
+      hijri:          hijri ?? null,
+      disclaimer:     'Nisab values are for informational purposes only. Consult a qualified scholar for your specific situation.',
+      source:         'Nisab Al Zakat',
+      url:            'nisab.tahababa.com',
+      data_source:    'goldpricez.com',
+      github:         'https://github.com/tahababa/nisab'
     },
     prices:  metals,
     nisab:   schoolPayload
@@ -241,6 +280,41 @@ function writeFiles(payload, slug) {
   console.log(`✓ history/index.json updated (${allFiles.length} records across ${Object.keys(byDate).length} days)`);
 }
 
+// ─── Write per-currency slim files ────────────────────────────────────────────
+// Generates nisab/{CURRENCY}.json for each of the 37 currencies.
+// These are served as static files by GitHub Pages, acting as per-currency endpoints.
+
+function writePerCurrencyFiles(payload) {
+  const dir = path.resolve('nisab');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+
+  for (const currency of CURRENCIES) {
+    const slim = {
+      meta: {
+        updated_at:    payload.meta.updated_at,
+        currency,
+        pegged_to_usd: USD_PEGGED.has(currency)
+      },
+      nisab: {}
+    };
+
+    for (const [key, school] of Object.entries(payload.nisab)) {
+      slim.nisab[key] = {
+        label:  school.label,
+        gold:   school.gold.values[currency]   ?? null,
+        silver: school.silver.values[currency] ?? null
+      };
+    }
+
+    fs.writeFileSync(
+      path.join(dir, `${currency}.json`),
+      JSON.stringify(slim, null, 2),
+      'utf8'
+    );
+  }
+  console.log(`✓ nisab/*.json updated (${CURRENCIES.length} per-currency files)`);
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -250,17 +324,20 @@ async function main() {
 
   console.log(`Running nisab update: ${slug}`);
 
-  const [metals, rates, hijri] = await Promise.all([
+  const [metals, fxResult, hijri] = await Promise.all([
     fetchMetalPrices(),
     fetchRates(),
     fetchHijriDate().catch(e => { console.warn('Hijri fetch failed:', e.message); return null; })
   ]);
+  const { rates, fx_date } = fxResult;
 
   console.log(`Gold:   $${metals.gold.per_troy_oz}/oz   ($${metals.gold.per_gram}/g)`);
   console.log(`Silver: $${metals.silver.per_troy_oz}/oz  ($${metals.silver.per_gram}/g)`);
+  console.log(`FX date: ${fx_date}`);
 
-  const payload = buildPayload(metals, rates, slug, isoStr, hijri);
+  const payload = buildPayload(metals, rates, fx_date, slug, isoStr, hijri);
   writeFiles(payload, slug);
+  writePerCurrencyFiles(payload);
 
   console.log('\nHanafi gold nisab:');
   console.log(`  USD: $${payload.nisab.hanafi.gold.values.USD?.toLocaleString() ?? 'N/A'}`);

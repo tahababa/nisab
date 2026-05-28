@@ -8,7 +8,7 @@
     <title>Nisab Al Zakat — Live Nisab Thresholds API</title>
     <meta
       name="description"
-      content="Free, open JSON API for live Nisab Al Zakat thresholds. All four schools of Islamic jurisprudence, 17 currencies, updated 6 times daily with full historical archive."
+      content="Free, open JSON API for live Nisab Al Zakat thresholds. All four schools of Islamic jurisprudence, 37 currencies, updated 6 times daily with full historical archive."
     />
     <meta name="author" content="Taha Baba" />
     <meta
@@ -21,7 +21,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nisab.tahababa.com" />
     <meta property="og:title" content="Nisab Al Zakat — Live Nisab Thresholds API" />
-    <meta property="og:description" content="Free JSON API for live Nisab thresholds — all 4 schools of jurisprudence, 17 currencies, updated 6× daily with full historical archive." />
+    <meta property="og:description" content="Free JSON API for live Nisab thresholds — all 4 schools of jurisprudence, 37 currencies, updated 6× daily with full historical archive." />
     <meta property="og:image" content="https://nisab.tahababa.com/og.png" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Nisab Al Zakat" />
@@ -30,7 +30,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://nisab.tahababa.com" />
     <meta name="twitter:title" content="Nisab Al Zakat — Live Nisab Thresholds API" />
-    <meta name="twitter:description" content="Free JSON API for live Nisab thresholds — all 4 schools, 17 currencies, updated 6× daily." />
+    <meta name="twitter:description" content="Free JSON API for live Nisab thresholds — all 4 schools, 37 currencies, updated 6× daily." />
     <meta name="twitter:image" content="https://nisab.tahababa.com/og.png" />
     <meta name="twitter:creator" content="@tahababa" />
 
@@ -75,7 +75,7 @@
         <h1>Nisab <em>Al Zakat</em></h1>
         <p id="hijri-date" class="hijri-date"></p>
         <p class="tagline">
-          Live Nisab thresholds — all schools, 17 currencies, updated 6× daily
+          Live Nisab thresholds — all schools, 37 currencies, updated 6× daily
         </p>
         <a
           href="/nisab.json"
@@ -130,7 +130,7 @@
           <span class="stat-v">4</span><span class="stat-l">Schools</span>
         </div>
         <div class="stat">
-          <span class="stat-v">17</span><span class="stat-l">Currencies</span>
+          <span class="stat-v">37</span><span class="stat-l">Currencies</span>
         </div>
         <div class="stat">
           <span class="stat-v">6×</span><span class="stat-l">Daily GMT</span>
@@ -149,7 +149,7 @@
           is a free, open resource for Muslims and developers. It provides live
           Nisab thresholds — the minimum wealth at which Zakat becomes
           obligatory — calculated from live gold and silver prices, across all
-          four major schools of Islamic jurisprudence, in 17 currencies, updated
+          four major schools of Islamic jurisprudence, in 37 currencies, updated
           6 times every day.
         </p>
         <p>
@@ -220,7 +220,7 @@
           · Data:
           <a href="https://goldpricez.com" target="_blank" rel="noopener">GoldPriceZ</a>
           &amp;
-          <a href="https://www.frankfurter.app" target="_blank" rel="noopener">Frankfurter</a>
+          <a href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener">@fawazahmed0/currency-api</a>
         </p>
         <p style="margin-top: 0.5rem">
           Nisab values are for informational purposes only. Consult a qualified
@@ -250,8 +250,8 @@
           a: "Six times every day at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. The <code>meta.timestamp</code> field in the API response tells you exactly when the data was last refreshed.",
         },
         {
-          q: "Why are Gulf and South Asian currencies not included?",
-          a: "Exchange rates come from the Frankfurter API which covers major global currencies but does not include SAR, AED, KWD, QAR, BHD, OMR, PKR, or BDT. Use the USD value as a reference and apply your local exchange rate to convert.",
+          q: "Are GCC and South Asian currencies supported?",
+          a: "Yes — all six GCC currencies (SAR, AED, KWD, BHD, OMR, QAR) and South Asian currencies (PKR, BDT, INR) are now fully supported. Exchange rates come from @fawazahmed0/currency-api which covers 150+ currencies. SAR, AED, QAR, OMR, BHD, and JOD are flagged in the API response as USD-pegged, meaning their Nisab tracks the USD Nisab directly.",
         },
         {
           q: "Is this free to use?",

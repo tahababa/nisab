@@ -21,7 +21,7 @@
   var items = [
     "No data is collected at any level. The only file written to is <strong>nisab.json</strong>, which stores the calculated Nisab thresholds. No cookies. No localStorage. No tracking.",
     "This is not a fatwa. I am not a mufti. These calculations are offered in good faith and may contain errors. If you spot something wrong, please be kind and reach out at <a href='mailto:info@tahababa.com'>info@tahababa.com</a>.",
-    "Gold and silver prices are fetched from <a href='https://goldpricez.com' target='_blank' rel='noopener'>goldpricez.com</a> and currency rates from <a href='https://www.frankfurter.app' target='_blank' rel='noopener'>Frankfurter API</a>.",
+    "Gold and silver prices are fetched from <a href='https://goldpricez.com' target='_blank' rel='noopener'>goldpricez.com</a> and currency rates from <a href='https://github.com/fawazahmed0/exchange-api' target='_blank' rel='noopener'>@fawazahmed0/currency-api</a> (150+ currencies, free, no key).",
   ];
 
   function buildBanner() {

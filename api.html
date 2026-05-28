@@ -210,15 +210,15 @@ data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class
         <!-- Currencies -->
         <h2><span class="n">05</span>Supported Currencies</h2>
         <p>
-          Every Nisab value is returned in all 17 currencies simultaneously.
+          Every Nisab value is returned in all 37 currencies simultaneously,
+          including all GCC currencies, major Muslim-majority economies, and MENA &amp; Central Asian currencies.
         </p>
         <div class="currency-grid" id="currency-grid"></div>
 
         <div class="box box-tip" style="margin-top: 1.5rem;">
           <p style="margin: 0;">
-            Gulf and South Asian currencies (SAR, AED, KWD, PKR, etc.) are not
-            available from the Frankfurter exchange rate API. Use the USD value
-            and apply your local rate to convert.
+            GCC currencies (SAR, AED, QAR, OMR, BHD) and JOD are flagged as <strong>USD-pegged</strong>
+            in the API response. Their Nisab values move only with gold and silver prices — not with FX fluctuation.
           </p>
         </div>
 
@@ -240,7 +240,7 @@ data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class
           · Data:
           <a href="https://goldpricez.com" target="_blank" rel="noopener">GoldPriceZ</a>
           &amp;
-          <a href="https://www.frankfurter.app" target="_blank" rel="noopener">Frankfurter</a>
+          <a href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener">@fawazahmed0/currency-api</a>
         </p>
         <p style="margin-top: 0.5rem">
           Nisab values are for informational purposes only. Consult a qualified
@@ -255,6 +255,9 @@ data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class
       const CURRENCIES = [
         "USD","GBP","EUR","CAD","AUD","JPY","CHF","CNY",
         "INR","MYR","IDR","TRY","ZAR","SEK","NOK","SGD","DKK",
+        "SAR","AED","KWD","BHD","OMR","QAR",
+        "EGP","PKR","BDT","NGN","MAD","DZD","JOD","TND",
+        "IQD","LBP","LYD","KZT","AFN","UZS",
       ];
 
       const CURRENCY_NAMES = {
@@ -264,6 +267,13 @@ data[<span class="s">'prices'</span>][<span class="s">'gold'</span>][<span class
         MYR: "Malaysian Ringgit", IDR: "Indonesian Rupiah", TRY: "Turkish Lira",
         ZAR: "South African Rand", SEK: "Swedish Krona", NOK: "Norwegian Krone",
         SGD: "Singapore Dollar", DKK: "Danish Krone",
+        SAR: "Saudi Riyal", AED: "UAE Dirham", KWD: "Kuwaiti Dinar",
+        BHD: "Bahraini Dinar", OMR: "Omani Rial", QAR: "Qatari Riyal",
+        EGP: "Egyptian Pound", PKR: "Pakistani Rupee", BDT: "Bangladeshi Taka",
+        NGN: "Nigerian Naira", MAD: "Moroccan Dirham", DZD: "Algerian Dinar",
+        JOD: "Jordanian Dinar", TND: "Tunisian Dinar",
+        IQD: "Iraqi Dinar", LBP: "Lebanese Pound", LYD: "Libyan Dinar",
+        KZT: "Kazakhstani Tenge", AFN: "Afghan Afghani", UZS: "Uzbekistani Som",
       };
 
       const FAQS = [

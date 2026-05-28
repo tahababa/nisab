@@ -9,14 +9,14 @@
     "built_by": "Taha Baba",
     "website": "https://tahababa.com",
     "github": "https://github.com/tahababa/nisab",
-    "last_updated": "2026-03-15"
+    "last_updated": "2026-05-28"
   },
   "faqs": [
     {
       "id": 1,
       "category": "about",
       "question": "What is Nisab Al Zakat?",
-      "answer": "Nisab Al Zakat is a free, open JSON API that provides live Nisab thresholds — the minimum wealth at which Zakat becomes obligatory in Islam. Values are calculated from live gold and silver spot prices, across all four major Sunni schools of Islamic jurisprudence (Hanafi, Maliki, Shafi'i, Hanbali), in 17 currencies, updated 6 times daily at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. No authentication, no rate limits, no registration required."
+      "answer": "Nisab Al Zakat is a free, open JSON API that provides live Nisab thresholds — the minimum wealth at which Zakat becomes obligatory in Islam. Values are calculated from live gold and silver spot prices, across all four major Sunni schools of Islamic jurisprudence (Hanafi, Maliki, Shafi'i, Hanbali), in 37 currencies including all GCC, major Muslim-majority economies, and MENA/Central Asian currencies, updated 6 times daily at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. No authentication, no rate limits, no registration required."
     },
     {
       "id": 2,
@@ -28,7 +28,7 @@
       "id": 3,
       "category": "jurisprudence",
       "question": "What are the Nisab thresholds for each school?",
-      "answer": "All four schools use 85 grams of gold for the gold Nisab. For silver: Maliki, Shafi'i, and Hanbali schools use 595 grams; the Hanafi school uses 612.36 grams (52.5 tola). The Hanafi school historically used 87.48g (7.5 tola) based on the traditional South Asian tola unit, but contemporary scholars and institutions recognise 85g as the correct Hanafi threshold. All thresholds are equally valid and widely used globally."
+      "answer": "All four schools use 85 grams of gold for the gold Nisab (following the Al-Azhar standard). For silver: Maliki, Shafi'i, and Hanbali schools use 595 grams; the Hanafi school uses 612.36 grams (52.5 tola, the traditional measure). The Hanafi gold threshold was historically given as 87.48g (7.5 tola) in older South Asian texts, but contemporary scholars and major institutions including Al-Azhar recognise 85g as the correct figure."
     },
     {
       "id": 4,
@@ -40,19 +40,19 @@
       "id": 5,
       "category": "api",
       "question": "How do I fetch the current Nisab in a specific currency?",
-      "answer": "Fetch the main endpoint: GET https://nisab.tahababa.com/nisab.json — the response contains all four schools, both gold and silver, in all 17 supported currencies simultaneously. For example, to get the Hanafi gold Nisab in British pounds: data.nisab.hanafi.gold.values.GBP. For Maliki silver in euros: data.nisab.maliki.silver.values.EUR."
+      "answer": "Fetch the main endpoint: GET https://nisab.tahababa.com/nisab.json — the response contains all four schools, both gold and silver, in all 37 supported currencies simultaneously. For example: data.nisab.hanafi.gold.values.GBP (Hanafi gold in GBP), data.nisab.maliki.silver.values.SAR (Maliki silver in SAR). For a single currency, use the per-currency endpoint: GET https://nisab.tahababa.com/nisab/SAR.json"
     },
     {
       "id": 6,
       "category": "api",
       "question": "What currencies are supported?",
-      "answer": "17 currencies are currently supported: USD (US Dollar), GBP (British Pound), EUR (Euro), CAD (Canadian Dollar), AUD (Australian Dollar), JPY (Japanese Yen), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), MYR (Malaysian Ringgit), IDR (Indonesian Rupiah), TRY (Turkish Lira), ZAR (South African Rand), SEK (Swedish Krona), NOK (Norwegian Krone), SGD (Singapore Dollar), DKK (Danish Krone). Exchange rates are sourced from the Frankfurter API."
+      "answer": "37 currencies across four regions. Global: USD, GBP, EUR, CAD, AUD, JPY, CHF, CNY, INR, MYR, IDR, TRY, ZAR, SEK, NOK, SGD, DKK. GCC (USD-pegged): SAR, AED, KWD, BHD, OMR, QAR. Major Muslim-majority economies: EGP, PKR, BDT, NGN, MAD, DZD, JOD, TND. MENA + Central Asia: IQD, LBP, LYD, KZT, AFN, UZS. Exchange rates are sourced from @fawazahmed0/currency-api (free, no key, 150+ currencies, CDN-backed)."
     },
     {
       "id": 7,
       "category": "api",
-      "question": "Why are Gulf currencies like SAR, AED, KWD not included?",
-      "answer": "Exchange rates are sourced from the Frankfurter API, which is a free open-source service that covers major global currencies but does not include Gulf Cooperation Council (GCC) currencies such as SAR, AED, KWD, QAR, BHD, OMR, or South Asian currencies like PKR and BDT. As a workaround, use the USD value and apply your own local exchange rate. For example: nisab_in_SAR = nisab_in_USD * current_USD_to_SAR_rate."
+      "question": "Are GCC currencies like SAR and AED supported? What does 'USD-pegged' mean?",
+      "answer": "Yes — all six GCC currencies (SAR, AED, KWD, BHD, OMR, QAR) and JOD are fully supported. SAR, AED, QAR, OMR, BHD, and JOD are flagged as USD-pegged in the API response (meta.usd_pegged). This means their exchange rates are fixed by law against the US Dollar and do not float. As a result, Nisab values in these currencies move only with gold and silver prices — not with FX fluctuation. If you live in the Gulf, your Nisab in riyals or dirhams tracks the USD Nisab almost exactly (multiply by the fixed rate)."
     },
     {
       "id": 8,
@@ -112,7 +112,7 @@
       "id": 17,
       "category": "technical",
       "question": "How are exchange rates calculated?",
-      "answer": "Exchange rates are fetched from the Frankfurter API (api.frankfurter.app), a free, open-source European Central Bank exchange rate service. All rates are relative to USD as the base currency. The Nisab value in each currency is calculated as: nisab_in_currency = gold_price_per_gram_usd * nisab_grams * exchange_rate."
+      "answer": "Exchange rates are fetched from @fawazahmed0/currency-api (cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json), a free, open-source service covering 150+ currencies with no API key required. A fallback URL (latest.currency-api.pages.dev) is used automatically if the primary CDN is unavailable. All rates are relative to USD. The Nisab value in each currency is: nisab_in_currency = gold_price_per_gram_usd * nisab_grams * exchange_rate."
     },
     {
       "id": 18,

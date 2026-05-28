@@ -153,23 +153,53 @@
           <div class="field-group">
             <label>Currency</label>
             <select id="currency">
-              <option value="USD">USD - US Dollar</option>
-              <option value="GBP">GBP - British Pound</option>
-              <option value="EUR">EUR - Euro</option>
-              <option value="CAD">CAD - Canadian Dollar</option>
-              <option value="AUD">AUD - Australian Dollar</option>
-              <option value="JPY">JPY - Japanese Yen</option>
-              <option value="CHF">CHF - Swiss Franc</option>
-              <option value="CNY">CNY - Chinese Yuan</option>
-              <option value="INR">INR - Indian Rupee</option>
-              <option value="MYR">MYR - Malaysian Ringgit</option>
-              <option value="IDR">IDR - Indonesian Rupiah</option>
-              <option value="TRY">TRY - Turkish Lira</option>
-              <option value="ZAR">ZAR - South African Rand</option>
-              <option value="SEK">SEK - Swedish Krona</option>
-              <option value="NOK">NOK - Norwegian Krone</option>
-              <option value="SGD">SGD - Singapore Dollar</option>
-              <option value="DKK">DKK - Danish Krone</option>
+              <optgroup label="Global">
+                <option value="USD">USD - US Dollar</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="SEK">SEK - Swedish Krona</option>
+                <option value="NOK">NOK - Norwegian Krone</option>
+                <option value="DKK">DKK - Danish Krone</option>
+                <option value="SGD">SGD - Singapore Dollar</option>
+              </optgroup>
+              <optgroup label="GCC (USD-pegged)">
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="KWD">KWD - Kuwaiti Dinar</option>
+                <option value="BHD">BHD - Bahraini Dinar</option>
+                <option value="OMR">OMR - Omani Rial</option>
+                <option value="QAR">QAR - Qatari Riyal</option>
+              </optgroup>
+              <optgroup label="South &amp; Southeast Asia">
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="PKR">PKR - Pakistani Rupee</option>
+                <option value="BDT">BDT - Bangladeshi Taka</option>
+                <option value="MYR">MYR - Malaysian Ringgit</option>
+                <option value="IDR">IDR - Indonesian Rupiah</option>
+              </optgroup>
+              <optgroup label="MENA &amp; Africa">
+                <option value="EGP">EGP - Egyptian Pound</option>
+                <option value="JOD">JOD - Jordanian Dinar</option>
+                <option value="MAD">MAD - Moroccan Dirham</option>
+                <option value="TND">TND - Tunisian Dinar</option>
+                <option value="DZD">DZD - Algerian Dinar</option>
+                <option value="NGN">NGN - Nigerian Naira</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="IQD">IQD - Iraqi Dinar</option>
+                <option value="LBP">LBP - Lebanese Pound</option>
+                <option value="LYD">LYD - Libyan Dinar</option>
+              </optgroup>
+              <optgroup label="Central Asia &amp; Other">
+                <option value="TRY">TRY - Turkish Lira</option>
+                <option value="KZT">KZT - Kazakhstani Tenge</option>
+                <option value="AFN">AFN - Afghan Afghani</option>
+                <option value="UZS">UZS - Uzbekistani Som</option>
+              </optgroup>
               <option value="CUSTOM">Other (define your own)</option>
             </select>
             <p class="hint">
@@ -1104,7 +1134,33 @@
             "America/": "USD",
             "US/": "USD",
             "Europe/London": "GBP",
+            "Europe/Stockholm": "SEK",
+            "Europe/Oslo": "NOK",
+            "Europe/Copenhagen": "DKK",
+            "Europe/Zurich": "CHF",
+            "Europe/Istanbul": "TRY",
             "Europe/": "EUR",
+            "America/Toronto": "CAD",
+            "Canada/": "CAD",
+            "Australia/": "AUD",
+            "Asia/Riyadh": "SAR",
+            "Asia/Dubai": "AED",
+            "Asia/Kuwait": "KWD",
+            "Asia/Bahrain": "BHD",
+            "Asia/Muscat": "OMR",
+            "Asia/Qatar": "QAR",
+            "Asia/Amman": "JOD",
+            "Asia/Baghdad": "IQD",
+            "Asia/Beirut": "LBP",
+            "Africa/Cairo": "EGP",
+            "Africa/Tripoli": "LYD",
+            "Africa/Casablanca": "MAD",
+            "Africa/Algiers": "DZD",
+            "Africa/Tunis": "TND",
+            "Africa/Lagos": "NGN",
+            "Africa/Johannesburg": "ZAR",
+            "Asia/Karachi": "PKR",
+            "Asia/Dhaka": "BDT",
             "Asia/Kolkata": "INR",
             "Asia/Calcutta": "INR",
             "Asia/Kuala_Lumpur": "MYR",
@@ -1113,15 +1169,9 @@
             "Asia/Tokyo": "JPY",
             "Asia/Shanghai": "CNY",
             "Asia/Hong_Kong": "CNY",
-            "Europe/Istanbul": "TRY",
-            "Africa/Johannesburg": "ZAR",
-            "America/Toronto": "CAD",
-            "Canada/": "CAD",
-            "Australia/": "AUD",
-            "Europe/Stockholm": "SEK",
-            "Europe/Oslo": "NOK",
-            "Europe/Copenhagen": "DKK",
-            "Europe/Zurich": "CHF",
+            "Asia/Almaty": "KZT",
+            "Asia/Kabul": "AFN",
+            "Asia/Tashkent": "UZS",
           };
           for (const [key, cur] of Object.entries(map)) {
             if (tz.includes(key)) {
@@ -1250,16 +1300,18 @@
         var el = document.getElementById(id);
         return el ? parseFloat(el.value) || 0 : 0;
       }
+      var LOW_DECIMAL_CURRENCIES = ["IDR","IQD","LBP","KZT","UZS","AFN","NGN","PKR","BDT"];
       function formatCurrency(amount, cur) {
+        var dp = LOW_DECIMAL_CURRENCIES.includes(cur) ? 0 : 2;
         try {
           return new Intl.NumberFormat("en", {
             style: "currency",
             currency: cur,
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: dp,
+            maximumFractionDigits: dp,
           }).format(amount);
         } catch (e) {
-          return cur + " " + amount.toFixed(2);
+          return cur + " " + amount.toFixed(dp);
         }
       }
 
