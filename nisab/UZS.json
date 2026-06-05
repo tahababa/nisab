@@ -1,29 +1,29 @@
 {
   "meta": {
-    "updated_at": "2026-06-05T07:57:45.525Z",
+    "updated_at": "2026-06-05T11:27:38.331Z",
     "currency": "UZS",
     "pegged_to_usd": false
   },
   "nisab": {
     "hanafi": {
       "label": "Hanafi",
-      "gold": 145670794,
-      "silver": 17072805
+      "gold": 145616293,
+      "silver": 17070407
     },
     "maliki": {
       "label": "Maliki",
-      "gold": 145670794,
-      "silver": 16588803
+      "gold": 145616293,
+      "silver": 16586472
     },
     "shafii": {
       "label": "Shafi'i",
-      "gold": 145670794,
-      "silver": 16588803
+      "gold": 145616293,
+      "silver": 16586472
     },
     "hanbali": {
       "label": "Hanbali",
-      "gold": 145670794,
-      "silver": 16588803
+      "gold": 145616293,
+      "silver": 16586472
     }
   }
 }
