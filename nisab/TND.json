@@ -1,29 +1,29 @@
 {
   "meta": {
-    "updated_at": "2026-06-15T09:50:17.559Z",
+    "updated_at": "2026-06-15T13:54:03.930Z",
     "currency": "TND",
     "pegged_to_usd": false
   },
   "nisab": {
     "hanafi": {
       "label": "Hanafi",
-      "gold": 34657.22,
-      "silver": 4067.45
+      "gold": 34830.33,
+      "silver": 4095.25
     },
     "maliki": {
       "label": "Maliki",
-      "gold": 34657.22,
-      "silver": 3952.14
+      "gold": 34830.33,
+      "silver": 3979.15
     },
     "shafii": {
       "label": "Shafi'i",
-      "gold": 34657.22,
-      "silver": 3952.14
+      "gold": 34830.33,
+      "silver": 3979.15
     },
     "hanbali": {
       "label": "Hanbali",
-      "gold": 34657.22,
-      "silver": 3952.14
+      "gold": 34830.33,
+      "silver": 3979.15
     }
   }
 }
