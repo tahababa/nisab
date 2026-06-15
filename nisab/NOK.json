@@ -1,29 +1,29 @@
 {
   "meta": {
-    "updated_at": "2026-06-15T03:55:57.357Z",
+    "updated_at": "2026-06-15T09:50:17.559Z",
     "currency": "NOK",
     "pegged_to_usd": false
   },
   "nisab": {
     "hanafi": {
       "label": "Hanafi",
-      "gold": 112375.92,
-      "silver": 13167.22
+      "gold": 112778.01,
+      "silver": 13235.89
     },
     "maliki": {
       "label": "Maliki",
-      "gold": 112375.92,
-      "silver": 12793.94
+      "gold": 112778.01,
+      "silver": 12860.66
     },
     "shafii": {
       "label": "Shafi'i",
-      "gold": 112375.92,
-      "silver": 12793.94
+      "gold": 112778.01,
+      "silver": 12860.66
     },
     "hanbali": {
       "label": "Hanbali",
-      "gold": 112375.92,
-      "silver": 12793.94
+      "gold": 112778.01,
+      "silver": 12860.66
     }
   }
 }
