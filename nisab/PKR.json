@@ -1,29 +1,29 @@
 {
   "meta": {
-    "updated_at": "2026-06-16T19:35:57.764Z",
+    "updated_at": "2026-06-16T22:16:03.933Z",
     "currency": "PKR",
     "pegged_to_usd": false
   },
   "nisab": {
     "hanafi": {
       "label": "Hanafi",
-      "gold": 3299472,
-      "silver": 384701
+      "gold": 3294434,
+      "silver": 384925
     },
     "maliki": {
       "label": "Maliki",
-      "gold": 3299472,
-      "silver": 373795
+      "gold": 3294434,
+      "silver": 374013
     },
     "shafii": {
       "label": "Shafi'i",
-      "gold": 3299472,
-      "silver": 373795
+      "gold": 3294434,
+      "silver": 374013
     },
     "hanbali": {
       "label": "Hanbali",
-      "gold": 3299472,
-      "silver": 373795
+      "gold": 3294434,
+      "silver": 374013
     }
   }
 }
