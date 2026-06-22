@@ -115,14 +115,16 @@ Per-currency endpoint (`nisab/SAR.json`):
 
 ## Scholarly schools & thresholds
 
-| School | Gold (grams) | Silver (grams) | Silver (tola) |
-|--------|-------------|----------------|---------------|
-| **Hanafi** | **85g** | **612.36g** | 52.5 |
-| **Maliki** | **85g** | **595g** | — |
-| **Shafi'i** | **85g** | **595g** | — |
-| **Hanbali** | **85g** | **595g** | — |
+| School | Gold (grams) | Silver (grams) |
+|--------|-------------|----------------|
+| **Hanafi** | **85g** | **595g** |
+| **Maliki** | **85g** | **595g** |
+| **Shafi'i** | **85g** | **595g** |
+| **Hanbali** | **85g** | **595g** |
 
-All four schools use **85g** of gold (Al-Azhar standard). The Hanafi silver Nisab is 612.36g (52.5 tola); the other three schools use 595g.
+All four schools use **85g** of gold and **595g** of silver (AAOIFI / Al-Azhar standard). The gram weights are now unified across all schools in this API.
+
+> **Note on historical Hanafi figures:** Some older texts and South Asian scholarship cite 87.48g of gold (7.5 tola) and 612.36g of silver (52.5 tola) for the Hanafi school. Contemporary scholars and major institutions including Al-Azhar recognise 85g / 595g as the correct figures. See [/learn/gram-weights.html](https://nisab.tahababa.com/learn/gram-weights.html) for a full explanation of how these gram figures are derived.
 
 ---
 
@@ -203,11 +205,11 @@ After one year this produces **~2,190 snapshots across 365 days** — a free, gi
 ## References
 
 1. **Joe Bradford — Nisab Calculator** — [joebradford.net/nisab](https://joebradford.net/nisab/)
-2. **AAOIFI** — 85g gold / 595g silver for Maliki, Shafi'i, and Hanbali schools.
-3. **National Zakat Foundation UK (NZF)** — Confirms Hanafi at 85g gold / 612.36g silver (52.5 tola).
-4. **Joe Bradford — Nisab FAQ (2026)** — [joebradford.substack.com](https://joebradford.substack.com/p/nisab-your-complete-faq)
-5. **Masarat Initiative** — Confirms 595g silver for Maliki, Shafi'i, and Hanbali.
-6. **Zakat.org** — Classical scholarly background and tola/gram methodology.
+2. **AAOIFI** — 85g gold / 595g silver standard adopted by this API for all four schools.
+3. **Joe Bradford — Nisab FAQ (2026)** — [joebradford.substack.com](https://joebradford.substack.com/p/nisab-your-complete-faq)
+4. **Masarat Initiative** — 595g silver for all schools.
+5. **Zakat.org** — Classical scholarly background and tola/gram methodology.
+6. **nisab.tahababa.com/learn/gram-weights.html** — Full explanation of why scholars arrive at different gram figures and the history of the mithqal.
 
 ---
 
@@ -220,6 +222,7 @@ nisab/
 │   ├── style.css                        # Unified stylesheet
 │   └── popup.css                        # Popup component styles
 ├── learn/
+│   ├── gram-weights.html                # Why gram figures differ between scholars
 │   └── *.html                           # Educational articles on Zakat
 ├── scripts/
 │   ├── update.js                        # Fetches prices + FX + Hijri, writes JSON
@@ -231,8 +234,10 @@ nisab/
 ├── nisab/
 │   └── {CURRENCY}.json                  # Per-currency slim payloads (37 files)
 ├── nisab.json                           # Always the latest full snapshot
-├── index.html                           # Landing page (GitHub Pages)
+├── index.html                           # Landing page with live Nisab + currency switcher
 ├── calculator.html                      # Zakat calculator
+├── api.html                             # API documentation
+├── CLAUDE.md                            # Codebase guide for Claude Code
 └── CNAME                                # nisab.tahababa.com
 ```
 
