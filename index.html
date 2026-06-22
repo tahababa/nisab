@@ -48,6 +48,44 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Nisab?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The Nisab (نصاب) is the minimum threshold of wealth a Muslim must possess before Zakat becomes obligatory. It was set by the Prophet ﷺ at 20 gold dinars or 200 silver dirhams. Today, this is expressed as 85g of gold or 595g of silver." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which school of thought should I follow?",
+          "acceptedAnswer": { "@type": "Answer", "text": "All four major Sunni schools use 85g of gold as the gold Nisab and 595g of silver as the silver Nisab. Contemporary scholars permit using either the gold or silver standard. Consult a qualified Islamic scholar for guidance specific to your situation." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to pay Zakat every year?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, once your wealth has remained at or above the Nisab for one full lunar year (the Hawl), Zakat of 2.5% becomes due. The Hawl resets if your wealth drops to zero, though in the Hanafi school temporary dips during the year do not interrupt the Hawl." }
+        },
+        {
+          "@type": "Question",
+          "name": "How often is the data updated?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Six times every day at 00:00, 04:00, 08:00, 12:00, 16:00, and 20:00 GMT. The meta.timestamp field in the API response tells you exactly when the data was last refreshed." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are GCC and South Asian currencies supported?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. All six GCC currencies (SAR, AED, KWD, BHD, OMR, QAR) and South Asian currencies (PKR, BDT, INR) are fully supported. Exchange rates come from @fawazahmed0/currency-api. SAR, AED, QAR, OMR, BHD, and JOD are pegged to the US Dollar, so their Nisab tracks the USD Nisab directly." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this free to use?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The project is MIT licensed and the API has no authentication, rate limits, or registration. You can use it in personal or commercial projects without restriction." }
+        }
+      ]
+    }
+    </script>
     <style>
       /* ── Currency switcher ─────────────────────────────── */
       .cur-switcher { display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.9rem; }
@@ -656,10 +694,12 @@
           const statusEl = document.getElementById("table-status");
           if (statusEl) statusEl.textContent = `· Gold $${gOz}/oz · Silver $${sOz}/oz`;
 
-          // Hijri date
+          // Hijri date + Gregorian alongside
           const hijriEl = document.getElementById("hijri-date");
           if (hijriEl && nisabData.meta?.hijri?.formatted_en) {
-            hijriEl.textContent = nisabData.meta.hijri.formatted_en;
+            const greg = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+            hijriEl.innerHTML = nisabData.meta.hijri.formatted_en
+              + ` <span style="font-family:var(--mono);font-size:0.78rem;opacity:0.55;font-style:normal">· ${greg}</span>`;
           }
 
           // Inject clipboard copy button after the endpoint badge (JS-only, no HTML touched)

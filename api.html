@@ -20,6 +20,44 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I use this API with ChatGPT or Claude?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. In any AI tool that supports web browsing or custom actions, reference the endpoint directly: https://nisab.tahababa.com/nisab.json. Ask the AI to fetch the JSON and extract the Nisab value for your school and currency." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I use this in an n8n automation?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Add an HTTP Request node, set Method to GET, URL to https://nisab.tahababa.com/nisab.json. No headers needed. Access values in subsequent nodes with expressions like {{ $json.nisab.hanafi.gold.values.GBP }}." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this in Make (Integromat)?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use an HTTP module with a GET request to the endpoint. Parse the JSON response and map the fields you need to any downstream module — Airtable, Google Sheets, WhatsApp, email, or anything else." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I embed this in a WordPress or Webflow site?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add a custom HTML block with a fetch() call to the endpoint. The response includes all schools and currencies so you can display exactly what your audience needs with a few lines of JavaScript." }
+        },
+        {
+          "@type": "Question",
+          "name": "How far back does the historical data go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "From the day the project launched. Every snapshot since then is permanently committed to the GitHub repository. Access any snapshot using /history/YYYY-MM-DDTHHMMGMT.json or browse all available dates via /history/index.json." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this free to use commercially?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The project is MIT licensed. You can use it in commercial products, apps, and services without restriction. Attribution is appreciated but not required by the licence." }
+        }
+      ]
+    }
+    </script>
     <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
   </head>
   <body>
@@ -141,7 +179,7 @@
 
           <div class="code-wrap" id="tab-js">
             <pre><code><span class="k">const</span> { nisab, prices } = <span class="k">await</span> fetch(<span class="s">'https://nisab.tahababa.com/nisab.json'</span>)
-  .then(r => r.json());
+  .then(r =&gt; r.json());
 
 <span class="c">// Hanafi gold nisab in GBP</span>
 nisab.hanafi.gold.values.GBP    <span class="c">// → 10640.71</span>
