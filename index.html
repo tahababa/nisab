@@ -116,15 +116,9 @@
         50%      { opacity:0.5; box-shadow:0 0 0 5px rgba(74,222,128,0); }
       }
       @media (prefers-reduced-motion:reduce) { .live-dot { animation:none; } }
-      /* ── Category label tints in Explore grid ──────────── */
-      .card-num-learn { color:var(--gold-dim) !important; }
-      .card-num-tool  { color:#4ade80 !important; font-weight:500; }
-      .card-num-ref   { color:var(--blue) !important; }
-      html[data-theme="light"] .card-num-tool { color:#16a34a !important; }
-      html[data-theme="light"] .card-num-ref  { color:#2563eb !important; }
-      /* ── Featured calculator card ───────────────────────── */
-      .card-featured { border-color:rgba(201,168,76,0.38) !important; background:rgba(201,168,76,0.04) !important; }
-      .card-featured:hover { border-color:var(--gold) !important; }
+      /* ── Featured calculator card (left-accent border only) */
+      .card-featured { box-shadow: inset 3px 0 0 var(--gold-dim); }
+      .card-featured:hover { box-shadow: inset 3px 0 0 var(--gold); }
       .card-prompt { font-family:var(--mono); font-size:0.68rem; color:var(--gold-dim); letter-spacing:0.06em; text-transform:uppercase; margin-top:0.55rem; }
       /* ── Endpoint copy button ───────────────────────────── */
       .endpoint-copy {
@@ -292,38 +286,38 @@
         <style>@media (max-width: 520px) { .explore-grid { grid-template-columns: 1fr !important; } .explore-grid .card[style] { grid-column: 1 !important; } }</style>
         <div class="explore-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
           <a href="./learn/what-is-zakat.html" class="card">
-            <div class="card-num card-num-learn">Learn</div>
+            <div class="card-num">Learn</div>
             <h3>What is Zakat?</h3>
             <p>The meaning, purpose, and spiritual dimensions of the third pillar of Islam.</p>
           </a>
           <a href="./learn/nisab.html" class="card">
-            <div class="card-num card-num-learn">Learn</div>
+            <div class="card-num">Learn</div>
             <h3>Understanding Nisab</h3>
             <p>Gold vs silver standards, how the threshold is calculated, and why it changes daily.</p>
           </a>
           <a href="./learn/hawl.html" class="card">
-            <div class="card-num card-num-learn">Learn</div>
+            <div class="card-num">Learn</div>
             <h3>The Hawl (Lunar Year)</h3>
             <p>When your Zakat year starts, the seed date concept, and what happens if wealth dips.</p>
           </a>
           <a href="./learn/recipients.html" class="card">
-            <div class="card-num card-num-learn">Learn</div>
+            <div class="card-num">Learn</div>
             <h3>Who Receives Zakat?</h3>
             <p>The eight Quranic categories of eligible recipients and practical guidance.</p>
           </a>
           <a href="./calculator.html" class="card card-featured">
-            <div class="card-num card-num-tool">Tool</div>
+            <div class="card-num">Tool</div>
             <h3>Zakat Calculator</h3>
             <p>Step-by-step calculation with live Nisab values, school-specific rules, and full debt handling.</p>
             <p class="card-prompt">Check your obligation in 30 seconds →</p>
           </a>
           <a href="./learn/gram-weights.html" class="card">
-            <div class="card-num card-num-ref">Reference</div>
+            <div class="card-num">Reference</div>
             <h3>Why Gram Figures Vary</h3>
             <p>Why scholars arrive at different gram weights for the gold Nisab — and how to adjust for your preferred authority.</p>
           </a>
           <a href="./api.html" class="card" style="grid-column: 1 / -1;">
-            <div class="card-num card-num-ref">Reference</div>
+            <div class="card-num">Reference</div>
             <h3>API Documentation</h3>
             <p>Free JSON API — all four schools, 37 currencies, updated 6× daily. No authentication, no rate limits. Endpoint: <span style="font-family: var(--mono); font-size: 0.85rem; color: var(--gold)">nisab.tahababa.com/nisab.json</span></p>
           </a>
