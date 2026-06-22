@@ -108,8 +108,7 @@
       /* ── Delta ─────────────────────────────────────────── */
       .nisab-delta { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.03em; }
       /* ── Sparkline ─────────────────────────────────────── */
-      .nisab-spark { display:block; margin:0.5rem auto 0; overflow:visible; }
-      @media (prefers-reduced-motion:reduce) { .nisab-spark { display:none; } }
+      .nisab-spark { display:block; margin:0.5rem 0 0; overflow:visible; width:100%; }
       /* ── Live-dot: add outward pulse ring on top of blink ─ */
       @keyframes blink {
         0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(74,222,128,0.45); }
@@ -201,9 +200,10 @@
               <span class="nisab-delta" id="gold-delta"></span>
             </div>
             <div id="val-gold" style="font-family: var(--mono); font-size: clamp(2rem, 5vw, 3rem); color: var(--gold); font-weight: 500; line-height: 1; letter-spacing: -0.03em">—</div>
-            <svg class="nisab-spark" id="spark-gold" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true">
-              <polyline id="spark-gold-line" fill="none" stroke="var(--gold)" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round" opacity="0.55" points=""/>
+            <svg class="nisab-spark" id="spark-gold" height="36" viewBox="0 0 200 36" preserveAspectRatio="none" aria-hidden="true">
+              <path id="spark-gold-fill" fill="var(--gold)" fill-opacity="0.12" d=""/>
+              <path id="spark-gold-line" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d=""/>
+              <circle id="spark-gold-dot" r="2.5" fill="var(--gold)" cx="-10" cy="-10"/>
             </svg>
             <div style="margin-top: 0.6rem; padding-top: 0.7rem; border-top: 1px solid rgba(201, 168, 76, 0.15)">
               <span id="gold-meta" style="font-family: var(--mono); font-size: 0.63rem; color: var(--gold-dim); letter-spacing: 0.1em; text-transform: uppercase">USD · 85g · 20 gold dinars</span>
@@ -225,9 +225,10 @@
               <span class="nisab-delta" id="silver-delta"></span>
             </div>
             <div id="val-silver" style="font-family: var(--mono); font-size: clamp(2rem, 5vw, 3rem); color: var(--paper); font-weight: 500; line-height: 1; letter-spacing: -0.03em">—</div>
-            <svg class="nisab-spark" id="spark-silver" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true">
-              <polyline id="spark-silver-line" fill="none" stroke="var(--paper-dim)" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round" opacity="0.45" points=""/>
+            <svg class="nisab-spark" id="spark-silver" height="36" viewBox="0 0 200 36" preserveAspectRatio="none" aria-hidden="true">
+              <path id="spark-silver-fill" fill="var(--text-mid)" fill-opacity="0.1" d=""/>
+              <path id="spark-silver-line" fill="none" stroke="var(--text-mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d=""/>
+              <circle id="spark-silver-dot" r="2.5" fill="var(--text-mid)" cx="-10" cy="-10"/>
             </svg>
             <div style="margin-top: 0.6rem; padding-top: 0.7rem; border-top: 1px solid rgba(250, 248, 243, 0.08)">
               <span id="silver-meta" style="font-family: var(--mono); font-size: 0.63rem; color: var(--paper-dim); letter-spacing: 0.1em; text-transform: uppercase">USD · 595g · 200 silver dirhams</span>
@@ -550,27 +551,47 @@
       }
 
       // ── Sparklines ────────────────────────────────────────────────
-      function sparkPoints(values, W, H) {
-        if (!values || values.length < 2) return "";
+      function buildSparkPaths(values, W, H) {
+        // Returns null if fewer than 3 valid points
+        if (!values || values.length < 3) return null;
         const mn = Math.min(...values), mx = Math.max(...values);
         const range = mx - mn || 1;
-        const pad = 2;
-        return values.map((v, i) => {
-          const x = (pad + (i / (values.length - 1)) * (W - pad * 2)).toFixed(1);
-          const y = (pad + (1 - (v - mn) / range) * (H - pad * 2)).toFixed(1);
-          return `${x},${y}`;
-        }).join(" ");
+        const px = 4, py = 3;
+        const pts = values.map((v, i) => ({
+          x: +(px + (i / (values.length - 1)) * (W - px * 2)).toFixed(2),
+          y: +(py + (1 - (v - mn) / range) * (H - py * 2)).toFixed(2)
+        }));
+        const lineParts = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+        const last = pts[pts.length - 1];
+        const fill = `${lineParts} L${last.x},${H} L${pts[0].x},${H} Z`;
+        return { line: lineParts, fill, dot: last };
+      }
+
+      function renderOneSpark(metal) {
+        const cur = activeCurrency;
+        // Sort ascending by timestamp slug so line runs left=old, right=new
+        const sorted = histPoints
+          .filter(p => p?.nisab?.hanafi?.[metal]?.values?.[cur] != null)
+          .sort((a, b) => (a.meta?.timestamp ?? "").localeCompare(b.meta?.timestamp ?? ""));
+        const vals = sorted.map(p => p.nisab.hanafi[metal].values[cur]);
+
+        const svgEl   = document.getElementById(`spark-${metal}`);
+        const fillEl  = document.getElementById(`spark-${metal}-fill`);
+        const lineEl  = document.getElementById(`spark-${metal}-line`);
+        const dotEl   = document.getElementById(`spark-${metal}-dot`);
+        if (!svgEl) return;
+
+        const paths = buildSparkPaths(vals, 200, 36);
+        if (!paths) { svgEl.style.visibility = "hidden"; return; }
+        svgEl.style.visibility = "";
+        if (fillEl) fillEl.setAttribute("d", paths.fill);
+        if (lineEl) lineEl.setAttribute("d", paths.line);
+        if (dotEl)  { dotEl.setAttribute("cx", paths.dot.x); dotEl.setAttribute("cy", paths.dot.y); }
       }
 
       function renderSparklines() {
-        if (!histPoints.length) return;
-        const cur = activeCurrency;
-        const gVals = histPoints.map(p => p.nisab?.hanafi?.gold?.values?.[cur]).filter(v => v != null).reverse();
-        const sVals = histPoints.map(p => p.nisab?.hanafi?.silver?.values?.[cur]).filter(v => v != null).reverse();
-        const gl = document.getElementById("spark-gold-line");
-        const sl = document.getElementById("spark-silver-line");
-        if (gl && gVals.length >= 2) gl.setAttribute("points", sparkPoints(gVals, 120, 28));
-        if (sl && sVals.length >= 2) sl.setAttribute("points", sparkPoints(sVals, 120, 28));
+        renderOneSpark("gold");
+        renderOneSpark("silver");
       }
 
       // ── Delta ─────────────────────────────────────────────────────
