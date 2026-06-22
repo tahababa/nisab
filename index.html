@@ -116,10 +116,51 @@
         50%      { opacity:0.5; box-shadow:0 0 0 5px rgba(74,222,128,0); }
       }
       @media (prefers-reduced-motion:reduce) { .live-dot { animation:none; } }
-      /* ── Featured calculator card (left-accent border only) */
-      .card-featured { box-shadow: inset 3px 0 0 var(--gold-dim); }
-      .card-featured:hover { box-shadow: inset 3px 0 0 var(--gold); }
-      .card-prompt { font-family:var(--mono); font-size:0.68rem; color:var(--gold-dim); letter-spacing:0.06em; text-transform:uppercase; margin-top:0.55rem; }
+      /* ── Explore editorial index ───────────────────────── */
+      /* Calculator CTA — primary action */
+      .explore-cta {
+        display:block; text-decoration:none; color:inherit;
+        border-left:2px solid var(--gold-dim);
+        padding:0.85rem 0.5rem 0.85rem 1.1rem;
+        margin:1.2rem 0 1.6rem;
+        transition:border-color 0.2s;
+      }
+      .explore-cta:hover { border-left-color:var(--gold); }
+      .explore-cta-title {
+        font-family:var(--serif); font-size:1.1rem; font-weight:500;
+        color:var(--paper); margin-bottom:0.2rem; transition:color 0.2s;
+      }
+      .explore-cta:hover .explore-cta-title { color:var(--gold-lt); }
+      .explore-cta-desc { font-size:0.9rem; color:var(--text-mid); margin:0 0 0.3rem; line-height:1.5; font-weight:300; }
+      .explore-cta-prompt { font-family:var(--mono); font-size:0.68rem; color:var(--gold-dim); letter-spacing:0.06em; text-transform:uppercase; margin:0; transition:color 0.2s; }
+      .explore-cta:hover .explore-cta-prompt { color:var(--gold); }
+      /* Group kicker / subhead */
+      .explore-kicker {
+        font-family:var(--mono); font-size:0.63rem; color:var(--gold-dim);
+        letter-spacing:0.14em; text-transform:uppercase;
+        padding-bottom:0.5rem; border-bottom:1px solid var(--border);
+        margin-top:1.4rem;
+      }
+      /* Index rows */
+      .explore-row {
+        display:flex; align-items:baseline; justify-content:space-between;
+        gap:1rem; padding:0.78rem 0; border-bottom:1px solid var(--border);
+        text-decoration:none; color:inherit;
+      }
+      .explore-row:last-child { border-bottom:none; }
+      .explore-row-title {
+        font-family:var(--serif); font-size:1rem; font-weight:400;
+        color:var(--paper); margin-bottom:0.12rem; transition:color 0.2s;
+      }
+      .explore-row:hover .explore-row-title { color:var(--gold-lt); }
+      .explore-row-desc { font-size:0.85rem; color:var(--text-mid); line-height:1.45; margin:0; font-weight:300; }
+      .explore-arrow {
+        font-family:var(--mono); font-size:0.85rem; color:var(--gold-dim);
+        flex-shrink:0; align-self:center;
+        transition:transform 0.18s, color 0.18s;
+      }
+      .explore-row:hover .explore-arrow { transform:translateX(3px); color:var(--gold); }
+      @media (prefers-reduced-motion:reduce) { .explore-arrow { transition:none; } }
       /* ── Endpoint copy button ───────────────────────────── */
       .endpoint-copy {
         font-family:var(--mono); font-size:0.72rem; color:var(--gold-dim);
@@ -285,45 +326,61 @@
       <!-- Internal links -->
       <section>
         <h2><span class="n">02</span>Explore</h2>
-        <style>@media (max-width: 520px) { .explore-grid { grid-template-columns: 1fr !important; } .explore-grid .card[style] { grid-column: 1 !important; } }</style>
-        <div class="explore-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
-          <a href="./learn/what-is-zakat.html" class="card">
-            <div class="card-num">Learn</div>
-            <h3>What is Zakat?</h3>
-            <p>The meaning, purpose, and spiritual dimensions of the third pillar of Islam.</p>
-          </a>
-          <a href="./learn/nisab.html" class="card">
-            <div class="card-num">Learn</div>
-            <h3>Understanding Nisab</h3>
-            <p>Gold vs silver standards, how the threshold is calculated, and why it changes daily.</p>
-          </a>
-          <a href="./learn/hawl.html" class="card">
-            <div class="card-num">Learn</div>
-            <h3>The Hawl (Lunar Year)</h3>
-            <p>When your Zakat year starts, the seed date concept, and what happens if wealth dips.</p>
-          </a>
-          <a href="./learn/recipients.html" class="card">
-            <div class="card-num">Learn</div>
-            <h3>Who Receives Zakat?</h3>
-            <p>The eight Quranic categories of eligible recipients and practical guidance.</p>
-          </a>
-          <a href="./calculator.html" class="card card-featured">
-            <div class="card-num">Tool</div>
-            <h3>Zakat Calculator</h3>
-            <p>Step-by-step calculation with live Nisab values, school-specific rules, and full debt handling.</p>
-            <p class="card-prompt">Check your obligation in 30 seconds →</p>
-          </a>
-          <a href="./learn/gram-weights.html" class="card">
-            <div class="card-num">Reference</div>
-            <h3>Why Gram Figures Vary</h3>
-            <p>Why scholars arrive at different gram weights for the gold Nisab — and how to adjust for your preferred authority.</p>
-          </a>
-          <a href="./api.html" class="card" style="grid-column: 1 / -1;">
-            <div class="card-num">Reference</div>
-            <h3>API Documentation</h3>
-            <p>Free JSON API — all four schools, 37 currencies, updated 6× daily. No authentication, no rate limits. Endpoint: <span style="font-family: var(--mono); font-size: 0.85rem; color: var(--gold)">nisab.tahababa.com/nisab.json</span></p>
-          </a>
-        </div>
+
+        <!-- Primary action -->
+        <a href="./calculator.html" class="explore-cta">
+          <div class="explore-cta-title">Zakat Calculator</div>
+          <p class="explore-cta-desc">Step-by-step calculation with live Nisab values, school-specific rules, and full debt handling.</p>
+          <p class="explore-cta-prompt">Check your obligation in 30 seconds →</p>
+        </a>
+
+        <!-- Learn group -->
+        <div class="explore-kicker">Learn</div>
+        <a href="./learn/what-is-zakat.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">What is Zakat?</div>
+            <p class="explore-row-desc">The meaning, purpose, and spiritual dimensions of the third pillar of Islam.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="./learn/nisab.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">Understanding Nisab</div>
+            <p class="explore-row-desc">Gold vs silver standards, how the threshold is calculated, and why it changes daily.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="./learn/hawl.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">The Hawl (Lunar Year)</div>
+            <p class="explore-row-desc">When your Zakat year starts, the seed date concept, and what happens if wealth dips.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="./learn/recipients.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">Who Receives Zakat?</div>
+            <p class="explore-row-desc">The eight Quranic categories of eligible recipients and practical guidance.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <!-- Reference group -->
+        <div class="explore-kicker">Reference</div>
+        <a href="./learn/gram-weights.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">Why Gram Figures Vary</div>
+            <p class="explore-row-desc">Why scholars arrive at different gram weights for the gold Nisab, and how to adjust for your preferred authority.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="./api.html" class="explore-row">
+          <div>
+            <div class="explore-row-title">API Documentation</div>
+            <p class="explore-row-desc">Free JSON API — all four schools, 37 currencies, updated 6× daily. No authentication, no rate limits.</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">→</span>
+        </a>
       </section>
 
       <!-- FAQ -->
