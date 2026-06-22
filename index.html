@@ -48,6 +48,55 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* ── Currency switcher ─────────────────────────────── */
+      .cur-switcher { display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.9rem; }
+      .cur-btn {
+        font-family:var(--mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+        padding:0.28rem 0.65rem; border:1px solid var(--border); border-radius:3px;
+        background:transparent; color:var(--paper-dim); cursor:pointer;
+        transition:border-color 0.15s,color 0.15s,background 0.15s; line-height:1.4;
+      }
+      .cur-btn:hover { border-color:var(--gold-dim); color:var(--paper); }
+      .cur-btn.active { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,0.08); }
+      select.cur-btn {
+        padding-right:1.5rem; cursor:pointer; appearance:none; -webkit-appearance:none;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5L5 6.5L8 3.5' fill='none' stroke='%23a8882c' stroke-width='1.5'/%3E%3C/svg%3E");
+        background-repeat:no-repeat; background-position:right 0.35rem center;
+      }
+      html[data-theme="light"] select.cur-btn {
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5L5 6.5L8 3.5' fill='none' stroke='%236e5414' stroke-width='1.5'/%3E%3C/svg%3E");
+      }
+      /* ── Delta ─────────────────────────────────────────── */
+      .nisab-delta { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.03em; }
+      /* ── Sparkline ─────────────────────────────────────── */
+      .nisab-spark { display:block; margin:0.5rem auto 0; overflow:visible; }
+      @media (prefers-reduced-motion:reduce) { .nisab-spark { display:none; } }
+      /* ── Live-dot: add outward pulse ring on top of blink ─ */
+      @keyframes blink {
+        0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(74,222,128,0.45); }
+        50%      { opacity:0.5; box-shadow:0 0 0 5px rgba(74,222,128,0); }
+      }
+      @media (prefers-reduced-motion:reduce) { .live-dot { animation:none; } }
+      /* ── Category label tints in Explore grid ──────────── */
+      .card-num-learn { color:var(--gold-dim) !important; }
+      .card-num-tool  { color:#4ade80 !important; font-weight:500; }
+      .card-num-ref   { color:var(--blue) !important; }
+      html[data-theme="light"] .card-num-tool { color:#16a34a !important; }
+      html[data-theme="light"] .card-num-ref  { color:#2563eb !important; }
+      /* ── Featured calculator card ───────────────────────── */
+      .card-featured { border-color:rgba(201,168,76,0.38) !important; background:rgba(201,168,76,0.04) !important; }
+      .card-featured:hover { border-color:var(--gold) !important; }
+      .card-prompt { font-family:var(--mono); font-size:0.68rem; color:var(--gold-dim); letter-spacing:0.06em; text-transform:uppercase; margin-top:0.55rem; }
+      /* ── Endpoint copy button ───────────────────────────── */
+      .endpoint-copy {
+        font-family:var(--mono); font-size:0.72rem; color:var(--gold-dim);
+        background:none; border:1px solid var(--border-s); border-radius:3px;
+        padding:0.18rem 0.5rem; cursor:pointer; vertical-align:middle; margin-left:0.5rem;
+        transition:color 0.15s,border-color 0.15s;
+      }
+      .endpoint-copy:hover { color:var(--gold-lt); border-color:var(--gold-dim); }
+    </style>
     <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
   </head>
   <body>
@@ -88,40 +137,80 @@
         </a>
       </header>
 
-      <!-- Live Table -->
+      <!-- Live Nisab -->
       <section>
-        <h2>
-          <span class="n">◆</span>Today's Nisab
-          <span class="h2-meta">USD</span>
-        </h2>
-        <p>Values loaded live from the API.</p>
-        <p style="margin-top: 0.6rem">
+        <h2><span class="n">◆</span>Today's Nisab</h2>
+        <p>
           The Prophet ﷺ set the Nisab at
           <strong class="text-gold-lt">20 gold dinars</strong> or
           <strong class="text-gold-lt">200 silver dirhams</strong>.
-          Contemporary scholars have given fatwas permitting either standard —
-          using gold produces a higher threshold, silver a lower one. The
-          variation in grams across schools reflects different scholarly
-          interpretations of the weight of the gold dinar and silver dirham, not
-          a disagreement on the number of coins.
+          Contemporary scholars permit either standard — gold gives a higher
+          threshold, silver a lower one.
         </p>
-        <table class="nisab-table">
-          <thead>
-            <tr>
-              <th>School</th>
-              <th>Gold</th>
-              <th>Gold USD</th>
-              <th>Silver</th>
-              <th>Silver USD</th>
-            </tr>
-          </thead>
-          <tbody id="table-body">
-            <tr class="table-placeholder">
-              <td colspan="5">Loading…</td>
-            </tr>
-          </tbody>
-        </table>
-        <p id="table-status"></p>
+
+        <!-- Currency switcher -->
+        <div class="cur-switcher" id="cur-switcher" role="group" aria-label="Select display currency"></div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 0">
+
+          <!-- Gold block -->
+          <div style="
+            background: rgba(201, 168, 76, 0.05);
+            border: 1px solid rgba(201, 168, 76, 0.28);
+            border-top: 2px solid var(--gold);
+            border-radius: 8px;
+            padding: 2rem 1.5rem 1.6rem;
+            text-align: center;
+            box-shadow: 0 0 48px rgba(201, 168, 76, 0.1);
+          ">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.9rem">
+              <span class="live-dot"></span>
+              <span style="font-family: var(--mono); font-size: 0.65rem; color: var(--gold-dim); letter-spacing: 0.14em; text-transform: uppercase">Gold Nisab</span>
+              <span class="nisab-delta" id="gold-delta"></span>
+            </div>
+            <div id="val-gold" style="font-family: var(--mono); font-size: clamp(2rem, 5vw, 3rem); color: var(--gold); font-weight: 500; line-height: 1; letter-spacing: -0.03em">—</div>
+            <svg class="nisab-spark" id="spark-gold" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true">
+              <polyline id="spark-gold-line" fill="none" stroke="var(--gold)" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round" opacity="0.55" points=""/>
+            </svg>
+            <div style="margin-top: 0.6rem; padding-top: 0.7rem; border-top: 1px solid rgba(201, 168, 76, 0.15)">
+              <span id="gold-meta" style="font-family: var(--mono); font-size: 0.63rem; color: var(--gold-dim); letter-spacing: 0.1em; text-transform: uppercase">USD · 85g · 20 gold dinars</span>
+            </div>
+          </div>
+
+          <!-- Silver block -->
+          <div style="
+            background: rgba(250, 248, 243, 0.02);
+            border: 1px solid rgba(250, 248, 243, 0.1);
+            border-top: 2px solid rgba(250, 248, 243, 0.22);
+            border-radius: 8px;
+            padding: 2rem 1.5rem 1.6rem;
+            text-align: center;
+          ">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.9rem">
+              <span class="live-dot"></span>
+              <span style="font-family: var(--mono); font-size: 0.65rem; color: var(--paper-dim); letter-spacing: 0.14em; text-transform: uppercase">Silver Nisab</span>
+              <span class="nisab-delta" id="silver-delta"></span>
+            </div>
+            <div id="val-silver" style="font-family: var(--mono); font-size: clamp(2rem, 5vw, 3rem); color: var(--paper); font-weight: 500; line-height: 1; letter-spacing: -0.03em">—</div>
+            <svg class="nisab-spark" id="spark-silver" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true">
+              <polyline id="spark-silver-line" fill="none" stroke="var(--paper-dim)" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round" opacity="0.45" points=""/>
+            </svg>
+            <div style="margin-top: 0.6rem; padding-top: 0.7rem; border-top: 1px solid rgba(250, 248, 243, 0.08)">
+              <span id="silver-meta" style="font-family: var(--mono); font-size: 0.63rem; color: var(--paper-dim); letter-spacing: 0.1em; text-transform: uppercase">USD · 595g · 200 silver dirhams</span>
+            </div>
+          </div>
+
+        </div>
+
+        <p style="margin-top: 0.6rem">
+          <span id="ts-human" style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.04em; cursor: default"></span>
+          <span id="table-status" style="font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); opacity: 0.6; letter-spacing: 0.04em; margin-left: 0.5rem"></span>
+        </p>
+        <p style="font-size: 0.85rem; margin-top: 0.4rem">
+          <a href="/learn/gram-weights.html">Why do gram figures vary across scholars? →</a>
+        </p>
       </section>
 
       <!-- Stats -->
@@ -162,42 +251,42 @@
       <!-- Internal links -->
       <section>
         <h2><span class="n">02</span>Explore</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
-          <a href="./learn/what-is-zakat.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">Learn — What is Zakat?</h4>
-              <p style="margin: 0; font-size: 0.9rem;">The meaning, purpose, and pillars of Zakat explained.</p>
-            </div>
+        <style>@media (max-width: 520px) { .explore-grid { grid-template-columns: 1fr !important; } .explore-grid .card[style] { grid-column: 1 !important; } }</style>
+        <div class="explore-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
+          <a href="./learn/what-is-zakat.html" class="card">
+            <div class="card-num">Learn</div>
+            <h3>What is Zakat?</h3>
+            <p>The meaning, purpose, and spiritual dimensions of the third pillar of Islam.</p>
           </a>
-          <a href="./learn/nisab.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">Understanding Nisab</h4>
-              <p style="margin: 0; font-size: 0.9rem;">Gold vs silver standards, thresholds, and how they differ by school.</p>
-            </div>
+          <a href="./learn/nisab.html" class="card">
+            <div class="card-num">Learn</div>
+            <h3>Understanding Nisab</h3>
+            <p>Gold vs silver standards, how the threshold is calculated, and why it changes daily.</p>
           </a>
-          <a href="./learn/hawl.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">The Hawl (Lunar Year)</h4>
-              <p style="margin: 0; font-size: 0.9rem;">When your Zakat year starts, and what happens if wealth fluctuates.</p>
-            </div>
+          <a href="./learn/hawl.html" class="card">
+            <div class="card-num">Learn</div>
+            <h3>The Hawl (Lunar Year)</h3>
+            <p>When your Zakat year starts, the seed date concept, and what happens if wealth dips.</p>
           </a>
-          <a href="./calculator.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">Zakat Calculator</h4>
-              <p style="margin: 0; font-size: 0.9rem;">Calculate your Zakat due step by step, by school.</p>
-            </div>
+          <a href="./learn/recipients.html" class="card">
+            <div class="card-num">Learn</div>
+            <h3>Who Receives Zakat?</h3>
+            <p>The eight Quranic categories of eligible recipients and practical guidance.</p>
           </a>
-          <a href="./learn/recipients.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">Who Receives Zakat?</h4>
-              <p style="margin: 0; font-size: 0.9rem;">The eight Quranic categories of eligible recipients.</p>
-            </div>
+          <a href="./calculator.html" class="card">
+            <div class="card-num">Tool</div>
+            <h3>Zakat Calculator</h3>
+            <p>Step-by-step calculation with live Nisab values, school-specific rules, and full debt handling.</p>
           </a>
-          <a href="./api.html" style="text-decoration: none;">
-            <div class="info-card" style="height: 100%;">
-              <h4 style="color: var(--gold-lt);">API Documentation</h4>
-              <p style="margin: 0; font-size: 0.9rem;">Endpoints, response schema, code examples, and historical archive.</p>
-            </div>
+          <a href="./learn/gram-weights.html" class="card">
+            <div class="card-num">Reference</div>
+            <h3>Why Gram Figures Vary</h3>
+            <p>Why scholars arrive at different gram weights for the gold Nisab — and how to adjust for your preferred authority.</p>
+          </a>
+          <a href="./api.html" class="card" style="grid-column: 1 / -1;">
+            <div class="card-num">Reference</div>
+            <h3>API Documentation</h3>
+            <p>Free JSON API — all four schools, 37 currencies, updated 6× daily. No authentication, no rate limits. Endpoint: <span style="font-family: var(--mono); font-size: 0.85rem; color: var(--gold)">nisab.tahababa.com/nisab.json</span></p>
           </a>
         </div>
       </section>
@@ -232,14 +321,285 @@
     <script>
       const BASE = "";
 
+      // ── Currency constants ────────────────────────────────────────
+      const ALL_CURRENCIES = [
+        "USD","GBP","EUR","CAD","AUD","JPY","CHF","CNY",
+        "INR","MYR","IDR","TRY","ZAR","SEK","NOK","SGD","DKK",
+        "SAR","AED","KWD","BHD","OMR","QAR",
+        "EGP","PKR","BDT","NGN","MAD","DZD","JOD","TND",
+        "IQD","LBP","LYD","KZT","AFN","UZS"
+      ];
+      const QUICK_CURRENCIES = ["USD","GBP","EUR","SAR"];
+      const USD_PEGGED = new Set(["SAR","AED","QAR","OMR","BHD","JOD"]);
+      const LOW_DECIMAL = new Set(["IDR","IQD","LBP","KZT","UZS","AFN","NGN","JPY"]);
+      const CUR_SYM = {
+        USD:"$",GBP:"£",EUR:"€",CAD:"CA$",AUD:"A$",JPY:"¥",CHF:"Fr ",
+        CNY:"¥",INR:"₹",MYR:"RM ",IDR:"Rp ",TRY:"₺",ZAR:"R ",
+        SEK:"kr ",NOK:"kr ",SGD:"S$",DKK:"kr ",
+        SAR:"﷼ ",AED:"د.إ ",KWD:"KD ",BHD:"BD ",OMR:"﷼ ",QAR:"﷼ ",
+        EGP:"E£",PKR:"₨ ",BDT:"৳",NGN:"₦",MAD:"MAD ",DZD:"DA ",
+        JOD:"JD ",TND:"DT ",IQD:"IQD ",LBP:"LL ",LYD:"LD ",
+        KZT:"₸",AFN:"؋",UZS:"сум "
+      };
+      // Timezone → currency (best-effort; falls back to USD)
+      const TZ_CUR = {
+        "Europe/London":"GBP","Europe/Jersey":"GBP","Europe/Guernsey":"GBP","Europe/Isle_of_Man":"GBP",
+        "Europe/Berlin":"EUR","Europe/Paris":"EUR","Europe/Madrid":"EUR","Europe/Rome":"EUR",
+        "Europe/Amsterdam":"EUR","Europe/Brussels":"EUR","Europe/Vienna":"EUR","Europe/Athens":"EUR",
+        "Europe/Lisbon":"EUR","Europe/Helsinki":"EUR","Europe/Dublin":"EUR","Europe/Warsaw":"EUR",
+        "Europe/Budapest":"EUR","Europe/Bucharest":"EUR","Europe/Prague":"EUR","Europe/Sofia":"EUR",
+        "Europe/Oslo":"NOK","Europe/Stockholm":"SEK","Europe/Copenhagen":"DKK","Europe/Zurich":"CHF",
+        "Europe/Istanbul":"TRY",
+        "Asia/Riyadh":"SAR","Asia/Kuwait":"KWD","Asia/Dubai":"AED","Asia/Muscat":"OMR",
+        "Asia/Qatar":"QAR","Asia/Bahrain":"BHD","Asia/Amman":"JOD",
+        "Asia/Karachi":"PKR","Asia/Dhaka":"BDT","Asia/Kolkata":"INR","Asia/Calcutta":"INR",
+        "Asia/Kuala_Lumpur":"MYR","Asia/Singapore":"SGD","Asia/Jakarta":"IDR","Asia/Makassar":"IDR",
+        "Asia/Tokyo":"JPY","Asia/Shanghai":"CNY","Asia/Hong_Kong":"CNY","Asia/Taipei":"CNY",
+        "Asia/Baghdad":"IQD","Asia/Beirut":"LBP","Africa/Tripoli":"LYD",
+        "Africa/Cairo":"EGP","Africa/Casablanca":"MAD","Africa/Algiers":"DZD","Africa/Tunis":"TND",
+        "Africa/Lagos":"NGN","Africa/Johannesburg":"ZAR","Africa/Nairobi":"KES",
+        "Asia/Tashkent":"UZS","Asia/Almaty":"KZT","Asia/Kabul":"AFN",
+        "America/Toronto":"CAD","America/Vancouver":"CAD","America/Edmonton":"CAD",
+        "America/Winnipeg":"CAD","America/Halifax":"CAD","America/St_Johns":"CAD",
+        "Australia/Sydney":"AUD","Australia/Melbourne":"AUD","Australia/Brisbane":"AUD",
+        "Australia/Perth":"AUD","Australia/Adelaide":"AUD","Australia/Hobart":"AUD",
+      };
+
+      // ── State ─────────────────────────────────────────────────────
+      let nisabData       = null;
+      let activeCurrency  = "USD";
+      let histPoints      = [];   // [{nisab, prices}] newest-first, up to 7 entries
+
+      // ── Helpers ───────────────────────────────────────────────────
+      function sym(cur) { return CUR_SYM[cur] ?? (cur + " "); }
+
+      function fmt(val, cur) {
+        if (val == null || isNaN(val)) return "—";
+        return sym(cur) + Math.round(val).toLocaleString();
+      }
+
+      function detectCurrency() {
+        try {
+          const saved = localStorage.getItem("nisab-currency");
+          if (saved && ALL_CURRENCIES.includes(saved)) return saved;
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const detected = TZ_CUR[tz];
+          if (detected && ALL_CURRENCIES.includes(detected)) return detected;
+        } catch (_) {}
+        return "USD";
+      }
+
+      function humanAge(tsSlug) {
+        try {
+          // "2026-05-28T1334GMT" → ISO
+          const iso = String(tsSlug).replace(/T(\d{2})(\d{2})GMT$/i, "T$1:$2:00Z");
+          const d = new Date(iso);
+          if (isNaN(d)) return String(tsSlug);
+          const mins = Math.round((Date.now() - d) / 60000);
+          if (mins < 2)  return "Updated just now";
+          if (mins < 60) return `Updated ${mins} minutes ago`;
+          const hrs = Math.floor(mins / 60);
+          if (hrs < 24)  return `Updated ${hrs} hour${hrs > 1 ? "s" : ""} ago`;
+          const days = Math.floor(hrs / 24);
+          return `Updated ${days} day${days > 1 ? "s" : ""} ago`;
+        } catch (_) { return String(tsSlug); }
+      }
+
+      // ── Currency switcher ─────────────────────────────────────────
+      function buildCurrencySwitcher() {
+        const container = document.getElementById("cur-switcher");
+        if (!container) return;
+        container.innerHTML = "";
+
+        QUICK_CURRENCIES.forEach(code => {
+          const btn = document.createElement("button");
+          btn.className = "cur-btn" + (code === activeCurrency ? " active" : "");
+          btn.dataset.cur = code;
+          btn.textContent = code;
+          btn.setAttribute("aria-pressed", code === activeCurrency ? "true" : "false");
+          btn.addEventListener("click", () => switchCurrency(code));
+          container.appendChild(btn);
+        });
+
+        // Thin separator
+        const sep = document.createElement("span");
+        sep.setAttribute("aria-hidden", "true");
+        sep.style.cssText = "display:inline-block;width:1px;height:0.9rem;background:var(--border);margin:0 0.25rem;vertical-align:middle;";
+        container.appendChild(sep);
+
+        // "More" dropdown
+        const sel = document.createElement("select");
+        sel.className = "cur-btn cur-select";
+        sel.setAttribute("aria-label", "More currencies");
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = QUICK_CURRENCIES.includes(activeCurrency) ? "More…" : activeCurrency;
+        sel.appendChild(placeholder);
+        ALL_CURRENCIES.filter(c => !QUICK_CURRENCIES.includes(c)).forEach(code => {
+          const opt = document.createElement("option");
+          opt.value = code;
+          opt.textContent = code;
+          if (code === activeCurrency) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        sel.addEventListener("change", e => { if (e.target.value) switchCurrency(e.target.value); });
+        container.appendChild(sel);
+      }
+
+      function switchCurrency(code) {
+        if (!ALL_CURRENCIES.includes(code)) return;
+        activeCurrency = code;
+        try { localStorage.setItem("nisab-currency", code); } catch (_) {}
+
+        // Update button states
+        document.querySelectorAll(".cur-btn[data-cur]").forEach(btn => {
+          const on = btn.dataset.cur === code;
+          btn.classList.toggle("active", on);
+          btn.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        const sel = document.querySelector(".cur-select");
+        if (sel) {
+          if (QUICK_CURRENCIES.includes(code)) {
+            sel.value = "";
+            sel.options[0].textContent = "More…";
+          } else {
+            sel.value = code;
+            sel.options[0].textContent = code;
+          }
+        }
+
+        renderNisabBlocks(false);
+        renderSparklines();
+        renderDelta();
+      }
+
+      // ── Nisab block rendering ─────────────────────────────────────
+      function renderNisabBlocks(animate) {
+        if (!nisabData) return;
+        const cur = activeCurrency;
+        const g  = nisabData.nisab.hanafi.gold;
+        const sv = nisabData.nisab.hanafi.silver;
+        const goldVal   = g.values?.[cur];
+        const silverVal = sv.values?.[cur];
+
+        const goldEl   = document.getElementById("val-gold");
+        const silverEl = document.getElementById("val-silver");
+
+        if (goldEl) {
+          if (animate && goldVal != null) countUp(goldEl, goldVal, cur);
+          else goldEl.textContent = fmt(goldVal, cur);
+        }
+        if (silverEl) {
+          if (animate && silverVal != null) countUp(silverEl, silverVal, cur);
+          else silverEl.textContent = fmt(silverVal, cur);
+        }
+
+        const gm = document.getElementById("gold-meta");
+        const sm = document.getElementById("silver-meta");
+        if (gm) gm.textContent = `${cur} · 85g · 20 gold dinars`;
+        if (sm) sm.textContent = `${cur} · 595g · 200 silver dirhams`;
+      }
+
+      function countUp(el, target, cur) {
+        const prefix = sym(cur);
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          el.textContent = prefix + Math.round(target).toLocaleString();
+          return;
+        }
+        const dur = 900, t0 = performance.now();
+        (function tick(now) {
+          const p = Math.min((now - t0) / dur, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = prefix + Math.round(target * ease).toLocaleString();
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = prefix + Math.round(target).toLocaleString();
+        })(performance.now());
+      }
+
+      // ── Sparklines ────────────────────────────────────────────────
+      function sparkPoints(values, W, H) {
+        if (!values || values.length < 2) return "";
+        const mn = Math.min(...values), mx = Math.max(...values);
+        const range = mx - mn || 1;
+        const pad = 2;
+        return values.map((v, i) => {
+          const x = (pad + (i / (values.length - 1)) * (W - pad * 2)).toFixed(1);
+          const y = (pad + (1 - (v - mn) / range) * (H - pad * 2)).toFixed(1);
+          return `${x},${y}`;
+        }).join(" ");
+      }
+
+      function renderSparklines() {
+        if (!histPoints.length) return;
+        const cur = activeCurrency;
+        const gVals = histPoints.map(p => p.nisab?.hanafi?.gold?.values?.[cur]).filter(v => v != null).reverse();
+        const sVals = histPoints.map(p => p.nisab?.hanafi?.silver?.values?.[cur]).filter(v => v != null).reverse();
+        const gl = document.getElementById("spark-gold-line");
+        const sl = document.getElementById("spark-silver-line");
+        if (gl && gVals.length >= 2) gl.setAttribute("points", sparkPoints(gVals, 120, 28));
+        if (sl && sVals.length >= 2) sl.setAttribute("points", sparkPoints(sVals, 120, 28));
+      }
+
+      // ── Delta ─────────────────────────────────────────────────────
+      function setDelta(elId, prev, now) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        if (!prev || !now) { el.textContent = ""; return; }
+        const pct = ((now - prev) / prev) * 100;
+        el.textContent = (pct >= 0 ? "▲ " : "▼ ") + Math.abs(pct).toFixed(1) + "%";
+        el.style.color = pct >= 0 ? "var(--green)" : "var(--red)";
+      }
+
+      function renderDelta() {
+        if (histPoints.length < 2) return;
+        const cur = activeCurrency;
+        const latest = histPoints[0], prev = histPoints[1];
+        setDelta("gold-delta",
+          prev.nisab?.hanafi?.gold?.values?.[cur],
+          latest.nisab?.hanafi?.gold?.values?.[cur]);
+        setDelta("silver-delta",
+          prev.nisab?.hanafi?.silver?.values?.[cur],
+          latest.nisab?.hanafi?.silver?.values?.[cur]);
+      }
+
+      // ── Clipboard (mirrors api.html cp()) ─────────────────────────
+      function cp(btn, text) {
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = "copied!";
+          setTimeout(() => (btn.textContent = orig), 1800);
+        });
+      }
+
+      // ── History fetch (mirrors api.html loadHistoryIndex pattern) ──
+      async function loadSparkData() {
+        try {
+          const res = await fetch(`${BASE}/history/index.json`);
+          if (!res.ok) return;
+          const idx = await res.json();
+          const dates = Object.keys(idx.by_date ?? {}).sort().reverse().slice(0, 7);
+          const slugs = dates.map(d => (idx.by_date[d] ?? [])[0]).filter(Boolean);
+          const results = await Promise.allSettled(
+            slugs.map(slug =>
+              fetch(`${BASE}/history/${slug}.json`)
+                .then(r => r.ok ? r.json() : null)
+            )
+          );
+          histPoints = results.map(r => r.status === "fulfilled" ? r.value : null).filter(Boolean);
+          renderDelta();
+          renderSparklines();
+        } catch (_) {}
+      }
+
+      // ── FAQs ──────────────────────────────────────────────────────
       const FAQS = [
         {
           q: "What is the Nisab?",
-          a: "The Nisab (نصاب) is the minimum threshold of wealth a Muslim must possess before Zakat becomes obligatory. It was set by the Prophet ﷺ at 20 gold dinars or 200 silver dirhams. Today, this is expressed as 85g of gold or 595–612g of silver depending on your school of jurisprudence.",
+          a: "The Nisab (نصاب) is the minimum threshold of wealth a Muslim must possess before Zakat becomes obligatory. It was set by the Prophet ﷺ at 20 gold dinars or 200 silver dirhams. Today, this is expressed as 85g of gold or 595g of silver.",
         },
         {
           q: "Which school of thought should I follow?",
-          a: "All four major Sunni schools use 85g of gold as the gold Nisab. For silver, Hanafi uses 612.36g and the other three schools use 595g. Contemporary scholars permit using either the gold or silver standard. Consult a qualified Islamic scholar for guidance specific to your situation.",
+          a: "All four major Sunni schools use 85g of gold as the gold Nisab and 595g of silver as the silver Nisab. Contemporary scholars permit using either the gold or silver standard. Consult a qualified Islamic scholar for guidance specific to your situation.",
         },
         {
           q: "Do I have to pay Zakat every year?",
@@ -251,7 +611,7 @@
         },
         {
           q: "Are GCC and South Asian currencies supported?",
-          a: "Yes — all six GCC currencies (SAR, AED, KWD, BHD, OMR, QAR) and South Asian currencies (PKR, BDT, INR) are now fully supported. Exchange rates come from @fawazahmed0/currency-api which covers 150+ currencies. SAR, AED, QAR, OMR, BHD, and JOD are flagged in the API response as USD-pegged, meaning their Nisab tracks the USD Nisab directly.",
+          a: "Yes — all six GCC currencies (SAR, AED, KWD, BHD, OMR, QAR) and South Asian currencies (PKR, BDT, INR) are fully supported. Exchange rates come from @fawazahmed0/currency-api which covers 150+ currencies. SAR, AED, QAR, OMR, BHD, and JOD are pegged to the US Dollar, so their Nisab tracks the USD Nisab directly.",
         },
         {
           q: "Is this free to use?",
@@ -259,74 +619,79 @@
         },
       ];
 
-      // Render FAQs
-      const faqList = document.getElementById("faq-list");
-      FAQS.forEach((faq) => {
-        const item = document.createElement("div");
-        item.className = "faq-item";
-        item.innerHTML = `
-          <button class="faq-q" onclick="this.closest('.faq-item').classList.toggle('open')">
-            <span class="faq-q-text">${faq.q}</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-a">${faq.a}</div>`;
-        faqList.appendChild(item);
-      });
+      (function renderFAQs() {
+        const list = document.getElementById("faq-list");
+        FAQS.forEach(faq => {
+          const item = document.createElement("div");
+          item.className = "faq-item";
+          item.innerHTML = `
+            <button class="faq-q" onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="faq-q-text">${faq.q}</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">${faq.a}</div>`;
+          list.appendChild(item);
+        });
+      })();
 
-      // Load live table
+      // ── Main data load ────────────────────────────────────────────
       async function loadTable() {
         try {
           const res = await fetch(`${BASE}/nisab.json`);
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const data = await res.json();
-          const schools = ["hanafi", "maliki", "shafii", "hanbali"];
-          const labels = {
-            hanafi: "Hanafi",
-            maliki: "Maliki",
-            shafii: "Shafi'i",
-            hanbali: "Hanbali",
-          };
+          nisabData = await res.json();
 
-          document.getElementById("table-body").innerHTML = schools
-            .map((s) => {
-              const g = data.nisab[s].gold;
-              const sv = data.nisab[s].silver;
-              return `<tr>
-                <td class="school-col">${labels[s]}</td>
-                <td class="nisab-grams-col">${g.grams}g</td>
-                <td class="usd-col">$${g.values?.USD?.toLocaleString() ?? "—"}</td>
-                <td class="nisab-grams-col">${sv.grams}g</td>
-                <td class="usd-col">$${sv.values?.USD?.toLocaleString() ?? "—"}</td>
-              </tr>`;
-            })
-            .join("");
+          // Animate initial values in active currency
+          renderNisabBlocks(true);
 
-          const ts = data.meta?.timestamp ?? data.meta?.updated_at ?? "";
-          document.getElementById("table-status").textContent =
-            `Gold $${data.prices.gold.per_troy_oz}/oz · Silver $${data.prices.silver.per_troy_oz}/oz · ${ts}`;
+          // Timestamp
+          const ts = nisabData.meta?.timestamp ?? nisabData.meta?.updated_at ?? "";
+          const tsEl = document.getElementById("ts-human");
+          if (tsEl) { tsEl.textContent = humanAge(ts); tsEl.title = ts; }
 
+          // Spot prices (secondary line)
+          const gOz = nisabData.prices?.gold?.per_troy_oz;
+          const sOz = nisabData.prices?.silver?.per_troy_oz;
+          const statusEl = document.getElementById("table-status");
+          if (statusEl) statusEl.textContent = `· Gold $${gOz}/oz · Silver $${sOz}/oz`;
+
+          // Hijri date
           const hijriEl = document.getElementById("hijri-date");
-          if (data.meta?.hijri?.formatted_en) {
-            hijriEl.textContent = data.meta.hijri.formatted_en;
+          if (hijriEl && nisabData.meta?.hijri?.formatted_en) {
+            hijriEl.textContent = nisabData.meta.hijri.formatted_en;
           }
+
+          // Inject clipboard copy button after the endpoint badge (JS-only, no HTML touched)
+          document.querySelectorAll("header .endpoint-badge, .endpoint-badge").forEach(badge => {
+            if (badge.dataset.copyDone) return;
+            badge.dataset.copyDone = "1";
+            const btn = document.createElement("button");
+            btn.className = "endpoint-copy";
+            btn.textContent = "copy";
+            btn.addEventListener("click", e => { e.preventDefault(); cp(btn, "https://nisab.tahababa.com/nisab.json"); });
+            badge.insertAdjacentElement("afterend", btn);
+          });
+
         } catch (e) {
-          document.getElementById("table-body").innerHTML =
-            `<tr class="table-error"><td colspan="5">Could not load — ${e.message}</td></tr>`;
+          const statusEl = document.getElementById("table-status");
+          if (statusEl) statusEl.textContent = `Could not load — ${e.message}`;
         }
       }
 
-      // Load history index (for snapshot count only)
       async function loadHistoryIndex() {
         try {
           const res = await fetch(`${BASE}/history/index.json`);
           if (!res.ok) return;
           const data = await res.json();
-          const total = data.total_records ?? data.count ?? 0;
-          document.getElementById("stat-days").textContent = total;
+          document.getElementById("stat-days").textContent = data.total_records ?? data.count ?? 0;
         } catch (_) {}
       }
 
-      // Show Intl fallback immediately while nisab.json loads
+      // ── Boot sequence ─────────────────────────────────────────────
+      // 1. Detect currency before anything renders
+      activeCurrency = detectCurrency();
+
+      // 2. Hijri fallback while data loads
       try {
         document.getElementById("hijri-date").textContent =
           new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", {
@@ -334,8 +699,13 @@
           }).format(new Date());
       } catch (_) {}
 
+      // 3. Build currency switcher (uses activeCurrency, no data needed)
+      buildCurrencySwitcher();
+
+      // 4. Load live data + sparklines in parallel
       loadTable();
       loadHistoryIndex();
+      loadSparkData();
     </script>
     <script src="./scripts/popup.js"></script>
     <script src="scripts/theme.js"></script>
