@@ -232,20 +232,41 @@
             </div>
           </div>
           <div class="field-group">
-            <label>School of jurisprudence (Madhab)</label>
-            <select id="madhab">
-              <option value="hanafi">Hanafi</option>
-              <option value="maliki">Maliki</option>
-              <option value="shafii">Shafi'i</option>
-              <option value="hanbali">Hanbali</option>
+            <label>Nisab calculation basis</label>
+            <select id="nisab-basis" onchange="onBasisChange()">
+              <option value="gold">Gold standard — 85g (AAOIFI)</option>
+              <option value="silver">Silver standard — 595g (AAOIFI)</option>
+              <option value="custom">Custom gram weight</option>
             </select>
+            <p class="hint">
+              All four schools now use the same weights.
+              <a href="/learn/gram-weights.html" target="_blank" rel="noopener">Why do figures vary across scholars? →</a>
+            </p>
+          </div>
+          <div class="custom-currency-row" id="custom-gram-row">
+            <div class="field-group">
+              <label>Gold Nisab weight (grams)</label>
+              <input
+                type="number"
+                id="custom-gold-grams"
+                placeholder="e.g. 87.48"
+                min="1"
+                max="200"
+                step="0.01"
+                oninput="updateNisabPreview()"
+              />
+              <p class="hint">
+                Enter the gram weight your scholar uses.
+                <a href="/learn/gram-weights.html" target="_blank" rel="noopener">See documented scholarly figures →</a>
+              </p>
+            </div>
           </div>
           <div class="explainer" style="margin-top: 0.75rem">
             <span class="learn-icon">?</span>
-            <strong>Why does the school matter?</strong> The four schools agree
-            on the 2.5% rate but differ slightly on some rules and Fikih. All
-            four schools use <strong>85g</strong> of gold for the Nisab
-            calculation.
+            <strong>Gold or silver?</strong> Contemporary scholars permit either
+            standard. Gold gives a higher threshold; silver a lower one. All four
+            major schools apply the same gram weights on this calculator. Use
+            <em>Custom</em> if your scholar follows a different figure.
           </div>
           <div id="nisab-preview" style="margin-top: 1rem"></div>
           <div class="btn-row">
@@ -996,25 +1017,57 @@
         );
       }
 
+      function getBasis() {
+        return document.getElementById("nisab-basis").value;
+      }
+
+      // Returns the Nisab threshold in the user's selected currency,
+      // based on the chosen calculation basis (gold / silver / custom).
       function getNisabThreshold() {
         if (!nisabData || !nisabData.nisab) return 0;
-        var madhab = document.getElementById("madhab").value;
-        var school = nisabData.nisab[madhab];
-        if (!school || !school.gold || !school.gold.values) return 0;
-        var cur = document.getElementById("currency").value;
+        var basis = getBasis();
+        var cur   = document.getElementById("currency").value;
+        var school = nisabData.nisab.hanafi; // all schools identical now
+
+        if (basis === "silver") {
+          if (!school?.silver?.values) return 0;
+          if (cur === "CUSTOM") {
+            var usdSilver = school.silver.values["USD"] || 0;
+            var rate = getCustomRate();
+            return rate > 0 ? usdSilver * rate : 0;
+          }
+          return school.silver.values[cur] || 0;
+        }
+
+        if (basis === "custom") {
+          var grams = parseFloat(document.getElementById("custom-gold-grams").value) || 0;
+          if (grams <= 0 || !nisabData.prices?.gold?.per_gram) return 0;
+          var ppg = nisabData.prices.gold.per_gram;
+          if (cur === "CUSTOM") {
+            return ppg * grams * (getCustomRate() || 0);
+          }
+          if (cur === "USD") return ppg * grams;
+          // Derive FX rate from existing gold Nisab values
+          var goldUSD = school.gold.values["USD"] || 0;
+          var goldLocal = school.gold.values[cur] || 0;
+          if (!goldUSD) return 0;
+          return ppg * grams * (goldLocal / goldUSD);
+        }
+
+        // Default: gold
+        if (!school?.gold?.values) return 0;
         if (cur === "CUSTOM") {
-          var usdVal = school.gold.values["USD"] || 0;
-          var rate = getCustomRate();
-          return rate > 0 ? usdVal * rate : 0;
+          var usdGold = school.gold.values["USD"] || 0;
+          var rate2 = getCustomRate();
+          return rate2 > 0 ? usdGold * rate2 : 0;
         }
         return school.gold.values[cur] || 0;
       }
 
       function getSilverNisabThreshold() {
         if (!nisabData || !nisabData.nisab) return 0;
-        var madhab = document.getElementById("madhab").value;
-        var school = nisabData.nisab[madhab];
-        if (!school || !school.silver || !school.silver.values) return 0;
+        var school = nisabData.nisab.hanafi;
+        if (!school?.silver?.values) return 0;
         var cur = document.getElementById("currency").value;
         if (cur === "CUSTOM") {
           var usdVal = school.silver.values["USD"] || 0;
@@ -1025,17 +1078,25 @@
       }
 
       function getGoldGrams() {
-        if (!nisabData || !nisabData.nisab) return 85;
-        var madhab = document.getElementById("madhab").value;
-        var school = nisabData.nisab[madhab];
-        return school?.gold?.grams || 85;
+        var basis = getBasis();
+        if (basis === "custom") {
+          return parseFloat(document.getElementById("custom-gold-grams").value) || 85;
+        }
+        return nisabData?.nisab?.hanafi?.gold?.grams || 85;
       }
 
       function getSilverGrams() {
-        if (!nisabData || !nisabData.nisab) return 595;
-        var madhab = document.getElementById("madhab").value;
-        var school = nisabData.nisab[madhab];
-        return school?.silver?.grams || 595;
+        return nisabData?.nisab?.hanafi?.silver?.grams || 595;
+      }
+
+      function getBasisLabel() {
+        var basis = getBasis();
+        if (basis === "silver") return "Silver standard (595g)";
+        if (basis === "custom") {
+          var g = parseFloat(document.getElementById("custom-gold-grams").value);
+          return "Custom (" + (isNaN(g) ? "?" : g.toFixed(2)) + "g gold)";
+        }
+        return "Gold standard (85g)";
       }
 
       function getGoldPricePerGramPure() {
@@ -1106,7 +1167,7 @@
             .getElementById("currency")
             .addEventListener("change", onCurrencyChange);
           document
-            .getElementById("madhab")
+            .getElementById("nisab-basis")
             .addEventListener("change", updateNisabPreview);
           document
             .getElementById("custom-currency-rate")
@@ -1123,6 +1184,13 @@
       function onCurrencyChange() {
         const row = document.getElementById("custom-currency-row");
         document.getElementById("currency").value === "CUSTOM"
+          ? row.classList.add("show")
+          : row.classList.remove("show");
+        updateNisabPreview();
+      }
+      function onBasisChange() {
+        const row = document.getElementById("custom-gram-row");
+        document.getElementById("nisab-basis").value === "custom"
           ? row.classList.add("show")
           : row.classList.remove("show");
         updateNisabPreview();
@@ -1343,14 +1411,8 @@
 
       function buildSummary() {
         var curCode = getEffectiveCurrency();
-        var madhab = document.getElementById("madhab").value;
         var nisabThreshold = getNisabThreshold();
-        var madhabName = {
-          hanafi: "Hanafi",
-          maliki: "Maliki",
-          shafii: "Shafi'i",
-          hanbali: "Hanbali",
-        }[madhab];
+        var madhabName = getBasisLabel();
         var cashHand = val("cash-hand"),
           cashBank = val("cash-bank"),
           cashDigital = val("cash-digital"),
@@ -1519,13 +1581,7 @@
       function downloadPDF() {
         var content = document.getElementById("summary-content").innerHTML;
         var curCode = getEffectiveCurrency();
-        var madhab = document.getElementById("madhab").value;
-        var madhabName = {
-          hanafi: "Hanafi",
-          maliki: "Maliki",
-          shafii: "Shafi'i",
-          hanbali: "Hanbali",
-        }[madhab];
+        var madhabName = getBasisLabel();
         var printHTML =
           '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Zakat Summary - ' +
           new Date().toLocaleDateString("en-GB") +
@@ -1533,7 +1589,7 @@
           new Date().toLocaleDateString("en-GB") +
           " &middot; " +
           madhabName +
-          " school &middot; " +
+          " &middot; " +
           curCode +
           "</p>" +
           content +
