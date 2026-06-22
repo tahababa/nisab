@@ -39,9 +39,9 @@ const LOW_DECIMAL_CURRENCIES = ['IDR', 'IQD', 'LBP', 'KZT', 'UZS', 'AFN', 'NGN',
 const SCHOOLS = {
   hanafi: {
     label: 'Hanafi',
-    note:  'Based on 85g of gold (following Al-Azhar) or 612.36g of silver (the traditional 52.5 tola Hanafi measure). The lower threshold is preferred to benefit the poor.',
-    gold:   { grams: 85.0   },
-    silver: { grams: 612.36, tola: 52.5  }
+    note:  'Based on 85g of gold (following Al-Azhar) or 595g of silver. The lower threshold is preferred to benefit the poor.',
+    gold:   { grams: 85.0  },
+    silver: { grams: 595.0 }
   },
   maliki: {
     label: 'Maliki',
