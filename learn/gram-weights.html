@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Weight of a Dinar — Nisab Al Zakat</title>
+    <meta
+      name="description"
+      content="Why scholars disagree on the gram weight of gold for Nisab — a clear explanation of the mithqal, its history, and how to adjust for your preferred authority."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☪️</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <script>!function(){var s;try{s=localStorage.getItem('nisab-theme')}catch(e){}var h=new Date().getHours();document.documentElement.setAttribute('data-theme',s||(h>=6&&h<18?'light':'dark'))}();</script>
+    <style>
+      /* ── Timeline ────────────────────────────────────────────── */
+      .timeline {
+        position: relative;
+        margin: 1.5rem 0 1rem;
+        padding-left: 2rem;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0.45rem;
+        top: 0.5rem;
+        bottom: 0.5rem;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--gold), var(--gold-dim));
+        opacity: 0.4;
+      }
+      .tl-entry {
+        position: relative;
+        margin-bottom: 1.8rem;
+      }
+      .tl-entry:last-child {
+        margin-bottom: 0;
+      }
+      .tl-dot {
+        position: absolute;
+        left: -2rem;
+        top: 0.35rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 50%;
+        background: var(--gold-dim);
+        border: 2px solid var(--gold);
+        flex-shrink: 0;
+      }
+      .tl-era {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--gold-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.15rem;
+      }
+      .tl-heading {
+        font-family: var(--serif);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--paper);
+        margin-bottom: 0.3rem;
+      }
+      .tl-body {
+        font-size: 0.9rem;
+        color: var(--paper-dim);
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      /* ── Details / accordion ─────────────────────────────────── */
+      .accordion {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        overflow: hidden;
+      }
+      .accordion summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.4rem;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+        color: var(--gold);
+        background: rgba(201, 168, 76, 0.04);
+        list-style: none;
+        user-select: none;
+        transition: background 0.2s;
+      }
+      .accordion summary::-webkit-details-marker {
+        display: none;
+      }
+      .accordion summary:hover {
+        background: rgba(201, 168, 76, 0.08);
+      }
+      .accordion summary .acc-chevron {
+        font-size: 0.75rem;
+        color: var(--gold-dim);
+        transition: transform 0.25s;
+        flex-shrink: 0;
+      }
+      .accordion[open] summary .acc-chevron {
+        transform: rotate(180deg);
+      }
+      .accordion-body {
+        padding: 1.5rem 1.8rem;
+        border-top: 1px solid var(--border-s);
+      }
+
+      /* ── Highlighted table row ───────────────────────────────── */
+      .row-highlight td {
+        background: rgba(201, 168, 76, 0.05) !important;
+        border-left: 3px solid var(--gold);
+      }
+      .row-highlight td:first-child {
+        padding-left: calc(1rem - 3px);
+      }
+      .badge-used {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: rgba(201, 168, 76, 0.15);
+        color: var(--gold);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 0.1rem 0.45rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      /* ── Calc widget ─────────────────────────────────────────── */
+      .calc-widget {
+        background: var(--ink-card);
+        border: 1px solid var(--border-s);
+        border-radius: 8px;
+        padding: 1.5rem 1.8rem;
+        margin: 1.5rem 0;
+      }
+      .calc-widget label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--gold-dim);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      .calc-row {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-bottom: 1.2rem;
+      }
+      .calc-row .field {
+        flex: 1;
+        min-width: 160px;
+      }
+      .calc-formula {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--gold);
+        background: rgba(201, 168, 76, 0.06);
+        border: 1px solid var(--border-s);
+        border-radius: 4px;
+        padding: 0.6rem 1rem;
+        margin-bottom: 1rem;
+      }
+      .calc-result {
+        font-size: 1.05rem;
+        color: var(--paper);
+        min-height: 1.5rem;
+        line-height: 1.6;
+      }
+      .calc-result strong {
+        color: var(--gold);
+        font-family: var(--mono);
+        font-size: 1.1rem;
+      }
+      .calc-result.loading {
+        color: var(--paper-dim);
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+      .calc-note {
+        margin-top: 0.75rem;
+        font-size: 0.82rem;
+        color: var(--paper-dim);
+        font-style: italic;
+        line-height: 1.55;
+      }
+
+      /* ── Timeline closing note ───────────────────────────────── */
+      .tl-close-note {
+        margin-top: 1.5rem;
+        font-size: 0.88rem;
+        color: var(--paper-dim);
+        font-style: italic;
+        line-height: 1.65;
+        border-top: 1px solid var(--border-s);
+        padding-top: 1rem;
+      }
+      .tl-sources {
+        margin-top: 0.75rem;
+        font-size: 0.75rem;
+        color: rgba(250, 248, 243, 0.3);
+        font-family: var(--mono);
+        line-height: 1.5;
+      }
+      html[data-theme="light"] .tl-sources {
+        color: #6a5e4a;
+      }
+      html[data-theme="light"] .tl-body {
+        color: #2a2518;
+      }
+      html[data-theme="light"] .tl-close-note {
+        color: #2a2518;
+      }
+      html[data-theme="light"] .calc-note {
+        color: #2a2518;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="wrap" style="max-width: 1080px">
+        <a href="../" class="nav-brand">☪ Nisab Al Zakat</a>
+        <button
+          class="nav-toggle"
+          onclick="document.querySelector('.nav-links').classList.toggle('open')"
+          aria-label="Menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="../">Home</a></li>
+          <li><a href="./" class="active">Learn</a></li>
+          <li><a href="../calculator.html">Calculator</a></li>
+          <li><a href="../api.html">API</a></li>
+          <li>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+              <span class="icon-dark">☀️</span><span class="icon-light">🌙</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="breadcrumb fade-up">
+        <a href="./">Learn</a> <span>›</span> The Weight of a Dinar
+      </div>
+
+      <header class="page-header fade-up">
+        <h1>The Weight of a <em>Dinar</em></h1>
+        <p class="subtitle">Why scholars disagree on the gram weight of gold for Nisab</p>
+      </header>
+
+      <section class="content">
+
+        <!-- ══ Section 1: The headline concept ══════════════════ -->
+        <h2><span class="n">01</span>The Headline Concept</h2>
+
+        <p>
+          The Nisab for gold was set by the Prophet ﷺ at <strong>20 mithqal</strong>
+          (gold dinars). This has never been disputed across any school of
+          jurisprudence or any era of Islamic scholarship. The number is fixed.
+          What scholars differ on is a purely technical question: <strong>how many
+          grams does one mithqal weigh?</strong>
+        </p>
+
+        <p>
+          This was not a problem in the Prophet's time. People weighed gold
+          physically, using the dinar itself as the unit. No conversion was
+          needed. The challenge arose when modern scholars needed to express
+          that weight in grams — a metric unit that did not exist in classical
+          Islamic scholarship and that the original texts never used.
+        </p>
+
+        <div class="info-card gold">
+          <h4>The core distinction</h4>
+          <p style="margin: 0">
+            This is <strong>not</strong> a disagreement between the four
+            schools of jurisprudence (madhabs). Hanafi, Maliki, Shafi'i, and
+            Hanbali scholars all agree on 20 mithqal. The differing gram
+            figures you see in use today are the product of different scholarly
+            efforts to reverse-engineer what one mithqal weighs in grams,
+            using classical texts, surviving coins, and numismatic evidence.
+          </p>
+        </div>
+
+        <p>
+          The result: different scholars and institutions, working from
+          different classical sources and methodologies, have arrived at
+          slightly different gram equivalents. These differences are small —
+          typically between 84g and 100g for the full 20-mithqal Nisab — but
+          they matter when calculating a financial obligation.
+        </p>
+
+        <!-- ══ Section 2: Historical note on the mithqal ══════════ -->
+        <h2><span class="n">02</span>A Brief History of the Mithqal</h2>
+
+        <p>
+          The mithqal was the standard gold weight of the Islamic world,
+          used continuously across the Umayyad and Abbasid caliphates. It was
+          not merely a unit of account — it was embodied in the gold dinar, a
+          coin struck to a carefully controlled physical standard that
+          circulated from Iberia to Central Asia.
+        </p>
+
+        <p>
+          In practice, the dinar's weight was remarkably stable over the
+          centuries of the early caliphates. Testing of surviving Umayyad and
+          Abbasid coins consistently places the coin at approximately 4.25
+          grams. But that stability was never expressed in metric terms, because
+          metrics did not exist. Classical scholars instead defined the mithqal
+          in terms of barley grains: one mithqal equals 72 grains of barley.
+          Precise for its time; the seed of modern disagreement.
+        </p>
+
+        <p>
+          When scholars in the 20th century began issuing fatwas in modern
+          currencies and gram weights, they had to go back to classical texts,
+          numismatic evidence, and surviving physical coins to reverse-engineer
+          the gram equivalent. Different chains of scholarly reasoning — using
+          slightly different coin samples, different interpretations of the
+          barley-grain definition, or institutional standards — produced slightly
+          different answers. All of them are legitimate attempts at the same
+          calculation. None is "wrong."
+        </p>
+
+        <p>
+          The range produced by this process runs from 84g to 100g per
+          20-mithqal Nisab. This is not a theological disagreement about
+          Zakat. It is scholarly ijtihad on a technical measurement question,
+          and the disagreement is modern, not ancient.
+        </p>
+
+        <!-- ══ Section 2b: Expandable timeline ══════════════════ -->
+        <details class="accordion">
+          <summary>
+            <span>The history of the dinar's weight, explained</span>
+            <span class="acc-chevron" aria-hidden="true">▼</span>
+          </summary>
+          <div class="accordion-body">
+            <div class="timeline">
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">Pre-Islamic Arabia</div>
+                <div class="tl-heading">Gold and silver by weight</div>
+                <p class="tl-body">
+                  The Arabs did not mint their own coins. They used Byzantine
+                  gold (the solidus, roughly 4.4–4.55g) and Sasanian Persian
+                  silver coins, trading them by weight rather than by face
+                  value. The mithqal already existed as a unit of weight,
+                  inherited from earlier Near Eastern systems.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">Early 7th century CE — The Prophet's era</div>
+                <div class="tl-heading">The Nisab is set</div>
+                <p class="tl-body">
+                  The Prophet ﷺ fixed the Nisab at 20 mithqal of gold and
+                  200 dirhams of silver. At this time coins were weighed
+                  physically, so no gram conversion was needed. The
+                  relationship was defined by the coins themselves, not by a
+                  metric standard.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">634–644 CE — Caliph Umar ibn al-Khattab</div>
+                <div class="tl-heading">Standardising the ratio</div>
+                <p class="tl-body">
+                  Faced with many different dirham weights in circulation (the
+                  heavier Baghli, the lighter Tabari, and others), Umar
+                  studied the most widely used types and fixed the legal
+                  relationship: 10 dirhams of silver equal 7 mithqal of gold.
+                  This 7:10 ratio became the anchor for all later calculations.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">696–697 CE / 77 AH — Caliph Abd al-Malik ibn Marwan</div>
+                <div class="tl-heading">The first Islamic dinar</div>
+                <p class="tl-body">
+                  Abd al-Malik issued the first purely Islamic gold dinar,
+                  struck to a carefully controlled standard of approximately
+                  4.25g, with Quranic inscriptions replacing Byzantine imagery.
+                  His governor Al-Hajjaj minted the matching standardised
+                  silver dirham at roughly 2.975g, formally implementing
+                  Umar's 7:10 ratio.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">Umayyad and Abbasid period</div>
+                <div class="tl-heading">Remarkable stability</div>
+                <p class="tl-body">
+                  For centuries, the dinar held close to its 4.25g standard.
+                  Testing of surviving coins shows Umayyad and Abbasid dinars
+                  stayed within a few percent of one another — a notable
+                  achievement given the equipment of the time. The coin was a
+                  stable measure of value across the Islamic world.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">The classical jurists</div>
+                <div class="tl-heading">Defining it in barley grains</div>
+                <p class="tl-body">
+                  Because no metric system existed, classical scholars defined
+                  the mithqal in terms of barley grains: 1 mithqal equals 72
+                  grains of barley. This was precise for its time, but a
+                  barley grain is a natural object that varies slightly, which
+                  is the seed of the modern gram disagreement.
+                </p>
+              </div>
+
+              <div class="tl-entry">
+                <div class="tl-dot"></div>
+                <div class="tl-era">20th century onwards</div>
+                <div class="tl-heading">Converting to grams</div>
+                <p class="tl-body">
+                  When Muslims needed to calculate Zakat in modern currencies,
+                  scholars and institutions converted the classical mithqal
+                  into grams. Different methodologies — using surviving coins,
+                  the barley-grain definition, or institutional standards like
+                  AAOIFI — produced slightly different results, from 84g to
+                  100g for the full 20-mithqal Nisab. None of these is
+                  "wrong"; they are different routes to the same historical coin.
+                </p>
+              </div>
+
+            </div><!-- /timeline -->
+
+            <p class="tl-close-note">
+              So the disagreement you see in the table below is not 1,400 years
+              old. The coin was stable. The disagreement is modern, and it is
+              about translating an ancient weight into a gram figure with no
+              surviving original to weigh.
+            </p>
+
+            <p class="tl-sources">
+              Sources: Encyclopaedic and numismatic records on the gold dinar
+              and the Umayyad coinage reforms, including studies of surviving
+              Umayyad and Abbasid coins and classical works such as
+              Al-Mawardi's <em>al-Ahkam al-Sultaniyya</em> and Ibn Khaldun's
+              <em>Muqaddimah</em>.
+            </p>
+          </div>
+        </details>
+
+        <!-- ══ Section 3: The Scholars' Table ══════════════════ -->
+        <h2><span class="n">03</span>Documented Calculations</h2>
+
+        <p>
+          The following are documented scholarly calculations for the Nisab
+          gold weight (per 20 mithqal) and their corresponding silver
+          equivalents.
+        </p>
+
+        <div class="table-wrap">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th>Gold (grams)</th>
+                <th>Silver (grams)</th>
+                <th>Source / Authority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>84.00</td>
+                <td>600.00</td>
+                <td>Ibn ʿĀshūr</td>
+              </tr>
+              <tr>
+                <td>84.66</td>
+                <td>592.40</td>
+                <td>Muʿjam al-Fuqahāʾ (miscellaneous)</td>
+              </tr>
+              <tr>
+                <td>84.70</td>
+                <td>592.90</td>
+                <td>Nūh Keller</td>
+              </tr>
+              <tr class="row-highlight">
+                <td><strong>85.00</strong> <span class="badge-used">Used by nisab.tahababa.com</span></td>
+                <td>595.00</td>
+                <td>AAOIFI (Accounting and Auditing Organisation for Islamic Financial Institutions)</td>
+              </tr>
+              <tr>
+                <td>87.48</td>
+                <td>612.36</td>
+                <td>Deoband / Maulana Mufti Muhammad Shafi</td>
+              </tr>
+              <tr>
+                <td>96.00</td>
+                <td>672.00</td>
+                <td>Abū Yusr / Ibn ʿĀbidīn</td>
+              </tr>
+              <tr>
+                <td>100.00</td>
+                <td>700.00</td>
+                <td>Shām tradition / ʿAbd al-ʿAzīz ʿUyūn al-Sūd</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ══ Section 4: What this means for you ══════════════ -->
+        <h2><span class="n">04</span>What This Means for You</h2>
+
+        <p>
+          <strong>nisab.tahababa.com uses 85g of gold</strong> as its default,
+          following the AAOIFI standard. AAOIFI (the Accounting and Auditing
+          Organisation for Islamic Financial Institutions) is one of the most
+          widely adopted contemporary authorities on Islamic finance, and its
+          85g figure is the basis used by Islamic financial institutions
+          globally.
+        </p>
+
+        <p>
+          If you follow a scholar or institution that uses a different gram
+          weight, your Nisab threshold is proportional. The relationship is
+          direct: a higher gram weight means a higher Nisab, and vice versa.
+          No school of jurisprudence is favoured in this table. All of the
+          figures above represent legitimate scholarly positions.
+        </p>
+
+        <p>
+          The silver Nisab follows the same logic. The figure of 200 dirhams
+          is undisputed; what varies is the gram weight of one dirham, derived
+          from the same scholarly ijtihad process applied to the mithqal.
+        </p>
+
+        <div class="box box-note">
+          <p style="margin: 0">
+            This page does not tell you which gram weight to use. That is a
+            matter for you to settle with your scholar, institution, or
+            community. If you are unsure, follow the scholar or organisation
+            you already trust for Zakat rulings.
+          </p>
+        </div>
+
+        <!-- ══ Section 5: Interactive calculator ════════════════ -->
+        <h2><span class="n">05</span>Adjust for Your Scholar's Weight</h2>
+
+        <p>
+          If you follow a ruling that uses a different gram weight, use this
+          tool to find the equivalent Nisab threshold based on today's live
+          gold price.
+        </p>
+
+        <div class="calc-widget">
+          <label for="gram-select">Select or enter a gram weight</label>
+          <div class="calc-row">
+            <div class="field">
+              <select id="gram-select" onchange="onGramChange()">
+                <option value="84.00">84.00g — Ibn ʿĀshūr</option>
+                <option value="84.66">84.66g — Muʿjam al-Fuqahāʾ</option>
+                <option value="84.70">84.70g — Nūh Keller</option>
+                <option value="85.00" selected>85.00g — AAOIFI (default)</option>
+                <option value="87.48">87.48g — Deoband / Mufti Muhammad Shafi</option>
+                <option value="96.00">96.00g — Abū Yusr / Ibn ʿĀbidīn</option>
+                <option value="100.00">100.00g — Shām tradition</option>
+                <option value="custom">Custom weight…</option>
+              </select>
+            </div>
+            <div class="field" id="custom-field" style="display:none">
+              <input
+                type="number"
+                id="gram-custom"
+                placeholder="e.g. 91.5"
+                min="1"
+                max="200"
+                step="0.01"
+                oninput="onGramChange()"
+              />
+            </div>
+          </div>
+
+          <div class="calc-formula" id="calc-formula">
+            Your Nisab = (85.00g ÷ 85g) × Nisab at 85g = Nisab at 85g
+          </div>
+
+          <div class="calc-result loading" id="calc-result">
+            Loading live gold price…
+          </div>
+
+          <p class="calc-note">
+            For exact values in your currency, apply the same formula to the
+            Nisab values in your currency from the
+            <a href="../">main page</a>:
+            <span style="font-family:var(--mono); font-size:0.78rem; color:var(--gold)">
+              Nisab (your currency) = (your grams ÷ 85) × Nisab at 85g in your currency
+            </span>
+          </p>
+        </div>
+
+        <div class="info-card gold" style="margin-top: 3rem; text-align: center">
+          <p style="margin: 0">
+            Explore further:
+            <a href="nisab.html" style="font-weight: 500">Understanding Nisab</a>
+            — the scholarly basis for the gold and silver standards across the
+            four schools.
+          </p>
+        </div>
+
+      </section>
+    </div>
+
+    <footer>
+      <div class="wrap">
+        <p>
+          Nisab Al Zakat — <a href="https://tahababa.com">tahababa.com</a> —
+          Free &amp; open, always.
+        </p>
+        <p style="margin-top: 0.5rem">
+          This is an educational resource. For personal rulings, consult a
+          qualified scholar.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./../scripts/popup.js"></script>
+    <script src="./../scripts/theme.js"></script>
+    <script>
+      (function () {
+        var nisabAt85 = null;
+
+        fetch("https://nisab.tahababa.com/nisab.json")
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            nisabAt85 = data.nisab.hanafi.gold.values.USD;
+            render();
+          })
+          .catch(function () {
+            document.getElementById("calc-result").textContent =
+              "Unable to load live gold price. Check back shortly or visit the main page for current values.";
+            document.getElementById("calc-result").classList.remove("loading");
+          });
+
+        function getGrams() {
+          var sel = document.getElementById("gram-select").value;
+          if (sel === "custom") {
+            var v = parseFloat(document.getElementById("gram-custom").value);
+            return isNaN(v) || v <= 0 ? null : v;
+          }
+          return parseFloat(sel);
+        }
+
+        function render() {
+          var g = getGrams();
+          var formula = document.getElementById("calc-formula");
+          var result = document.getElementById("calc-result");
+
+          if (!g) {
+            formula.textContent = "Enter a gram weight above.";
+            result.textContent = "";
+            result.classList.remove("loading");
+            return;
+          }
+
+          var ratio = g / 85;
+          formula.textContent =
+            "Your Nisab = (" + g.toFixed(2) + "g ÷ 85g) × Nisab at 85g";
+
+          result.classList.remove("loading");
+
+          if (nisabAt85 === null) {
+            result.textContent = "Waiting for live price data…";
+            return;
+          }
+
+          var adjusted = ratio * nisabAt85;
+          result.innerHTML =
+            "If you use <strong>" + g.toFixed(2) + "g</strong>, " +
+            "your gold Nisab is approximately " +
+            "<strong>$" + adjusted.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USD</strong>" +
+            " <span style='font-size:0.8rem;color:var(--paper-dim);font-family:var(--mono)'>" +
+            "(base Nisab at 85g: $" + nisabAt85.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USD)</span>";
+        }
+
+        window.onGramChange = function () {
+          var sel = document.getElementById("gram-select").value;
+          var customField = document.getElementById("custom-field");
+          if (sel === "custom") {
+            customField.style.display = "";
+            document.getElementById("gram-custom").focus();
+          } else {
+            customField.style.display = "none";
+          }
+          render();
+        };
+      })();
+    </script>
+  </body>
+</html>
